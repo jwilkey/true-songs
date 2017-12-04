@@ -6,14 +6,14 @@
         <p class="blue">{{song.artist}}</p>
       </div>
     </div>
-    <div v-if="audio" class="controls-wrapper theme-mid shadow-top">
+    <div v-if="showControls" class="controls-wrapper theme-mid shadow-top">
       <div class="progress callout-light" :style="{width: `${currentTime/duration * 100}%`}"></div>
       <div class="flex-row controls pad">
         <div v-if="isPlaying" @click="audio.pause()"><i class="fa fa-pause"></i></div>
         <div v-if="!isPlaying" @click="audio.play()"><i class="fa fa-play"></i></div>
         <div class="flex-one"></div>
         <div class="muted">
-          {{time(currentTime)}} / {{time(duration)}}
+          {{timeLabel}}
         </div>
       </div>
     </div>
@@ -37,7 +37,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['songs'])
+    ...mapGetters(['songs']),
+    showControls () {
+      return this.currentTime && this.duration
+    },
+    timeLabel () {
+      return this.currentTime && this.duration
+      ? `${this.time(this.currentTime)} / ${this.time(this.duration)}`
+      : ''
+    }
   },
   methods: {
     ...mapActions(['setSongs']),
@@ -45,6 +53,8 @@ export default {
       return bibleParser.normalize(passage)
     },
     setSong (key) {
+      initiateAudio(this.audio)
+
       const self = this
       this.currentSong = key
       if (this.audio) {
@@ -52,7 +62,7 @@ export default {
       }
       server.streamSong(key)
       .then(response => {
-        self.audio = new Audio(response)
+        self.audio.src = response
         self.audio.play()
         self.audio.addEventListener('timeupdate', () => {
           self.duration = self.audio.duration
@@ -69,12 +79,19 @@ export default {
     }
   },
   mounted () {
+    this.audio = new Audio()
     const self = this
     server.fetchSongs()
     .then(songs => {
       self.setSongs(songs)
     })
   }
+}
+
+function initiateAudio (audio) {
+  audio.src = ''
+  audio.play()
+  audio.pause()
 }
 </script>
 
