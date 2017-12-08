@@ -1,23 +1,38 @@
 <template>
-  <div class="add-song pad">
-    <div class="theme-mid pad marginb shadow">
-      <h3>Add a new song</h3>
-    </div>
-    <form :action="postUrl" method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
-      <div class="theme-mid pad shadow marginb">
-        <input class="input marginb" name="artist" placeholder="Artist name" v-model="artist" required />
+  <div class="add-song pad vfull">
+    <transition name="fade">
+      <div v-if="showInput" class="super-input flex-column pad nopad-top">
+        <artist-picker v-if="field === 'artist'" class="flex-one substance" :filter="input" :on-select="artistSelected"></artist-picker>
+        <passage-picker v-if="field === 'passage'" class="flex-one substance" :filter="input" :on-select="passageSelected" :on-change="passageChanged"></passage-picker>
+        <version-picker v-if="field === 'version'" class="flex-one substance" :filter="input" :on-select="versionSelected"></version-picker>
+      </div>
+    </transition>
 
-        <div class="passage-chooser marginb">
-          <input @focusout="updatePassage" @focus="passageFocused" class="input" name="passage" placeholder="Scripture passage" v-model="passage" autocomplete="off" required />
-          <p v-if="isEditingPassage" class="hint theme-hi muted shadow">{{normalizedPassage}}</p>
+    <div class="distance" :class="{apply: showInput}">
+      <div class="theme-mid pad marginb shadow">
+        <h3>Add a new song</h3>
+      </div>
+      <form :action="postUrl" method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
+        <div class="theme-mid pad shadow marginb">
+          <div class="flex-row marginb">
+            <p class="flex-one edit-item" @click="startInput('artist')">
+              {{artist}}<span v-if="!artist" class="muted i">Artist name</span>
+            </p>
+            <p class="flex-one edit-item" @click="startInput('passage')">
+              {{normalizedPassage}}<span v-if="!passage" class="muted i">Scripture passage</span>
+            </p>
+            <p class="flex-one edit-item" @click="startInput('version')">
+              {{version}}<span v-if="!version" class="muted i">Bible version</span>
+            </p>
+          </div>
+
+          <input id="file" type="file" name="songData" />
         </div>
 
-        <input id="file" type="file" name="songData" />
-      </div>
-
-      <button class="callout-light marginb" :disabled="!artist || !passage">Publish Song</button>
-      <p v-if="errorMessage" class="red">{{errorMessage}}</p>
-    </form>
+        <button class="marginb" :disabled="!artist || !passage">Publish Song</button>
+        <p v-if="errorMessage" class="red">{{errorMessage}}</p>
+      </form>
+    </div>
 
     <div v-if="isUploading" class="center-box">
       <i class="blue fa fa-circle-o-notch fa-spin fa-2x"></i>
@@ -26,6 +41,9 @@
 </template>
 
 <script>
+import ArtistPicker from '@/components/pickers/ArtistPicker'
+import VersionPicker from '@/components/pickers/VersionPicker'
+import PassagePicker from '@/components/pickers/PassagePicker'
 import axios from 'axios'
 import bibleParser from '../helpers/bible-parser'
 
@@ -33,9 +51,12 @@ export default {
   name: 'AddSong',
   data () {
     return {
+      input: '',
+      showInput: false,
+      field: undefined,
       artist: undefined,
       passage: undefined,
-      isEditingPassage: false,
+      version: undefined,
       isUploading: false,
       errorMessage: undefined
     }
@@ -44,26 +65,48 @@ export default {
     postUrl () {
       return `https://true-songs-server.herokuapp.com/songs/upload?artist=${this.artist}&`
     },
-    osis () {
-      return bibleParser.osis(this.passage)
-    },
     normalizedPassage () {
       return bibleParser.normalize(this.passage)
+    },
+    placeholder () {
+      switch (this.field) {
+        case 'artist': return 'Artist name'
+        case 'passage': return 'Scripture passage'
+        case 'version': return 'Bible version'
+        default: return ''
+      }
     }
   },
+  components: { ArtistPicker, VersionPicker, PassagePicker },
   methods: {
-    updatePassage () {
-      this.isEditingPassage = false
-      this.passage = this.normalizedPassage
+    passageChanged (passage) {
+      this.input = passage
     },
-    passageFocused () {
-      this.isEditingPassage = true
+    versionSelected (version) {
+      this.version = version
+      this.startInput(undefined)
+    },
+    passageSelected (passage) {
+      this.passage = passage
+      this.startInput(undefined)
+    },
+    artistSelected (artist) {
+      this.artist = artist
+      this.startInput(undefined)
+    },
+    startInput (field) {
+      this.field = field
+      this.showInput = field !== undefined
+      if (!this.field) {
+        this.input = ''
+      }
     },
     submit (event) {
       const self = this
       var data = new FormData()
       data.append('artist', this.artist)
       data.append('passage', this.osis)
+      data.append('version', this.version)
       data.append('songData', document.getElementById('file').files[0])
 
       self.isUploading = true
@@ -83,21 +126,36 @@ export default {
 </script>
 
 <style lang="less">
+.super-input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  input {
+    margin-right: 15px;
+    margin-bottom: 0;
+  }
+  button {
+    margin-bottom: 5px;
+  }
+  .substance {
+    padding-bottom: 10px;
+  }
+}
 .add-song {
+  position: relative;
   h3 {
     margin: 0;
   }
+  form {
+    .edit-item {
+      margin: 0 10px;
+    }
+  }
   .progress {
     height: 20px;
-  }
-  .passage-chooser {
-    position: relative;
-    .hint {
-      position: absolute;
-      left: 5px;
-      padding: 5px;
-      top: 100%;
-    }
   }
 }
 </style>

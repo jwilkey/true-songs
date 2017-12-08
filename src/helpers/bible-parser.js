@@ -36,5 +36,20 @@ export default {
   normalize (text) {
     return readable(osis(text))
   },
+  sort (osis1, osis2) {
+    const parts1 = osis1.split('.')
+    const parts2 = osis2.split('.')
+    if (!osis1 || !osis2 || parts1.length !== 3 || parts2.length !== 3 || (parts1[0] !== parts2[0])) {
+      return undefined
+    }
+    if (i(parts1[1]) > i(parts2[1]) || (parts1[1] === parts2[1] && i(parts1[2]) > i(parts2[2]))) {
+      return [osis2, osis1]
+    }
+    return [osis1, osis2]
+  },
   readable
+}
+
+function i (val) {
+  return parseInt(val)
 }
