@@ -26,7 +26,9 @@
             </p>
           </div>
 
-          <vue-dropzone  ref="dropzone" id="song-file" :options="dropzoneOptions" v-on:vdropzone-file-added="fileChanged" :class="{'has-file': file}" class="pad text-center shadow-inset theme-hi rounded"></vue-dropzone>
+          <div class="file-container">
+            <vue-dropzone  ref="dropzone" id="song-file" :options="dropzoneOptions" v-on:vdropzone-file-added="fileChanged" :class="{'has-file': file}" class="pad text-center shadow-inset theme-hi rounded marginb"></vue-dropzone>
+          </div>
 
           <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
         </div>
@@ -126,7 +128,7 @@ export default {
       }
     },
     validate () {
-      console.log('validate')
+      this.errorMessage = undefined
       var errs = []
       if (!this.artist) errs.push('artist name')
       if (!this.passage) errs.push('bible passage')
@@ -207,6 +209,9 @@ export default {
   .substance {
     padding-bottom: 10px;
   }
+}
+.file-container {
+  padding: 0 10px;
 }
 #song-file {
   margin-top: 20px;
