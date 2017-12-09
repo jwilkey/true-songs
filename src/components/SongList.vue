@@ -13,8 +13,8 @@
     <div v-if="showControls" class="controls-wrapper theme-mid shadow-top">
       <div class="progress back-green" :style="{width: `${currentTime/duration * 100}%`}"></div>
       <div class="flex-row controls pad">
-        <div v-if="isPlaying" @click="audio.pause()"><i class="fas fa-pause"></i></div>
-        <div v-if="!isPlaying" @click="audio.play()"><i class="fas fa-play"></i></div>
+        <div v-if="isPlaying" @click="audio.pause()"><img src="../../static/images/pause.svg" /></div>
+        <div v-if="!isPlaying" @click="audio.play()"><img src="../../static/images/play.svg" /></div>
         <div class="flex-one"></div>
         <div class="muted">
           {{timeLabel}}
@@ -124,6 +124,10 @@ function initiateAudio (audio) {
     }
   }
   .controls-wrapper {
+    img {
+      height: 25px;
+      width: 25px;
+    }
     .progress {
       height: 5px;
       transition: width 1.5s;

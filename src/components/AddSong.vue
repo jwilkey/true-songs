@@ -54,7 +54,7 @@
     </div>
 
     <div v-if="isUploading" class="center-box">
-      <i class="blue fa fa-circle-o-notch fa-spin fa-2x"></i>
+      <div> <div class="spinner large fa-spin"></div> </div>
     </div>
   </div>
 </template>
