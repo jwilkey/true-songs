@@ -1,40 +1,38 @@
 <template>
   <div class="version-picker">
     <div class="flex-row flex-center rounded">
-      <button v-if="this.osis" @click="finished" class="float-btn shadow back-green"><i class="fa fa-check"></i></button>
       <input class="input theme-mid shadow" v-model="filter" placeholder="Bible passage"/>
-      <button class="back-red float-btn" @click="startInput(undefined)"><i class="fa fa-close"></i></button>
+      <button class="back-red float-btn" @click="onSelect(undefined)"><i class="fas fa-times"></i></button>
     </div>
-    
-    <div v-for="(versions, language, i) in translations" v-if="filtered(language, versions).length" class="language-group flex-column marginb">
+
+    <br />
+
+    <div v-for="(versions, language, i) in translations" v-if="filtered(versions).length" class="language-group flex-column marginb">
       <p class="language marginb font-large">{{language}}</p>
       <div class="flex-row flex-wrap flex-center">
-        <button v-for="version in filtered(language, versions)" @click="selected(version)" class="float-btn">{{version}}</button>
+        <button v-for="version in filtered(versions)" @click="selected(version)" class="float-btn">{{version.versionCode}} - {{version.title}}</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import translationData from '../../../static/json/translations.json'
+import server from '../../services/true-songs-service'
 
 export default {
   name: 'VersionPicker',
   data () {
     return {
+      filter: '',
+      translations: [],
       selection: undefined
     }
   },
-  props: ['filter', 'onSelect'],
-  computed: {
-    translations () {
-      return translationData
-    }
-  },
+  props: ['onSelect'],
   methods: {
-    filtered (title, array) {
+    filtered (versions) {
       const f = this.filter.toLowerCase()
-      return array.filter(i => title.toLowerCase().includes(f) || i.toLowerCase().includes(f))
+      return versions.filter(i => i.language.toLowerCase().includes(f) || i.title.toLowerCase().includes(f) || i.versionCode.toLowerCase().includes(f))
     },
     selected (version) {
       this.selection = version
@@ -42,11 +40,21 @@ export default {
         this.onSelect(version)
       }
     }
+  },
+  mounted () {
+    const self = this
+    server.fetchBibles()
+    .then(bibles => { self.translations = bibles })
   }
 }
 </script>
 
 <style lang="less" scoped>
+.version-picker {
+  input {
+    margin: 0 5px;
+  }
+}
 .language-group {
   padding: 5px;
 }

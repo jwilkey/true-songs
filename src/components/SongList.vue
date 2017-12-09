@@ -1,16 +1,20 @@
 <template>
   <div class="song-list flex-column vfull">
-    <div class="flex-one substance pad">
-      <div v-for="song in songs" @click="setSong(song.key)" class="flex-row theme-mid song shadow">
-        <p>{{readable(song.passage)}}</p>
-        <p class="blue">{{song.artist}}</p>
+    <div class="songs flex-one substance pad">
+      <div v-for="song in songs" @click="setSong(song.key)" class="flex-row align-center theme-mid song">
+        <div class="flex-one">
+          <p>{{readable(song.passage)}}</p>
+          <p class="muted">{{song.artist}}</p>
+        </div>
+        <p class="back-blue">{{song.bible_version.versionCode}}</p>
       </div>
     </div>
+
     <div v-if="showControls" class="controls-wrapper theme-mid shadow-top">
-      <div class="progress callout-light" :style="{width: `${currentTime/duration * 100}%`}"></div>
+      <div class="progress back-green" :style="{width: `${currentTime/duration * 100}%`}"></div>
       <div class="flex-row controls pad">
-        <div v-if="isPlaying" @click="audio.pause()"><i class="fa fa-pause"></i></div>
-        <div v-if="!isPlaying" @click="audio.play()"><i class="fa fa-play"></i></div>
+        <div v-if="isPlaying" @click="audio.pause()"><i class="fas fa-pause"></i></div>
+        <div v-if="!isPlaying" @click="audio.play()"><i class="fas fa-play"></i></div>
         <div class="flex-one"></div>
         <div class="muted">
           {{timeLabel}}
@@ -97,11 +101,24 @@ function initiateAudio (audio) {
 
 <style lang="less" scoped>
 .song-list {
+  .songs {
+    padding-right: 5px;
+  }
   .song {
-    padding: 10px;
-    margin-bottom: 8px;
+    position: relative;
+    padding: 5px 10px;
+    margin-bottom: 4px;
     & > * {
       padding: 5px;
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: 0;
+      bottom: 0;
+      width: 15px;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0), #fcfcfc);
     }
   }
   .controls-wrapper {

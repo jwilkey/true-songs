@@ -37,11 +37,10 @@ html, body, #app {
     bottom: 0;
     left: 0;
     right: 0;
-    background-image: url('../static/images/snow.jpeg');
-    background-size: cover;
+    background-image: url('../static/images/triangles.jpg');
     background-position: center;
     filter: grayscale(1);
-    opacity: 0.2;
+    opacity: 0.08;
   }
 }
 </style>

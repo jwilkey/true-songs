@@ -1,18 +1,18 @@
 <template>
   <div class="passage-picker center text-center flex-column">
     <div class="flex-row flex-center rounded">
-      <button v-if="this.osis" @click="finished" class="float-btn shadow back-green"><i class="fa fa-check"></i></button>
+      <button v-if="this.osis" @click="finished" class="float-btn shadow back-green"><i class="fas fa-check"></i></button>
       <input class="input theme-mid shadow" v-model="filter" placeholder="Bible passage"/>
-      <button class="back-red float-btn" @click="onSelect(undefined)"><i class="fa fa-close"></i></button>
+      <button class="back-red float-btn" @click="onSelect(undefined)"><i class="fas fa-times"></i></button>
     </div>
 
     <div class="flex-one substance">
       <div v-if="header" class="passage-bar shadow theme-mid flex-row flex-center align-center marginb">
-        <a v-if="chapter" @click="chapterBack" class="pad"><i class="fa fa-chevron-left"></i></a>
+        <a v-if="chapter" @click="chapterBack" class="pad"><i class="fas fa-chevron-left"></i></a>
         <div class="flex-one">
           <h2 class="pad">{{header}}</h2>
         </div>
-        <a v-if="chapter" @click="chapterForward" class="pad"><i class="fa fa-chevron-right"></i></a>
+        <a v-if="chapter" @click="chapterForward" class="pad"><i class="fas fa-chevron-right"></i></a>
       </div>
 
       <div v-if="showTestaments" class="flex-column flex-center testaments">
@@ -37,7 +37,7 @@
     </div>
 
     <div class="text-right">
-      <button v-if="this.osis" @click="finished" class="float-btn shadow back-green"><i class="fa fa-check"></i>&nbsp; {{normalize(osis)}}</button>
+      <button v-if="this.osis" @click="finished" class="float-btn shadow back-green"><i class="fas fa-check"></i>&nbsp; {{normalize(osis)}}</button>
     </div>
   </div>
 </template>

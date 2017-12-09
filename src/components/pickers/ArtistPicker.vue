@@ -2,9 +2,9 @@
   <div class="artist-picker text-center flex-column">
     <div class="flex-one">
       <div class="flex-row flex-center rounded">
-        <button v-if="filter" @click="onSelect(filter)" class="float-btn shadow back-green"><i class="fa fa-check"></i></button>
-        <input class="input theme-mid shadow" v-model="filter" placeholder="Artist name"/>
-        <button class="back-red float-btn" @click="startInput(undefined)"><i class="fa fa-close"></i></button>
+        <button v-if="filter" @click="onSelect(filter)" class="float-btn shadow back-green"><i class="fas fa-check"></i></button>
+        <input class="input theme-mid shadow" v-model="filter" placeholder="Artist name" autofocus />
+        <button class="back-red float-btn" @click="onSelect(undefined)"><i class="fas fa-times"></i></button>
       </div>
     </div>
 
@@ -22,7 +22,12 @@ export default {
       filter: ''
     }
   },
-  props: ['onSelect']
+  props: ['onSelect'],
+  mounted () {
+    this.$nextTick(() => {
+      this.$el.querySelector('input').focus()
+    })
+  }
 }
 </script>
 

@@ -9,7 +9,7 @@
     </transition>
 
     <div class="distance" :class="{apply: showInput}">
-      <div class="theme-mid pad marginb shadow">
+      <div class="theme-mid pad marginb shadow bullet">
         <h3>Add a new song</h3>
       </div>
       <form :action="postUrl" method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
@@ -22,15 +22,18 @@
               {{normalizedPassage}}<span v-if="!passage" class="muted i">Scripture passage</span>
             </p>
             <p class="flex-one edit-item" @click="startInput('version')">
-              {{version}}<span v-if="!version" class="muted i">Bible version</span>
+              {{versionLabel}}<span v-if="!version" class="muted i">Bible version</span>
             </p>
           </div>
 
-          <input id="file" type="file" name="songData" />
+          <input id="file" type="file" @change="fileChanged" name="songData" class="marginb" />
+
+          <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
         </div>
 
-        <button class="marginb" :disabled="!artist || !passage">Publish Song</button>
-        <p v-if="errorMessage" class="red">{{errorMessage}}</p>
+        <div class="text-center pad">
+          <button class="marginb float-btn">Publish Song</button>
+        </div>
       </form>
     </div>
 
@@ -57,6 +60,7 @@ export default {
       artist: undefined,
       passage: undefined,
       version: undefined,
+      file: undefined,
       isUploading: false,
       errorMessage: undefined
     }
@@ -67,6 +71,9 @@ export default {
     },
     normalizedPassage () {
       return bibleParser.normalize(this.passage)
+    },
+    versionLabel () {
+      return this.version ? `${this.version.versionCode} - ${this.version.title}` : undefined
     },
     placeholder () {
       switch (this.field) {
@@ -101,13 +108,32 @@ export default {
         this.input = ''
       }
     },
+    fileChanged () {
+      this.file = document.getElementById('file').files[0]
+    },
+    validate () {
+      console.log('validate')
+      var errs = []
+      if (!this.artist) errs.push('artist name')
+      if (!this.passage) errs.push('bible passage')
+      if (!this.version) errs.push('bible version')
+      if (!this.file) errs.push('song file')
+      if (errs.length) {
+        this.errorMessage = `You must provide: ${errs.join(', ')}`
+        return false
+      }
+      return true
+    },
     submit (event) {
+      if (!this.validate()) {
+        return
+      }
       const self = this
       var data = new FormData()
       data.append('artist', this.artist)
-      data.append('passage', this.osis)
-      data.append('version', this.version)
-      data.append('songData', document.getElementById('file').files[0])
+      data.append('passage', this.passage)
+      data.append('version', JSON.stringify(this.version))
+      data.append('songData', this.file)
 
       self.isUploading = true
       axios.post(this.postUrl, data)
@@ -157,5 +183,8 @@ export default {
   .progress {
     height: 20px;
   }
+}
+.bullet {
+  border-top-right-radius: 30px;
 }
 </style>
