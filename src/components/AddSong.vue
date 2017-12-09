@@ -26,7 +26,7 @@
             </p>
           </div>
 
-          <input id="file" type="file" @change="fileChanged" name="songData" class="marginb" />
+          <vue-dropzone  ref="dropzone" id="song-file" :options="dropzoneOptions" v-on:vdropzone-file-added="fileChanged" :class="{'has-file': file}" class="pad text-center shadow-inset theme-hi rounded"></vue-dropzone>
 
           <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
         </div>
@@ -49,6 +49,7 @@ import VersionPicker from '@/components/pickers/VersionPicker'
 import PassagePicker from '@/components/pickers/PassagePicker'
 import axios from 'axios'
 import bibleParser from '../helpers/bible-parser'
+import vue2Dropzone from 'vue2-dropzone'
 
 export default {
   name: 'AddSong',
@@ -61,6 +62,13 @@ export default {
       passage: undefined,
       version: undefined,
       file: undefined,
+      dropzoneOptions: {
+        url: 'https://truewordsapp.com',
+        thumbnailWidth: 150,
+        maxFilesize: 15,
+        autoProcessQueue: false,
+        dictDefaultMessage: '<i class="fas fa-cloud-upload-alt"></i> &nbsp;Add song file'
+      },
       isUploading: false,
       errorMessage: undefined
     }
@@ -84,7 +92,7 @@ export default {
       }
     }
   },
-  components: { ArtistPicker, VersionPicker, PassagePicker },
+  components: { ArtistPicker, VersionPicker, PassagePicker, vueDropzone: vue2Dropzone },
   methods: {
     passageChanged (passage) {
       this.input = passage
@@ -108,8 +116,14 @@ export default {
         this.input = ''
       }
     },
-    fileChanged () {
-      this.file = document.getElementById('file').files[0]
+    fileChanged (file) {
+      if (file) {
+        if (this.file) {
+          this.$refs.dropzone.removeFile(this.file)
+        }
+        this.file = file
+        this.$set(this.dropzoneOptions, 'dictDefaultMessage', '')
+      }
     },
     validate () {
       console.log('validate')
@@ -152,6 +166,30 @@ export default {
 </script>
 
 <style lang="less">
+#song-file {
+  background-color: #d1d1d1;
+  .dz-success-mark, .dz-error-mark {
+    display: none;
+  }
+  &.has-file {
+    .dz-message {
+      display: none;
+    }
+    .dz-image {
+      height: 20px;
+      width: 20px;
+      background-image: url('../../static/images/meter.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 3px;
+    }
+  }
+}
+</style>
+<style lang="less">
 .super-input {
   position: absolute;
   top: 0;
@@ -169,6 +207,9 @@ export default {
   .substance {
     padding-bottom: 10px;
   }
+}
+#song-file {
+  margin-top: 20px;
 }
 .add-song {
   position: relative;
