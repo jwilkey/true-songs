@@ -103,22 +103,13 @@ function initiateAudio (audio) {
 .song-list {
   .songs {
     padding-right: 5px;
+    padding-left: 5px;
   }
   .song {
-    position: relative;
     padding: 5px 10px;
     margin-bottom: 4px;
     & > * {
       padding: 5px;
-    }
-    &::before {
-      content: '';
-      position: absolute;
-      right: 100%;
-      top: 0;
-      bottom: 0;
-      width: 15px;
-      background: linear-gradient(90deg, rgba(0, 0, 0, 0), #fcfcfc);
     }
   }
   .controls-wrapper {
