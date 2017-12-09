@@ -4,7 +4,7 @@
       <div v-for="song in songs" @click="setSong(song.key)" class="flex-row align-center theme-mid song">
         <div class="flex-one">
           <p>{{readable(song.passage)}}</p>
-          <p class="muted">{{song.artist}}</p>
+          <p class="muted">{{song.artist}} <span v-for="label in song.labels" class="song-label blue rounded">{{label}}</span></p>
         </div>
         <p class="back-blue">{{song.bible_version.versionCode}}</p>
       </div>
@@ -52,9 +52,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setSongs']),
+    ...mapActions(['setSongs', 'configureTitlebar']),
     readable (passage) {
       return bibleParser.normalize(passage)
+    },
+    labels (labelsList) {
+      return labelsList && labelsList.length ? ` - ${labelsList.join(', ')}` : undefined
+    },
+    addSong () {
+      this.$router.push('/add_song')
     },
     setSong (key) {
       initiateAudio(this.audio)
@@ -83,6 +89,8 @@ export default {
     }
   },
   mounted () {
+    this.configureTitlebar({'<i class="fa fa-plus"></i>': this.addSong})
+
     this.audio = new Audio()
     const self = this
     server.fetchSongs()
@@ -110,6 +118,9 @@ function initiateAudio (audio) {
     margin-bottom: 4px;
     & > * {
       padding: 5px;
+    }
+    .song-label {
+      margin: 0 3px;
     }
   }
   .controls-wrapper {

@@ -31,6 +31,20 @@
           </div>
 
           <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
+
+          <hr />
+
+          <div class="optional">
+            <p class="subtitle marginb">OPTIONAL</p>
+            <input
+            @keydown.prevent.comma="labelsChanged"
+            @keydown.prevent.semicolon="labelsChanged"
+            @keydown.prevent.enter="labelsChanged"
+            v-model="labelInput" class="input" placeholder="labels" />
+            <div class="labels">
+              <p v-for="label in labels" @click="deleteLabel(label)" class="song-label back-red shadow"><i class="fas fa-times"></i> {{label}}</p>
+            </div>
+          </div>
         </div>
 
         <div class="text-center pad">
@@ -46,6 +60,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ArtistPicker from '@/components/pickers/ArtistPicker'
 import VersionPicker from '@/components/pickers/VersionPicker'
 import PassagePicker from '@/components/pickers/PassagePicker'
@@ -71,6 +86,8 @@ export default {
         autoProcessQueue: false,
         dictDefaultMessage: '<i class="fas fa-cloud-upload-alt"></i> &nbsp;Add song file'
       },
+      labelInput: undefined,
+      labels: [],
       isUploading: false,
       errorMessage: undefined
     }
@@ -96,6 +113,7 @@ export default {
   },
   components: { ArtistPicker, VersionPicker, PassagePicker, vueDropzone: vue2Dropzone },
   methods: {
+    ...mapActions(['configureTitlebar']),
     passageChanged (passage) {
       this.input = passage
     },
@@ -127,6 +145,19 @@ export default {
         this.$set(this.dropzoneOptions, 'dictDefaultMessage', '')
       }
     },
+    labelsChanged (e) {
+      var lbls = this.labelInput.split(',').map(l => l.trim())
+      lbls.forEach(l => {
+        if (!this.labels.includes(l)) {
+          this.labels.push(l)
+        }
+      })
+      e.target.value = ''
+      this.labelInput = ''
+    },
+    deleteLabel (label) {
+      this.labels.splice(this.labels.indexOf(label), 1)
+    },
     validate () {
       this.errorMessage = undefined
       var errs = []
@@ -149,6 +180,7 @@ export default {
       data.append('artist', this.artist)
       data.append('passage', this.passage)
       data.append('version', JSON.stringify(this.version))
+      data.append('labels', JSON.stringify(this.labels))
       data.append('songData', this.file)
 
       self.isUploading = true
@@ -162,7 +194,13 @@ export default {
         self.isUploading = false
         self.errorMessage = `Error uploading song: ${err}`
       })
+    },
+    cancelAddSong () {
+      this.$router.replace('/')
     }
+  },
+  mounted () {
+    this.configureTitlebar({'CANCEL': this.cancelAddSong})
   }
 }
 </script>
@@ -208,6 +246,20 @@ export default {
   }
   .substance {
     padding-bottom: 10px;
+  }
+}
+.labels {
+  padding: 0 10px;
+  .song-label {
+    margin: 3px;
+    display: inline-block;
+    padding: 3px 5px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    svg {
+      margin-right: 3px;
+
+    }
   }
 }
 .file-container {

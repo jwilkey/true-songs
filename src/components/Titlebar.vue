@@ -1,11 +1,13 @@
 <template>
   <div class="titlebar theme-mid flex-row">
     <p class="flex-one">{{title}}</p>
-    <a @click.prevent="addSong"><i class="fa fa-plus"></i></a>
+    <a v-for="(action, display) in titlebar" @click.prevent="action" v-html="display"></a>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Titlebar',
   data () {
@@ -13,10 +15,8 @@ export default {
       title: 'True Songs'
     }
   },
-  methods: {
-    addSong () {
-      this.$router.push('/add_song')
-    }
+  computed: {
+    ...mapGetters(['titlebar'])
   }
 }
 </script>

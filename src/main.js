@@ -5,6 +5,9 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+Vue.config.keyCodes.comma = 188
+Vue.config.keyCodes.semicolon = 186
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

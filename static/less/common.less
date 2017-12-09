@@ -12,16 +12,21 @@ body {
 }
 a {
   cursor: pointer;
+  &:hover {
+    text-decoration: none;
+    opacity: 0.85;
+  }
 }
 p {
   margin: 0;
 }
-a:hover {
-  text-decoration: none;
-  opacity: 0.85;
-}
 .i {
   font-style: italic;
+}
+hr {
+  margin: 20px 0;
+  border-style: solid;
+  border-width: 0.5px;
 }
 
 // SCROLLBAR
@@ -121,6 +126,11 @@ input {
   min-width: 50px;
   text-align: center;
   cursor: pointer;
+}
+.subtitle {
+  .font-small;
+  .i;
+  letter-spacing: 0.5px;
 }
 .edit-item {
   border-left: solid 3px;
