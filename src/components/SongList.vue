@@ -15,10 +15,13 @@
       <div class="flex-row controls pad">
         <div v-if="isPlaying" @click="audio.pause()"><img src="../../static/images/pause.svg" /></div>
         <div v-if="!isPlaying" @click="audio.play()"><img src="../../static/images/play.svg" /></div>
-        <div class="flex-one"></div>
-        <div class="muted">
-          {{timeLabel}}
+        <div>
+          <button @click="rewindAudio">-10s</button>
+          <button @click="forwardAudio">+10s</button>
         </div>
+
+        <div class="flex-one"></div>
+        <div class="muted">{{timeLabel}}</div>
       </div>
     </div>
   </div>
@@ -86,6 +89,12 @@ export default {
     time (n) {
       const seconds = parseInt(n % 60)
       return `${parseInt(n / 60)}:${seconds < 10 ? '0' : ''}${seconds}`
+    },
+    rewindAudio () {
+      this.audio.currentTime -= 10
+    },
+    forwardAudio () {
+      this.audio.currentTime += 10
     }
   },
   mounted () {
