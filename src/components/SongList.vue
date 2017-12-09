@@ -118,9 +118,13 @@ function initiateAudio (audio) {
 
 <style lang="less" scoped>
 .song-list {
+  .songs {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
   .song {
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: 5px 10px;
+    margin-bottom: 4px;
     & > * {
       padding: 5px;
     }
@@ -137,10 +141,6 @@ function initiateAudio (audio) {
       height: 5px;
       transition: width 1.5s;
     }
-  }
-  .music-button {
-    height: 2px;
-	font-size: 15px;
   }
 }
 </style>
