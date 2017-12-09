@@ -1,20 +1,24 @@
 <template>
   <div class="song-list flex-column vfull">
-    <div class="flex-one substance pad">
-      <div v-for="song in songs" @click="setSong(song.key)" class="flex-row theme-mid song shadow">
-        <p>{{readable(song.passage)}}</p>
-        <p class="blue">{{song.artist}}</p>
+    <div class="songs flex-one substance pad">
+      <div v-for="song in songs" @click="setSong(song.key)" class="flex-row align-center theme-mid song">
+        <div class="flex-one">
+          <p>{{readable(song.passage)}}</p>
+          <p class="muted">{{song.artist}}</p>
+        </div>
+        <p class="back-blue">{{song.bible_version.versionCode}}</p>
       </div>
     </div>
+
     <div v-if="showControls" class="controls-wrapper theme-mid shadow-top">
-      <div class="progress callout-light" :style="{width: `${currentTime/duration * 100}%`}"></div>
+      <div class="progress back-green" :style="{width: `${currentTime/duration * 100}%`}"></div>
       <div class="flex-row controls pad">
-		<div v-if="isPlaying" @click="audio.pause()"><i class="fa fa-pause">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
-		<div v-if="isPlaying"><button class="callout-light marginb" @click="rewindAudio">-10s</button>&nbsp;&nbsp;<button class="callout-light marginb" @click="forwardAudio">+10s</button>&nbsp;&nbsp;</div>
-		<div v-if="!isPlaying" @click="audio.play()"><i class="fa fa-play">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
-		<div v-if="!isPlaying"><button class="callout-light marginb" @click="rewindAudio">-10s</button>&nbsp;&nbsp;<button class="callout-light marginb" @click="forwardAudio">+10s</button>&nbsp;&nbsp;</div>
-		<div class="flex-one"></div>
-		<div class="muted">
+        <div v-if="isPlaying" @click="audio.pause()"><i class="fas fa-pause"></i>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		<div v-if="isPlaying"><button class="back-blue" @click="rewindAudio">-10s</button>&nbsp;<button class="back-blue" @click="forwardAudio">+10s</button>&nbsp;&nbsp;</div>
+        <div v-if="!isPlaying" @click="audio.play()"><i class="fas fa-play"></i>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		<div v-if="!isPlaying"><button class="back-blue" @click="rewindAudio">-10s</button>&nbsp;<button class="back-blue" @click="forwardAudio">+10s</button>&nbsp;&nbsp;</div>
+        <div class="flex-one"></div>
+        <div class="muted">
           {{timeLabel}}
         </div>
       </div>
@@ -97,6 +101,7 @@ export default {
     })
   }
 }
+
 function initiateAudio (audio) {
   audio.src = ''
   audio.play()
@@ -106,9 +111,13 @@ function initiateAudio (audio) {
 
 <style lang="less" scoped>
 .song-list {
+  .songs {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
   .song {
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: 5px 10px;
+    margin-bottom: 4px;
     & > * {
       padding: 5px;
     }
@@ -119,9 +128,5 @@ function initiateAudio (audio) {
       transition: width 1.5s;
     }
   }
-  .music-button {
-    height: 2px;
-	font-size: 15px;
-  }  
 }
 </style>
