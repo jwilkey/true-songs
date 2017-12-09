@@ -5,12 +5,14 @@ Vue.use(Vuex)
 
 export const state = {
   songs: [],
-  titlebar: {}
+  titlebar: {},
+  currentSong: undefined
 }
 
 export const getters = {
   songs: state => state.songs,
-  titlebar: state => state.titlebar
+  titlebar: state => state.titlebar,
+  currentSong: state => state.currentSong
 }
 
 export const actions = {
@@ -20,6 +22,9 @@ export const actions = {
       s.labels = s.labels ? JSON.parse(s.labels) : []
     })
     commit('SET_SONGS', songs)
+  },
+  playSong ({ commit, state }, songKey) {
+    commit('SET_CURRENT_SONG', songKey)
   },
   configureTitlebar ({ commit }, options) {
     commit('TITLEBAR_OPTIONS', options)
@@ -32,6 +37,9 @@ export const mutations = {
   },
   TITLEBAR_OPTIONS (state, options) {
     state.titlebar = options
+  },
+  SET_CURRENT_SONG (state, key) {
+    state.currentSong = key
   }
 }
 
