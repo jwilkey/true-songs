@@ -1,8 +1,9 @@
 @color-text: #19191b;
+@color-gradient: linear-gradient(45deg, #33aadd, #33ddaa);
 @color-back: #efefe9;
-@color-back-raised: #fafafa;
+@color-back-raised: #fcfcfc;
 @color-back-raised2: #cac9ca;
-@color-callout: #44505f;
+@color-callout: #24508f;
 @color-callout-light: #8b94b4;
 @color-deemphasize: #999;
 @color-deemphasize-more: #aaa;
@@ -14,7 +15,7 @@
 
 .light-theme {
   .theme-back {
-    background-color: @color-back;
+    background: @color-gradient;
     color: @color-text;
   }
   .theme-mid {
@@ -68,13 +69,26 @@
     color: @color-text;
   }
   hr { border-color: @color-back-raised; }
+  button {
+    .shadow;
+    background-color: @color-callout;
+    box-shadow: 1px 1px 3px fade(@color-callout, 70%);
+    color: white;
+    text-shadow: 1px 0px 4px rgba(0, 0, 0, 0.4);
+  }
   .input {
-    border-bottom: solid 1px @color-callout-light;
+    border-radius: 30px;
+    border-bottom: solid 3px @color-callout;
+    border-left: solid 1px @color-callout;
     color: @color-text;
     margin-bottom: 8px;
     &:focus {
       border-color: @color-highlight-blue;
     }
+  }
+  .edit-item {
+    border-color: @color-highlight-blue;
+    box-shadow: -1px 1px 2px @color-callout;
   }
   .list-item {
     border-bottom: solid 2px @color-back-raised2;
