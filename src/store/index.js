@@ -7,14 +7,16 @@ export const state = {
   songs: [],
   titlebar: {},
   currentSong: undefined,
-  isLoadingSong: false
+  isLoadingSong: false,
+  isPlaying: false
 }
 
 export const getters = {
   songs: state => state.songs,
   titlebar: state => state.titlebar,
   currentSong: state => state.currentSong,
-  isLoadingSong: state => state.isLoadingSong
+  isLoadingSong: state => state.isLoadingSong,
+  isPlaying: state => state.isPlaying
 }
 
 export const actions = {
@@ -31,6 +33,9 @@ export const actions = {
   isLoadingSong ({ commit }, isLoading) {
     commit('SET_IS_LOADING_SONG', isLoading)
   },
+  setIsPlaying ({ commit }, isPlaying) {
+    commit('SET_IS_PLAYING', isPlaying)
+  },
   configureTitlebar ({ commit }, options) {
     commit('TITLEBAR_OPTIONS', options)
   }
@@ -42,6 +47,9 @@ export const mutations = {
   },
   SET_IS_LOADING_SONG (state, isLoading) {
     state.isLoadingSong = isLoading
+  },
+  SET_IS_PLAYING (state, isPlaying) {
+    state.isPlaying = isPlaying
   },
   TITLEBAR_OPTIONS (state, options) {
     state.titlebar = options

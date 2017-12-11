@@ -48,13 +48,15 @@ export default {
       }
     },
     isPlaying () {
+      this.setIsPlaying(this.isPlaying)
+
       this.isPlaying
       ? this.startInterval()
       : clearInterval(this.updateInterval)
     }
   },
   methods: {
-    ...mapActions(['isLoadingSong']),
+    ...mapActions(['isLoadingSong', 'setIsPlaying']),
     playCurrentSong () {
       this.audio.src = ''
       this.audio.play()
@@ -70,6 +72,7 @@ export default {
         self.audio.play()
         self.audio.addEventListener('pause', () => { self.isPlaying = false })
         self.audio.addEventListener('play', () => { self.isPlaying = true })
+        self.audio.addEventListener('ended', () => { self.isPlaying = false })
       })
     },
     play () {
