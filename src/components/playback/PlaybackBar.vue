@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import server from '../../services/true-songs-service'
 
 export default {
@@ -54,14 +54,18 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['isLoadingSong']),
     playCurrentSong () {
       this.audio.src = ''
       this.audio.play()
       this.audio.pause()
 
+      this.isLoadingSong(true)
+
       const self = this
       server.streamSong(this.currentSong)
       .then(response => {
+        this.isLoadingSong(false)
         self.audio.src = response
         self.audio.play()
         self.audio.addEventListener('pause', () => { self.isPlaying = false })

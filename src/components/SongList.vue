@@ -1,7 +1,7 @@
 <template>
   <div class="song-list flex-column vfull">
     <div class="songs flex-one substance pad">
-      <song-item v-for="(song, i) in songs" :song="song" @click="playSong(song.key)" :key="i"></song-item>
+      <song-item v-for="(song, i) in songs" :song="song" @click="play(song.key)" :key="i"></song-item>
     </div>
 
     <playback-bar></playback-bar>
@@ -25,7 +25,7 @@ export default {
   },
   components: { SongItem, PlaybackBar },
   methods: {
-    ...mapActions(['setSongs', 'playSong', 'configureTitlebar']),
+    ...mapActions(['setSongs', 'configureTitlebar']),
     addSong () {
       this.$router.push('/add_song')
     }

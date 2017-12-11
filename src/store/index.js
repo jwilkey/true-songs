@@ -6,13 +6,15 @@ Vue.use(Vuex)
 export const state = {
   songs: [],
   titlebar: {},
-  currentSong: undefined
+  currentSong: undefined,
+  isLoadingSong: false
 }
 
 export const getters = {
   songs: state => state.songs,
   titlebar: state => state.titlebar,
-  currentSong: state => state.currentSong
+  currentSong: state => state.currentSong,
+  isLoadingSong: state => state.isLoadingSong
 }
 
 export const actions = {
@@ -23,8 +25,11 @@ export const actions = {
     })
     commit('SET_SONGS', songs)
   },
-  playSong ({ commit, state }, songKey) {
+  playSong ({ commit }, songKey) {
     commit('SET_CURRENT_SONG', songKey)
+  },
+  isLoadingSong ({ commit }, isLoading) {
+    commit('SET_IS_LOADING_SONG', isLoading)
   },
   configureTitlebar ({ commit }, options) {
     commit('TITLEBAR_OPTIONS', options)
@@ -34,6 +39,9 @@ export const actions = {
 export const mutations = {
   SET_SONGS (state, songs) {
     state.songs = songs
+  },
+  SET_IS_LOADING_SONG (state, isLoading) {
+    state.isLoadingSong = isLoading
   },
   TITLEBAR_OPTIONS (state, options) {
     state.titlebar = options
