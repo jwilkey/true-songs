@@ -1,13 +1,7 @@
 <template>
   <div class="song-list flex-column vfull">
     <div class="songs flex-one substance pad">
-      <div v-for="song in songs" @click="playSong(song.key)" class="flex-row align-center theme-mid song">
-        <div class="flex-one">
-          <p>{{readable(song.passage)}}</p>
-          <p class="muted">{{song.artist}} <span v-for="label in song.labels" class="song-label blue rounded">{{label}}</span></p>
-        </div>
-        <p class="back-blue">{{song.bible_version.versionCode}}</p>
-      </div>
+      <song-item v-for="(song, i) in songs" :song="song" @click="playSong(song.key)" :key="i"></song-item>
     </div>
 
     <playback-bar></playback-bar>
@@ -17,8 +11,8 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import PlaybackBar from './playback/PlaybackBar'
+import SongItem from './SongItem'
 import server from '../services/true-songs-service'
-import bibleParser from '../helpers/bible-parser'
 
 export default {
   name: 'SongList',
@@ -29,12 +23,9 @@ export default {
   computed: {
     ...mapGetters(['songs', 'currentSong'])
   },
-  components: { PlaybackBar },
+  components: { SongItem, PlaybackBar },
   methods: {
     ...mapActions(['setSongs', 'playSong', 'configureTitlebar']),
-    readable (passage) {
-      return bibleParser.normalize(passage)
-    },
     addSong () {
       this.$router.push('/add_song')
     }
@@ -56,16 +47,6 @@ export default {
   .songs {
     padding-right: 5px;
     padding-left: 5px;
-  }
-  .song {
-    padding: 5px 10px;
-    margin-bottom: 4px;
-    & > * {
-      padding: 5px;
-    }
-    .song-label {
-      margin: 0 3px;
-    }
   }
 }
 </style>
