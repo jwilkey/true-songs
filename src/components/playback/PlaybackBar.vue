@@ -4,6 +4,8 @@
     <div class="flex-row align-center controls pad">
       <div v-if="isPlaying" @click="pause"><img src="../../../static/images/pause.svg" /></div>
       <div v-if="!isPlaying" @click="play"><img src="../../../static/images/play.svg" /></div>
+      <div @click="nextSong"><i class="fas fa-forward"></i></div>
+
       <div>
         <button @click="rewindAudio">-10s</button>
         <button @click="forwardAudio">+10s</button>
@@ -31,7 +33,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentSong']),
+    ...mapGetters(['currentSong', 'songs']),
     height () {
       return this.currentSong ? '200px' : '0px'
     },
@@ -56,7 +58,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['isLoadingSong', 'setIsPlaying']),
+    ...mapActions(['isLoadingSong', 'setIsPlaying', 'playSong']),
     playCurrentSong () {
       this.audio.src = ''
       this.audio.play()
@@ -72,7 +74,7 @@ export default {
         self.audio.play()
         self.audio.addEventListener('pause', () => { self.isPlaying = false })
         self.audio.addEventListener('play', () => { self.isPlaying = true })
-        self.audio.addEventListener('ended', () => { self.isPlaying = false })
+        self.audio.addEventListener('ended', this.songEnded)
       })
     },
     play () {
@@ -80,6 +82,10 @@ export default {
     },
     pause () {
       this.audio.pause()
+    },
+    songEnded () {
+      this.isPlaying = false
+      this.nextSong()
     },
     startInterval () {
       if (this.audio) {
@@ -93,6 +99,12 @@ export default {
     time (n) {
       const seconds = parseInt(n % 60)
       return `${parseInt(n / 60)}:${seconds < 10 ? '0' : ''}${seconds}`
+    },
+    nextSong () {
+      const self = this
+      const index = this.songs.findIndex(song => song.key === self.currentSong)
+      const nextSong = this.songs.length === index + 1 ? this.songs[0] : this.songs[index + 1]
+      this.playSong(nextSong.key)
     },
     rewindAudio () {
       this.audio.currentTime -= 10
@@ -108,6 +120,9 @@ export default {
 .controls-wrapper {
   overflow: hidden;
   transition: max-height 0.5s;
+  .controls > * {
+    margin-right: 10px;
+  }
   img {
     height: 25px;
     width: 25px;

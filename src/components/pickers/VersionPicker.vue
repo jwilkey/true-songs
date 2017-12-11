@@ -1,14 +1,14 @@
 <template>
   <div class="version-picker">
     <div class="flex-row flex-center rounded">
-      <input class="input theme-mid shadow" v-model="filter" placeholder="Bible passage"/>
+      <input class="input theme-mid shadow" v-model="filter" placeholder="filter versions"/>
       <button class="back-red float-btn" @click="onSelect(undefined)"><i class="fas fa-times"></i></button>
     </div>
 
     <br />
 
     <div v-for="(versions, language, i) in translations" v-if="filtered(versions).length" class="language-group flex-column marginb">
-      <p class="language marginb font-large">{{language}}</p>
+      <p class="language marginb theme-back-text font-large">{{language}}</p>
       <div class="flex-row flex-wrap flex-center">
         <button v-for="version in filtered(versions)" @click="selected(version)" class="float-btn">{{version.versionCode}} - {{version.title}}</button>
       </div>

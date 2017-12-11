@@ -17,8 +17,7 @@
 .light-theme {
   .theme-back {
     background: @color-gradient;
-    color: white;
-    text-shadow: 1px 0px 2px @color-callout;
+    .theme-back-text;
   }
   .theme-mid {
     background-color: @color-back-raised;
@@ -36,6 +35,10 @@
         background-color: @color-back-raised2;
       }
     }
+  }
+  .theme-back-text {
+    color: white;
+    text-shadow: 1px 0px 2px @color-callout;
   }
   .callout {
     background-color: @color-callout;
