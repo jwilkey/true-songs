@@ -1,13 +1,19 @@
 <template>
-  <div @click="playSong" class="flex-row align-center theme-mid song">
-    <div class="song-art theme-back">
+  <div class="flex-row align-center theme-mid song">
+    <div @click="playSong" class="song-art theme-back">
       <p class="song-label cover">{{bookLabel}}</p>
       <div v-if="isLoading" class="spinner cover fa-spin"></div>
       <div v-if="isPlayingSong" class="cover"><div class="playing-indicator callout"></div></div>
     </div>
-    <div class="flex-one">
+    <div @click="playSong" class="flex-one">
       <p>{{readablePassage}} <span class="version-label blue font-small">{{song.bible_version.versionCode}}</span></p>
-      <p class="muted">{{song.artist}} <span v-for="label in song.labels" class="song-label blue rounded">{{label}}</span></p>
+      <p class="muted">{{song.artist}} </p>
+    </div>
+    <div v-if="song.labels.length" class="relative">
+      <button class="alt" @click="toggleOptions"><i class="fas fa-ellipsis-v"></i></button>
+      <div v-if="showOptions" @click="toggleOptions" class="pop-left theme-hi shadow">
+        <p v-for="label in song.labels" class="song-label rounded">{{label}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -19,6 +25,11 @@ import playbackMixin from '../mixins/playback-mixin'
 
 export default {
   name: 'SongItem',
+  data () {
+    return {
+      showOptions: false
+    }
+  },
   props: ['song'],
   computed: {
     ...mapGetters(['currentSong', 'isLoadingSong', 'isPlaying']),
@@ -44,6 +55,9 @@ export default {
     playSong () {
       this.setCurrentSong(this.song.key)
       this.play()
+    },
+    toggleOptions () {
+      this.showOptions = !this.showOptions
     }
   }
 }

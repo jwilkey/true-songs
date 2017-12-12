@@ -165,6 +165,27 @@ input {
   padding: 0px;
 }
 
+.relative {
+  position: relative;
+}
+.pop-left {
+  position: absolute;
+  right: 100%;
+  margin-right: 3px;
+  top: 0;
+  padding: 5px;
+  border-radius: 4px;
+  z-index: 100;
+  &::after {
+    content: '';
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    height: 4px;
+    width: 6px;
+    // background-color: blue;
+  }
+}
 .center-box {
   position: fixed;
   top: 50%;
