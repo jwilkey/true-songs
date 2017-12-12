@@ -1,5 +1,5 @@
 <template>
-  <div class="titlebar theme-mid flex-row">
+  <div class="titlebar theme-mid flex-row pad">
     <p class="flex-one">{{title}}</p>
     <a v-for="(action, display) in titlebar" @click.prevent="action" v-html="display"></a>
   </div>
@@ -23,7 +23,6 @@ export default {
 
 <style lang="less">
 .titlebar {
-  padding: 10px;
   z-index: 100;
   overflow: visible;
 }

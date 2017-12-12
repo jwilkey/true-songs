@@ -1,7 +1,7 @@
 <template>
   <div class="controls-wrapper theme-mid shadow-top" :style="{'max-height': height}">
     <div class="progress back-green" :style="{width: `${currentTime/duration * 100}%`}"></div>
-    <div class="flex-row align-center controls pad">
+    <div class="flex-row align-center controls">
       <div v-if="isPlaying" @click="pause"><img src="../../../static/images/pause.svg" /></div>
       <div v-if="!isPlaying" @click="play"><img src="../../../static/images/play.svg" /></div>
       <div @click="nextSong"><i class="fas fa-forward"></i></div>
@@ -58,11 +58,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['isLoadingSong', 'setIsPlaying', 'playSong']),
+    ...mapActions(['isLoadingSong', 'setIsPlaying', 'setCurrentSong']),
     playCurrentSong () {
       this.audio.src = ''
       this.audio.play()
-      this.audio.pause()
 
       this.isLoadingSong(true)
 
@@ -104,7 +103,7 @@ export default {
       const self = this
       const index = this.songs.findIndex(song => song.key === self.currentSong)
       const nextSong = this.songs.length === index + 1 ? this.songs[0] : this.songs[index + 1]
-      this.playSong(nextSong.key)
+      this.setCurrentSong(nextSong.key)
     },
     rewindAudio () {
       this.audio.currentTime -= 10
@@ -120,8 +119,11 @@ export default {
 .controls-wrapper {
   overflow: hidden;
   transition: max-height 0.5s;
-  .controls > * {
-    margin-right: 10px;
+  .controls {
+    padding: 5px 15px;
+    & > * {
+      margin-right: 10px;
+    }
   }
   img {
     height: 25px;

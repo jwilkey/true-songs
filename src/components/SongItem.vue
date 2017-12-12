@@ -1,21 +1,21 @@
 <template>
-  <div @click="playSong(song.key)" class="flex-row align-center theme-mid song">
+  <div @click="playSong" class="flex-row align-center theme-mid song">
     <div class="song-art theme-back">
       <p class="song-label cover">{{bookLabel}}</p>
       <div v-if="isLoading" class="spinner cover fa-spin"></div>
-      <div v-if="isPlayingSong" class="playing-indicator"></div>
+      <div v-if="isPlayingSong" class="cover"><div class="playing-indicator callout"></div></div>
     </div>
     <div class="flex-one">
-      <p>{{readablePassage}}</p>
+      <p>{{readablePassage}} <span class="version-label blue font-small">{{song.bible_version.versionCode}}</span></p>
       <p class="muted">{{song.artist}} <span v-for="label in song.labels" class="song-label blue rounded">{{label}}</span></p>
     </div>
-    <p class="back-blue">{{song.bible_version.versionCode}}</p>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import bibleParser from '../helpers/bible-parser'
+import playbackMixin from '../mixins/playback-mixin'
 
 export default {
   name: 'SongItem',
@@ -38,8 +38,13 @@ export default {
       return this.isCurrentSong && this.isPlaying
     }
   },
+  mixins: [playbackMixin],
   methods: {
-    ...mapActions(['playSong'])
+    ...mapActions(['setCurrentSong']),
+    playSong () {
+      this.setCurrentSong(this.song.key)
+      this.play()
+    }
   }
 }
 </script>
@@ -53,6 +58,9 @@ export default {
   & > * {
     padding: 5px;
   }
+  .version-label {
+    margin-left: 6px;
+  }
   .song-art {
     position: relative;
     height: 31px;
@@ -61,6 +69,7 @@ export default {
     border-radius: 50px;
     margin-right: 8px;
     overflow: hidden;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
     .song-label {
       margin: 0;
       z-index: 10;
@@ -68,14 +77,14 @@ export default {
     }
     .playing-indicator {
       position: absolute;
-      top: 40%;
-      left: -50%;
-      background-image: url('../../static/images/blob.png');
-      background-size: contain;
-      opacity: 0.2;
-      height: 200%;
-      width: 200%;
+      top: 10%;
+      left: 10%;
+      height: 80%;
+      width: 80%;
+      border-radius: 50px;
+      opacity: 0.3;
       z-index: 1;
+      transform-style: flat;
       animation-name: rotate;
       animation-duration: 4s;
       animation-iteration-count: infinite;
@@ -87,11 +96,14 @@ export default {
   }
 }
 @keyframes rotate {
-  from {
-    transform: rotateZ(0deg);
+  0% {
+    transform: rotateY(0deg) scale(1.0);
   }
-  to {
-    transform: rotateZ(360deg);
+  50% {
+    transform: rotateY(180deg) scale(0.3);
+  }
+  100% {
+    transform: rotateY(360deg) scale(1.0);
   }
 }
 </style>

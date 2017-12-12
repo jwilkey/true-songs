@@ -2,16 +2,20 @@
   <div id="app" class="flex-column">
     <titlebar class="shadow"></titlebar>
     <router-view class="flex-one"/>
+
+    <playback-bar ref="playback"></playback-bar>
+
     <div class="background theme-back"></div>
   </div>
 </template>
 
 <script>
 import Titlebar from '@/components/Titlebar'
+import PlaybackBar from '@/components/playback/PlaybackBar'
 
 export default {
   name: 'app',
-  components: { Titlebar }
+  components: { Titlebar, PlaybackBar }
 }
 </script>
 

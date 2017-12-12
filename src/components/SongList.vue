@@ -1,16 +1,13 @@
 <template>
   <div class="song-list flex-column vfull">
     <div class="songs flex-one substance pad">
-      <song-item v-for="(song, i) in songs" :song="song" @click="play(song.key)" :key="i"></song-item>
+      <song-item v-for="(song, i) in songs" :song="song" :key="i"></song-item>
     </div>
-
-    <playback-bar></playback-bar>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import PlaybackBar from './playback/PlaybackBar'
 import SongItem from './SongItem'
 import server from '../services/true-songs-service'
 
@@ -23,7 +20,7 @@ export default {
   computed: {
     ...mapGetters(['songs', 'currentSong'])
   },
-  components: { SongItem, PlaybackBar },
+  components: { SongItem },
   methods: {
     ...mapActions(['setSongs', 'configureTitlebar']),
     addSong () {
@@ -31,6 +28,7 @@ export default {
     }
   },
   mounted () {
+    window.r = this.$root
     this.configureTitlebar({'<i class="fa fa-plus"></i>': this.addSong})
 
     const self = this

@@ -27,7 +27,7 @@ export const actions = {
     })
     commit('SET_SONGS', songs)
   },
-  playSong ({ commit }, songKey) {
+  setCurrentSong ({ commit }, songKey) {
     commit('SET_CURRENT_SONG', songKey)
   },
   isLoadingSong ({ commit }, isLoading) {
