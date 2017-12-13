@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export const state = {
   songs: [],
   titlebar: {},
+  user: undefined,
   currentSong: undefined,
   isLoadingSong: false,
   isPlaying: false
@@ -14,6 +15,7 @@ export const state = {
 export const getters = {
   songs: state => state.songs,
   titlebar: state => state.titlebar,
+  user: state => state.user,
   currentSong: state => state.currentSong,
   isLoadingSong: state => state.isLoadingSong,
   isPlaying: state => state.isPlaying
@@ -23,9 +25,13 @@ export const actions = {
   setSongs ({ commit }, songs) {
     songs.forEach(s => {
       s.bible_version = JSON.parse(s.bible_version)
+      s.user = JSON.parse(s.user)
       s.labels = s.labels ? JSON.parse(s.labels) : []
     })
     commit('SET_SONGS', songs)
+  },
+  setUser ({ commit }, user) {
+    commit('SET_USER', user)
   },
   setCurrentSong ({ commit }, songKey) {
     commit('SET_CURRENT_SONG', songKey)
@@ -53,6 +59,9 @@ export const mutations = {
   },
   TITLEBAR_OPTIONS (state, options) {
     state.titlebar = options
+  },
+  SET_USER (state, user) {
+    state.user = user
   },
   SET_CURRENT_SONG (state, key) {
     state.currentSong = key

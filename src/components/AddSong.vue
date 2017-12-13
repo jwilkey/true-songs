@@ -1,5 +1,5 @@
 <template>
-  <div class="add-song pad vfull">
+  <div class="add-song pad vfull flex-column">
     <transition name="fade">
       <div v-if="showInput" class="super-input flex-column pad nopad-top">
         <artist-picker v-if="field === 'artist'" class="flex-one substance" :filter="input" :on-select="artistSelected"></artist-picker>
@@ -8,7 +8,7 @@
       </div>
     </transition>
 
-    <div class="distance" :class="{apply: showInput}">
+    <div class="distance flex-one" :class="{apply: showInput}">
       <div class="theme-mid pad marginb shadow bullet">
         <h3>Add a new song</h3>
       </div>
@@ -27,7 +27,11 @@
           </div>
 
           <div class="file-container">
-            <vue-dropzone  ref="dropzone" id="song-file" :options="dropzoneOptions" v-on:vdropzone-file-added="fileChanged" :class="{'has-file': file}" class="pad text-center shadow-inset theme-hi rounded marginb"></vue-dropzone>
+            <vue-dropzone  ref="dropzone" id="song-file"
+            :options="dropzoneOptions"
+            v-on:vdropzone-file-added="fileChanged"
+            :class="{'has-file': file}"
+            class="pad text-center shadow-inset callout alt rounded marginb"></vue-dropzone>
           </div>
 
           <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
@@ -53,6 +57,10 @@
       </form>
     </div>
 
+    <div class="text-center user-info theme-back-text flex-row align-center flex-center">
+      <img :src="user.image" /> <span>{{user.name}}</span>
+    </div>
+
     <div v-if="isUploading" class="center-box">
       <div> <div class="spinner large fa-spin"></div> </div>
     </div>
@@ -60,7 +68,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ArtistPicker from '@/components/pickers/ArtistPicker'
 import VersionPicker from '@/components/pickers/VersionPicker'
 import PassagePicker from '@/components/pickers/PassagePicker'
@@ -93,6 +101,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['user']),
     postUrl () {
       return `https://true-songs-server.herokuapp.com/songs/upload?artist=${this.artist}&`
     },
@@ -178,6 +187,7 @@ export default {
       const self = this
       var data = new FormData()
       data.append('artist', this.artist)
+      data.append('user', JSON.stringify({name: this.user.name, email: this.user.email}))
       data.append('passage', this.passage)
       data.append('version', JSON.stringify(this.version))
       data.append('labels', JSON.stringify(this.labels))
@@ -284,5 +294,11 @@ export default {
 }
 .bullet {
   border-top-right-radius: 30px;
+}
+.user-info {
+  img {
+    height: 20px;
+    margin-right: 10px;
+  }
 }
 </style>

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import SongList from '@/components/SongList'
 import Login from '@/components/Login'
 import AddSong from '@/components/AddSong'
+import store from '../store'
 
 Vue.use(Router)
 
@@ -21,7 +22,10 @@ export default new Router({
     {
       path: '/add_song',
       name: 'AddSong',
-      component: AddSong
+      component: AddSong,
+      beforeEnter: (to, from, next) => {
+        next(!store.getters.user ? '/login' : true)
+      }
     }
   ]
 })

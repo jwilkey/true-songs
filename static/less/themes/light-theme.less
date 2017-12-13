@@ -74,12 +74,15 @@
     color: @color-text;
   }
   hr { border-color: lighten(@color-callout, 50%); }
-  button {
+  .button {
     .shadow;
     background-color: @color-callout;
     box-shadow: 1px 1px 3px fade(@color-callout, 70%);
     color: white;
     text-shadow: 1px 0px 4px rgba(0, 0, 0, 0.4);
+  }
+  button {
+    .button;
   }
   button.alt {
     background-color: @color-back-raised;
@@ -106,8 +109,7 @@
     .muted;
   }
   .edit-item {
-    border-color: @color-highlight-blue;
-    box-shadow: -1px 1px 2px @color-callout;
+    border-color: @color-callout;
   }
   .list-item {
     border-bottom: solid 2px @color-back-raised2;
