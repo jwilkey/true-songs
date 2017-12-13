@@ -1,11 +1,10 @@
 import axios from 'axios'
 
-// const baseUrl = 'https://true-songs-server.herokuapp.com'
-const baseUrl = 'http://localhost:3300'
+const baseUrl = process.env.GATEWAY
 
 export default {
   authState: () => {
-    return axios.get(`${baseUrl}/auth/state`, {withCredentials: true})
+    return axios.get(`${baseUrl}/user`, {withCredentials: true})
     .then(response => response.data)
   },
   loginUrl: (provider) => {

@@ -25,7 +25,7 @@ export const actions = {
   setSongs ({ commit }, songs) {
     songs.forEach(s => {
       s.bible_version = JSON.parse(s.bible_version)
-      s.user = JSON.parse(s.user)
+      s.user = JSON.parse(s.user || '{}')
       s.labels = s.labels ? JSON.parse(s.labels) : []
     })
     commit('SET_SONGS', songs)

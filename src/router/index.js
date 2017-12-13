@@ -24,7 +24,7 @@ export default new Router({
       name: 'AddSong',
       component: AddSong,
       beforeEnter: (to, from, next) => {
-        next(!store.getters.user ? '/login' : true)
+        next(!store.getters.user ? `/login?ref=${to.path}` : true)
       }
     }
   ]

@@ -45,7 +45,7 @@ export default {
       self.setUser(response)
       if (self.user) {
         setTimeout(() => {
-          self.$router.replace('/')
+          self.$router.replace(self.$route.query.ref || '/')
         }, 3000)
       }
     })
