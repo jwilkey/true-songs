@@ -3,7 +3,8 @@
     <div @click="playSong" class="song-art theme-back">
       <p class="song-label cover">{{bookLabel}}</p>
       <div v-if="isLoading" class="spinner cover fa-spin"></div>
-      <div v-if="isPlayingSong" class="cover"><div class="playing-indicator callout"></div></div>
+      <div v-if="isPlayingSong" class="cover"><div class="playing-indicator"></div></div>
+      <div v-if="isPlayingSong" class="cover"><div class="playing-indicator-left"></div></div>
     </div>
     <div @click="playSong" class="flex-one">
       <p>{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span></p>
@@ -82,6 +83,7 @@ export default {
     text-align: center;
     border-radius: 50px;
     margin-right: 8px;
+    margin-bottom: 1px;
     overflow: hidden;
     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
     .song-label {
@@ -91,18 +93,23 @@ export default {
     }
     .playing-indicator {
       position: absolute;
-      top: 10%;
-      left: 10%;
-      height: 80%;
-      width: 80%;
-      border-radius: 50px;
-      opacity: 0.3;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 200%;
+      background-image: url('../../static/images/waves.png');
+      background-size: contain;
+      opacity: 0.1;
       z-index: 1;
       transform-style: flat;
       animation-name: rotate;
-      animation-duration: 4s;
+      animation-duration: 1.2s;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
+    }
+    .playing-indicator-left {
+      .playing-indicator;
+      animation-direction: reverse;
     }
   }
   .song-label {
@@ -111,13 +118,10 @@ export default {
 }
 @keyframes rotate {
   0% {
-    transform: rotateY(0deg) scale(1.0);
-  }
-  50% {
-    transform: rotateY(180deg) scale(0.3);
+    transform: translateX(-50%);
   }
   100% {
-    transform: rotateY(360deg) scale(1.0);
+    transform: translateX(0%);
   }
 }
 </style>
