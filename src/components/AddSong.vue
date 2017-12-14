@@ -58,7 +58,7 @@
     </div>
 
     <div class="text-center user-info theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
-      <img :src="user.image" /> <span>{{user.name}}</span>
+      <img :src="user.image" class="rounded shadow" /> <span>{{user.name}}</span>
     </div>
 
     <div v-if="isUploading" class="center-box">
