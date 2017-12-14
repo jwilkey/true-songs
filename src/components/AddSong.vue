@@ -1,5 +1,5 @@
 <template>
-  <div class="add-song pad vfull">
+  <div class="add-song pad vfull flex-column">
     <transition name="fade">
       <div v-if="showInput" class="super-input flex-column pad nopad-top">
         <artist-picker v-if="field === 'artist'" class="flex-one substance" :filter="input" :on-select="artistSelected"></artist-picker>
@@ -8,11 +8,11 @@
       </div>
     </transition>
 
-    <div class="distance" :class="{apply: showInput}">
+    <div class="distance flex-one" :class="{apply: showInput}">
       <div class="theme-mid pad marginb shadow bullet">
         <h3>Add a new song</h3>
       </div>
-      <form :action="postUrl" method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
+      <form method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
         <div class="theme-mid pad shadow marginb">
           <div class="flex-row marginb">
             <p class="flex-one edit-item" @click="startInput('artist')">
@@ -27,7 +27,11 @@
           </div>
 
           <div class="file-container">
-            <vue-dropzone  ref="dropzone" id="song-file" :options="dropzoneOptions" v-on:vdropzone-file-added="fileChanged" :class="{'has-file': file}" class="pad text-center shadow-inset theme-hi rounded marginb"></vue-dropzone>
+            <vue-dropzone  ref="dropzone" id="song-file"
+            :options="dropzoneOptions"
+            v-on:vdropzone-file-added="fileChanged"
+            :class="{'has-file': file}"
+            class="pad text-center shadow-inset callout alt rounded marginb"></vue-dropzone>
           </div>
 
           <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
@@ -53,6 +57,10 @@
       </form>
     </div>
 
+    <div class="text-center user-info theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
+      <img :src="user.image" class="rounded shadow" /> <span>{{user.name}}</span>
+    </div>
+
     <div v-if="isUploading" class="center-box">
       <div> <div class="spinner large fa-spin"></div> </div>
     </div>
@@ -60,11 +68,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ArtistPicker from '@/components/pickers/ArtistPicker'
 import VersionPicker from '@/components/pickers/VersionPicker'
 import PassagePicker from '@/components/pickers/PassagePicker'
-import axios from 'axios'
+import server from '../services/true-songs-service'
 import bibleParser from '../helpers/bible-parser'
 import vue2Dropzone from 'vue2-dropzone'
 
@@ -93,9 +101,7 @@ export default {
     }
   },
   computed: {
-    postUrl () {
-      return `https://true-songs-server.herokuapp.com/songs/upload?artist=${this.artist}&`
-    },
+    ...mapGetters(['user']),
     normalizedPassage () {
       return bibleParser.normalize(this.passage)
     },
@@ -178,13 +184,14 @@ export default {
       const self = this
       var data = new FormData()
       data.append('artist', this.artist)
+      data.append('user', this.user.id)
       data.append('passage', this.passage)
       data.append('version', JSON.stringify(this.version))
       data.append('labels', JSON.stringify(this.labels))
       data.append('songData', this.file)
 
       self.isUploading = true
-      axios.post(this.postUrl, data)
+      server.createSong(data, this.artist)
       .then(response => {
         self.errorMessage = undefined
         self.isUploading = false
@@ -284,5 +291,11 @@ export default {
 }
 .bullet {
   border-top-right-radius: 30px;
+}
+.user-info {
+  img {
+    height: 20px;
+    margin-right: 10px;
+  }
 }
 </style>

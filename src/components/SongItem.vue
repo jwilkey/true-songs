@@ -6,7 +6,7 @@
       <div v-if="isPlayingSong" class="cover"><div class="playing-indicator callout"></div></div>
     </div>
     <div @click="playSong" class="flex-one">
-      <p>{{readablePassage}} <span class="version-label blue font-small">{{song.bible_version.versionCode}}</span></p>
+      <p>{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span></p>
       <p class="muted">{{song.artist}} </p>
     </div>
     <div v-if="song.labels.length" class="relative">

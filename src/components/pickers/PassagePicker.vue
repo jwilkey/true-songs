@@ -2,7 +2,7 @@
   <div class="passage-picker center text-center flex-column">
     <div class="flex-row flex-center rounded">
       <button v-if="this.osis" @click="finished" class="float-btn shadow back-green"><i class="fas fa-check"></i></button>
-      <input class="input theme-mid shadow" v-model="filter" placeholder="Bible passage"/>
+      <input @keyup.enter="finished" class="input theme-mid shadow" v-model="filter" placeholder="Bible passage"/>
       <button class="back-red float-btn" @click="onSelect(undefined)"><i class="fas fa-times"></i></button>
     </div>
 

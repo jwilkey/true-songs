@@ -12,6 +12,7 @@ body {
 }
 a {
   cursor: pointer;
+  text-decoration: none;
   &:hover {
     text-decoration: none;
     opacity: 0.85;
@@ -60,11 +61,20 @@ hr {
 .marginb {
   margin-bottom: 10px;
 }
+.marginl {
+  margin-left: 10px;
+}
+.marginr {
+  margin-right: 10px;
+}
 .pad {
   padding: 15px;
 }
+.small-pad {
+  padding: 5px !important;
+}
 .nopad {
-  padding: 0px;
+  padding: 0px !important;
 }
 .nopad-top {
   padding-top: 0px;
@@ -91,7 +101,7 @@ hr {
 }
 
 // VIEW ITEMS
-button {
+.button {
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -99,6 +109,12 @@ button {
   border-radius: 30px;
   cursor: pointer;
   outline: none;
+}
+button {
+  .button;
+}
+button.clear {
+  background-color: transparent !important;
 }
 select {
   height: 30px;
@@ -147,7 +163,7 @@ input {
   border-bottom: solid 3px;
   border-top: solid 1px;
   border-right: solid 1px;
-  border-radius: 5px;
+  border-radius: 15px;
   padding: 10px;
   cursor: pointer;
 }
