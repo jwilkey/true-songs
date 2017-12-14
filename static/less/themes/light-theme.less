@@ -5,7 +5,7 @@
 @color-back-raised2: #cac9ca;
 @color-callout: #24508f;
 @color-callout-light: #8b94b4;
-@color-deemphasize: #999;
+@color-deemphasize: #999f99;
 @color-deemphasize-more: #aaa;
 
 @shadow: 0px 1px 3px rgba(100, 100, 100, 0.5);
@@ -74,12 +74,15 @@
     color: @color-text;
   }
   hr { border-color: lighten(@color-callout, 50%); }
-  button {
+  .button {
     .shadow;
     background-color: @color-callout;
     box-shadow: 1px 1px 3px fade(@color-callout, 70%);
     color: white;
     text-shadow: 1px 0px 4px rgba(0, 0, 0, 0.4);
+  }
+  button {
+    .button;
   }
   button.alt {
     background-color: @color-back-raised;
@@ -106,8 +109,7 @@
     .muted;
   }
   .edit-item {
-    border-color: @color-highlight-blue;
-    box-shadow: -1px 1px 2px @color-callout;
+    border-color: @color-callout;
   }
   .list-item {
     border-bottom: solid 2px @color-back-raised2;
