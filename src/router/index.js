@@ -4,6 +4,7 @@ import SongList from '@/components/SongList'
 import Login from '@/components/Login'
 import AddSong from '@/components/AddSong'
 import store from '../store'
+import server from '../services/true-songs-service'
 
 Vue.use(Router)
 
@@ -12,7 +13,14 @@ export default new Router({
     {
       path: '/',
       name: 'SongList',
-      component: SongList
+      component: SongList,
+      beforeEnter: (to, from, next) => {
+        server.authState()
+        .then(response => {
+          store.dispatch('setUser', response)
+        })
+        next()
+      }
     },
     {
       path: '/login',

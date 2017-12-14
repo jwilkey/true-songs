@@ -22,6 +22,9 @@ export default {
     return axios.get(`${baseUrl}/songs`)
     .then(response => response.data)
   },
+  createSong (data, artist) {
+    return axios.post(`${baseUrl}/songs/upload?artist=${artist}`, data)
+  },
   streamSong (key) {
     return axios.get(`${baseUrl}/songs/${key}`)
     .then(response => response.data)

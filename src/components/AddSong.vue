@@ -12,7 +12,7 @@
       <div class="theme-mid pad marginb shadow bullet">
         <h3>Add a new song</h3>
       </div>
-      <form :action="postUrl" method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
+      <form method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
         <div class="theme-mid pad shadow marginb">
           <div class="flex-row marginb">
             <p class="flex-one edit-item" @click="startInput('artist')">
@@ -57,7 +57,7 @@
       </form>
     </div>
 
-    <div class="text-center user-info theme-back-text flex-row align-center flex-center">
+    <div class="text-center user-info theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
       <img :src="user.image" /> <span>{{user.name}}</span>
     </div>
 
@@ -72,7 +72,7 @@ import { mapGetters, mapActions } from 'vuex'
 import ArtistPicker from '@/components/pickers/ArtistPicker'
 import VersionPicker from '@/components/pickers/VersionPicker'
 import PassagePicker from '@/components/pickers/PassagePicker'
-import axios from 'axios'
+import server from '../services/true-songs-service'
 import bibleParser from '../helpers/bible-parser'
 import vue2Dropzone from 'vue2-dropzone'
 
@@ -102,9 +102,6 @@ export default {
   },
   computed: {
     ...mapGetters(['user']),
-    postUrl () {
-      return `https://true-songs-server.herokuapp.com/songs/upload?artist=${this.artist}&`
-    },
     normalizedPassage () {
       return bibleParser.normalize(this.passage)
     },
@@ -187,14 +184,14 @@ export default {
       const self = this
       var data = new FormData()
       data.append('artist', this.artist)
-      data.append('user', JSON.stringify({name: this.user.name, email: this.user.email}))
+      data.append('user', this.user.id)
       data.append('passage', this.passage)
       data.append('version', JSON.stringify(this.version))
       data.append('labels', JSON.stringify(this.labels))
       data.append('songData', this.file)
 
       self.isUploading = true
-      axios.post(this.postUrl, data)
+      server.createSong(data, this.artist)
       .then(response => {
         self.errorMessage = undefined
         self.isUploading = false
