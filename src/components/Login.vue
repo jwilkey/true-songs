@@ -7,9 +7,9 @@
       </div>
       <router-link to="/" class="theme-back-text marginb">done</router-link>
     </div>
-    <div v-else class="flex-column ">
-      <p class="marginb theme-back-text text-center font-large">Login with</p>
-      <a :href="googleUrl" class="button text-center pad marginb">Google</a>
+    <div v-else class="flex-column">
+      <p class="sign-in-label theme-back-text text-center font-large">Sign in so that you can upload songs</p>
+      <a :href="googleUrl" class="button text-center pad marginb flex-row align-center flex-center"><img src="../../static/images/btn_google_light_normal_ios.svg" /> Sign in with Google</a>
       <!-- <a :href="facebookUrl" class="button text-center pad marginb">Facebook</a> -->
     </div>
   </div>
@@ -54,6 +54,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.sign-in-label {
+  margin-bottom: 40px;
+}
+a {
+  img {
+    margin-right: 10px;
+    height: 30px;
+  }
+}
 .user {
   h1 {
     margin-bottom: 40px;
