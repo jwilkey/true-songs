@@ -8,6 +8,12 @@ Vue.mixin({
     hideLoading () {
       this.$root.$children[0].isLoading = false
     },
+    alert (content, actions) {
+      this.$root.$children[0].alertConfig = { content, actions }
+    },
+    dismissalert () {
+      this.$root.$children[0].alertConfig = undefined
+    },
     showRightView (component, props) {
       this.$root.$children[0].rightView = component
       this.$root.$children[0].rightViewProps = props

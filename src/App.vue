@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="main-content flex-column vfull" :class="{blur: isLoading, shiftr: revealRightView}">
+    <div class="main-content flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
       <titlebar class="shadow"></titlebar>
       <router-view class=" router flex-one"/>
       <playback-bar ref="playback"></playback-bar>
@@ -8,12 +8,11 @@
     </div>
 
     <loading v-if="isLoading"></loading>
+    <alert v-if="alertConfig" :content="alertConfig.content" :actions="alertConfig.actions"></alert>
 
-    <div v-if="revealRightView" class="right-view theme-under pad appear">
+    <div v-if="revealRightView" class="right-view theme-under pad appear" :class="{blur: isLoading || alertConfig}">
       <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
     </div>
-
-
   </div>
 </template>
 
@@ -21,12 +20,15 @@
 import Titlebar from '@/components/Titlebar'
 import PlaybackBar from '@/components/playback/PlaybackBar'
 import Loading from '@/components/modals/Loading'
+import Alert from '@/components/modals/Alert'
 
 export default {
   name: 'app',
   data () {
     return {
       isLoading: false,
+      showAlert: true,
+      alertConfig: undefined,
       rightView: undefined,
       rightViewProps: undefined
     }
@@ -36,7 +38,7 @@ export default {
       return this.rightView !== undefined
     }
   },
-  components: { Titlebar, PlaybackBar, Loading }
+  components: { Titlebar, PlaybackBar, Loading, Alert }
 }
 </script>
 

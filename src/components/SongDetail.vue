@@ -14,7 +14,7 @@
 
     <div v-if="isMySong" class="pad text-center">
       <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
-      <a @click="deleteSong" class="nowrap red"><i class="fas fa-trash-alt red"></i> delete song</a>
+      <a @click="deletePressed" class="nowrap red"><i class="fas fa-trash-alt red"></i> delete song</a>
     </div>
   </div>
 </template>
@@ -46,7 +46,15 @@ export default {
     close () {
       this.hideRightView()
     },
+    deletePressed () {
+      const self = this
+      this.alert('Delete this song?', {
+        'Yes': self.deleteSong,
+        'No': self.dismissalert
+      })
+    },
     deleteSong () {
+      this.dismissalert()
       this.showLoading()
       const self = this
       server.deleteSong(this.song)
