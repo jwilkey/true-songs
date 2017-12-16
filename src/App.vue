@@ -3,6 +3,7 @@
     <div class="main-content flex-column vfull" :class="{shiftr: revealRightView}">
       <titlebar class="shadow"></titlebar>
       <router-view class=" router flex-one"/>
+      <playback-bar ref="playback"></playback-bar>
       <div class="background theme-back"></div>
     </div>
 
@@ -10,7 +11,6 @@
       <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
     </div>
 
-    <playback-bar ref="playback"></playback-bar>
 
   </div>
 </template>
