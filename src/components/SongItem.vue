@@ -10,11 +10,8 @@
       <p>{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span></p>
       <p class="muted">{{song.artist}} </p>
     </div>
-    <div v-if="song.labels.length" class="relative">
-      <button class="alt" @click="toggleOptions"><i class="fas fa-ellipsis-v"></i></button>
-      <div v-if="showOptions" @click="toggleOptions" class="pop-left theme-hi shadow">
-        <p v-for="label in song.labels" class="song-label rounded">{{label}}</p>
-      </div>
+    <div>
+      <button class="muted alt" @click="toggleOptions"><i class="fas fa-ellipsis-v"></i></button>
     </div>
   </div>
 </template>
@@ -23,17 +20,17 @@
 import { mapGetters, mapActions } from 'vuex'
 import bibleParser from '../helpers/bible-parser'
 import playbackMixin from '../mixins/playback-mixin'
+import SongDetail from './SongDetail'
 
 export default {
   name: 'SongItem',
   data () {
     return {
-      showOptions: false
     }
   },
   props: ['song'],
   computed: {
-    ...mapGetters(['currentSong', 'isLoadingSong', 'isPlaying']),
+    ...mapGetters(['currentSong', 'isLoadingSong', 'isPlaying', 'user']),
     readablePassage () {
       return bibleParser.normalize(this.song.passage)
     },
@@ -58,7 +55,7 @@ export default {
       this.play()
     },
     toggleOptions () {
-      this.showOptions = !this.showOptions
+      this.showRightView(SongDetail, {song: this.song})
     }
   }
 }
@@ -112,9 +109,12 @@ export default {
       animation-direction: reverse;
     }
   }
-  .song-label {
-    margin: 0 3px;
-  }
+}
+.song-details {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 @keyframes rotate {
   0% {

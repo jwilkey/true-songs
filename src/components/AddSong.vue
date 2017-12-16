@@ -265,7 +265,6 @@ export default {
     border-bottom-right-radius: 10px;
     svg {
       margin-right: 3px;
-
     }
   }
 }

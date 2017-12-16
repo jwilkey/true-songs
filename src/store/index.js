@@ -36,6 +36,9 @@ export const actions = {
   setCurrentSong ({ commit }, songKey) {
     commit('SET_CURRENT_SONG', songKey)
   },
+  removeSong ({ commit }, song) {
+    commit('REMOVE_SONG', song)
+  },
   isLoadingSong ({ commit }, isLoading) {
     commit('SET_IS_LOADING_SONG', isLoading)
   },
@@ -50,6 +53,9 @@ export const actions = {
 export const mutations = {
   SET_SONGS (state, songs) {
     state.songs = songs
+  },
+  REMOVE_SONG (state, song) {
+    state.songs.splice(state.songs.indexOf(song), 1)
   },
   SET_IS_LOADING_SONG (state, isLoading) {
     state.isLoadingSong = isLoading

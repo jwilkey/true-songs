@@ -1,5 +1,5 @@
 <template>
-  <div class="pad">
+  <div class="content pad">
     <div v-if="user" class="user flex-column vfull text-center">
       <div class="flex-one">
         <h1 class="theme-back-text">Hello {{user.name}}</h1>

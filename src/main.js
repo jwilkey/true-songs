@@ -16,3 +16,15 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+Vue.mixin({
+  methods: {
+    showRightView (component, props) {
+      this.$root.$children[0].rightView = component
+      this.$root.$children[0].rightViewProps = props
+    },
+    hideRightView () {
+      this.$root.$children[0].rightView = undefined
+    }
+  }
+})
