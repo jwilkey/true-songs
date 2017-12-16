@@ -16,10 +16,6 @@
       <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
       <a @click="deleteSong" class="nowrap red"><i class="fas fa-trash-alt red"></i> delete song</a>
     </div>
-
-    <div v-if="isDeleting" class="center-box">
-      <div> <div class="spinner large fa-spin"></div> </div>
-    </div>
   </div>
 </template>
 
@@ -32,7 +28,6 @@ export default {
   name: 'SongDetail',
   data () {
     return {
-      isDeleting: false,
       errorMessage: undefined
     }
   },
@@ -52,17 +47,17 @@ export default {
       this.hideRightView()
     },
     deleteSong () {
-      this.isDeleting = true
+      this.showLoading()
       const self = this
       server.deleteSong(this.song)
       .then(response => {
-        this.isDeleting = false
+        self.hideLoading()
         self.errorMessage = undefined
         self.removeSong(this.song)
         self.hideRightView()
       })
       .catch(e => {
-        this.isDeleting = false
+        self.isDeleting = false
         self.errorMessage = 'Failed to delete song'
       })
     }

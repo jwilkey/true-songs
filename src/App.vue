@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <div class="main-content flex-column vfull" :class="{shiftr: revealRightView}">
+    <div class="main-content flex-column vfull" :class="{blur: isLoading, shiftr: revealRightView}">
       <titlebar class="shadow"></titlebar>
       <router-view class=" router flex-one"/>
       <playback-bar ref="playback"></playback-bar>
       <div class="background theme-back"></div>
     </div>
+
+    <loading v-if="isLoading"></loading>
 
     <div v-if="revealRightView" class="right-view theme-under pad appear">
       <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
@@ -18,11 +20,13 @@
 <script>
 import Titlebar from '@/components/Titlebar'
 import PlaybackBar from '@/components/playback/PlaybackBar'
+import Loading from '@/components/modals/Loading'
 
 export default {
   name: 'app',
   data () {
     return {
+      isLoading: false,
       rightView: undefined,
       rightViewProps: undefined
     }
@@ -32,7 +36,7 @@ export default {
       return this.rightView !== undefined
     }
   },
-  components: { Titlebar, PlaybackBar }
+  components: { Titlebar, PlaybackBar, Loading }
 }
 </script>
 
@@ -93,19 +97,7 @@ html, body, #app {
     opacity: 0.08;
   }
 }
-.appear {
-  animation-name: appear;
-  animation-fill-mode: forwards;
-  animation-duration: 0.7s;
-}
-@keyframes appear {
-  from {
-    opacity: 0.2;
-    transform: scale(0.2);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.loading {
+  z-index: 500;
 }
 </style>

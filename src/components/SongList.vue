@@ -68,10 +68,15 @@ export default {
     window.r = this.$root
     this.configureTitlebar({'<i class="fa fa-ellipsis-v"></i>': this.toggleMenu})
 
+    this.showLoading()
     const self = this
     server.fetchSongs()
     .then(songs => {
       self.setSongs(songs)
+      self.hideLoading()
+    })
+    .catch(e => {
+      self.hideLoading()
     })
   }
 }

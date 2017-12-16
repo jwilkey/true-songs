@@ -12,7 +12,7 @@
       <div class="theme-mid pad marginb shadow bullet">
         <h3>Add a new song</h3>
       </div>
-      <form method="POST" :class="{blur: isUploading}" enctype="multipart/form-data" @submit.prevent="submit">
+      <form method="POST" enctype="multipart/form-data" @submit.prevent="submit">
         <div class="theme-mid pad shadow marginb">
           <div class="flex-row marginb">
             <p class="flex-one edit-item" @click="startInput('artist')">
@@ -60,10 +60,6 @@
     <div class="text-center user-info theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
       <img :src="user.image" class="rounded shadow" /> <span>{{user.name}}</span>
     </div>
-
-    <div v-if="isUploading" class="center-box">
-      <div> <div class="spinner large fa-spin"></div> </div>
-    </div>
   </div>
 </template>
 
@@ -96,7 +92,6 @@ export default {
       },
       labelInput: undefined,
       labels: [],
-      isUploading: false,
       errorMessage: undefined
     }
   },
@@ -190,15 +185,15 @@ export default {
       data.append('labels', JSON.stringify(this.labels))
       data.append('songData', this.file)
 
-      self.isUploading = true
+      this.showLoading()
       server.createSong(data, this.artist)
       .then(response => {
         self.errorMessage = undefined
-        self.isUploading = false
+        self.hideLoading()
         self.$router.push('/')
       })
       .catch(err => {
-        self.isUploading = false
+        self.hideLoading()
         self.errorMessage = `Error uploading song: ${err}`
       })
     },
