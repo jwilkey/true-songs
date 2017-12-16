@@ -30,10 +30,13 @@ export default {
     .then(response => response.data)
   },
   deleteSong (song) {
-    return axios.delete(`${baseUrl}/songs`, {params: {
-      passage: song.passage,
-      uploadedAt: song.uploadedAt,
-      key: song.key
-    }})
+    return axios.delete(`${baseUrl}/songs`, {
+      withCredentials: true,
+      params: {
+        passage: song.passage,
+        uploadedAt: song.uploadedAt,
+        key: song.key
+      }
+    })
   }
 }

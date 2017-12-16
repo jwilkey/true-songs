@@ -13,7 +13,7 @@
     </div>
 
     <div v-if="isMySong" class="pad text-center">
-      <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
+      <p v-if="errorMessage" class="red text-center marginb"><i class="fas fa-star"></i> {{errorMessage}}</p>
       <a @click="deletePressed" class="nowrap red"><i class="fas fa-trash-alt red"></i> delete song</a>
     </div>
   </div>
@@ -65,6 +65,7 @@ export default {
         self.hideRightView()
       })
       .catch(e => {
+        self.hideLoading()
         self.isDeleting = false
         self.errorMessage = 'Failed to delete song'
       })
