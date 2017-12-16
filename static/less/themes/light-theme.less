@@ -6,7 +6,7 @@
 @color-callout: #24508f;
 @color-callout-light: #8b94b4;
 @color-deemphasize: #999f99;
-@color-deemphasize-more: #aaa;
+@color-deemphasize-more: #ccc;
 
 @shadow: 0px 1px 3px rgba(100, 100, 100, 0.5);
 @shadow-long: 0px 1px 15px rgba(100, 100, 100, 0.5);
@@ -15,6 +15,9 @@
 @shadow-inset: inset 1px 1px 5px rgba(10, 10, 10, 0.8);
 
 .light-theme {
+  body {
+    background: linear-gradient(#222133, #111022);
+  }
   .theme-back {
     background: @color-gradient;
     .theme-back-text;
@@ -34,6 +37,19 @@
         color: @color-text;
         background-color: @color-back-raised2;
       }
+    }
+  }
+  .theme-under {
+    background: linear-gradient(#222133, #111022);
+    color: @color-back-raised;
+    a {
+      color: @color-back-raised;
+    }
+    .swoop {
+      border-color: #9999bb;
+    }
+    .muted {
+      color: #9999bb;
     }
   }
   .theme-back-text {
@@ -87,9 +103,16 @@
   button.alt {
     background-color: @color-back-raised;
     box-shadow: none;
+    text-shadow: none;
     color: @color-callout;
     border: solid 1px @color-callout;
     padding: 5px;
+    &.muted {
+      color: @color-deemphasize;
+      border-color: @color-deemphasize-more;
+      border-left: none;
+      border-right: none;
+    }
   }
   .input {
     border-radius: 30px;
