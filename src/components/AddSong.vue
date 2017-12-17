@@ -8,7 +8,7 @@
       </div>
     </transition>
 
-    <div class="distance flex-one" :class="{apply: showInput}">
+    <div class="distance flex-one scrolly" :class="{apply: showInput}">
       <div class="theme-mid pad marginb shadow bullet">
         <h3>Publish a song</h3>
       </div>
@@ -40,13 +40,23 @@
 
           <div class="optional">
             <p class="subtitle marginb">OPTIONAL</p>
-            <input
-            @keydown.prevent.comma="labelsChanged"
-            @keydown.prevent.semicolon="labelsChanged"
-            @keydown.prevent.enter="labelsChanged"
-            v-model="labelInput" class="input" placeholder="labels" />
-            <div class="labels">
-              <p v-for="label in labels" @click="deleteLabel(label)" class="song-label back-red shadow"><i class="fas fa-times"></i> {{label}}</p>
+            <div class="conditional-row">
+              <div class="flex-one flex-column marginb">
+                <input
+                @keydown.prevent.comma="labelsChanged"
+                @keydown.prevent.semicolon="labelsChanged"
+                @keydown.prevent.enter="labelsChanged"
+                v-model="labelInput" class="input" placeholder="labels: genre, instrument, live..." />
+                <div v-if="labels.length" class="labels marginb">
+                  <p v-for="label in labels" @click="deleteLabel(label)" class="song-label back-red shadow"><i class="fas fa-times"></i> {{label}}</p>
+                </div>
+              </div>
+              <div class="flex-one marginb">
+                <input v-model="title" class="input" placeholder="alternate song title" />
+              </div>
+              <div class="flex-one">
+                <input v-model="featuredArtists" class="input" placeholder="featured artists" />
+              </div>
             </div>
           </div>
         </div>
@@ -92,6 +102,8 @@ export default {
       },
       labelInput: undefined,
       labels: [],
+      title: undefined,
+      featuredArtists: undefined,
       errorMessage: undefined
     }
   },
@@ -183,6 +195,8 @@ export default {
       data.append('passage', this.passage)
       data.append('version', JSON.stringify(this.version))
       data.append('labels', JSON.stringify(this.labels))
+      data.append('title', this.title)
+      data.append('featuredArtists', this.featuredArtists)
       data.append('songData', this.file)
 
       this.showLoading()
@@ -285,6 +299,9 @@ export default {
 }
 .bullet {
   border-top-right-radius: 30px;
+}
+.conditional-row > .flex-one {
+  margin: 0 10px;
 }
 .user-info {
   img {
