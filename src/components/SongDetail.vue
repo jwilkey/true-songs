@@ -1,9 +1,7 @@
 <template>
   <div class="song-details flex-column">
     <div class="flex-one">
-      <div @click="close" class="swoop marginb flex-row align-center pad">
-        <i class="fas fa-chevron-left muted small-pad"></i>
-      </div>
+      <button @click="close" class="hfull text-left marginb"><i class="fas fa-chevron-left"></i> CLOSE</button>
 
       <p class="text-center font-large pad">{{readablePassage}}</p>
 
