@@ -1,4 +1,4 @@
-@color-text: #19191b;
+@color-text: #49494b;
 @color-gradient: linear-gradient(45deg, #33aadd, #33ddaa);
 @color-back: #efefe9;
 @color-back-raised: #fcfcfc;
@@ -45,8 +45,12 @@
     a {
       color: @color-back-raised;
     }
-    .swoop {
-      border-color: #9999bb;
+    button {
+      background-color: #323143;
+      color: #9291a3;
+      font-weight: lighter;
+      letter-spacing: 0.5px;
+      box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
     }
     .muted {
       color: #9999bb;
@@ -54,7 +58,7 @@
   }
   .theme-back-text {
     color: white;
-    text-shadow: 1px 0px 2px @color-callout;
+    text-shadow: 1px 0px 2px darken(@color-callout, 20%);
   }
   .callout {
     background-color: @color-callout;
