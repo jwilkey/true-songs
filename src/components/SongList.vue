@@ -20,10 +20,14 @@
       </div>
     </transition>
 
-    <div v-if="filter" class="theme-back-text pad">
-      <span class="flex-one">{{ filterLabel }}</span>
-      <button @click="filter = undefined" class="back-red nopad marginl"><i class="far fa-times-circle"></i></button>
-    </div>
+    <transition name="fade">
+      <div v-if="filter" class="small-pad">
+        <div class="theme-mid pad flex-row rounded shadow">
+          <div class="flex-one"><span class="muted">Showing:</span> {{ filterLabel }}</div>
+          <a @click="filter = undefined" class="callout alt nopad marginl">show all</a>
+        </div>
+      </div>
+    </transition>
 
     <div class="songs flex-one scrolly bottompad">
       <song-item v-for="(song, i) in visibleSongs" :song="song" :key="i"></song-item>
