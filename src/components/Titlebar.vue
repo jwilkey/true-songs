@@ -1,7 +1,10 @@
 <template>
-  <div class="titlebar theme-mid flex-row pad">
+  <div class="titlebar theme-back-text flex-row align-center pad font-large">
+    <div class="logo-box callout marginr flex-column flex-center">
+      <img class="logo" src="../../static/images/logo.png" />
+    </div>
     <p class="flex-one">{{title}}</p>
-    <a v-for="(action, display) in titlebar" @click.prevent="action" v-html="display"></a>
+    <button v-for="(action, display) in titlebar" @click.prevent="action" v-html="display" class="titlebar-action theme-back-text"></button>
   </div>
 </template>
 
@@ -12,7 +15,7 @@ export default {
   name: 'Titlebar',
   data () {
     return {
-      title: 'True Songs'
+      title: 'TRUE SONGS'
     }
   },
   computed: {
@@ -25,5 +28,18 @@ export default {
 .titlebar {
   z-index: 100;
   overflow: visible;
+  .logo-box {
+    border-radius: 15px;
+    padding: 2px;
+    transform: scale(1.3);
+  }
+  .logo {
+    height: 25px;
+    filter: invert();
+  }
+  .titlebar-action {
+    padding: 4px 10px;
+    border-radius: 30px;
+  }
 }
 </style>

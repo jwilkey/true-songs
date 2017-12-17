@@ -10,7 +10,7 @@
 
     <div class="distance flex-one" :class="{apply: showInput}">
       <div class="theme-mid pad marginb shadow bullet">
-        <h3>Add a new song</h3>
+        <h3>Publish a song</h3>
       </div>
       <form method="POST" enctype="multipart/form-data" @submit.prevent="submit">
         <div class="theme-mid pad shadow marginb">

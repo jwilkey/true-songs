@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="main-content flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
-      <titlebar class="shadow"></titlebar>
+      <titlebar class=""></titlebar>
       <router-view class=" router flex-one"/>
       <playback-bar ref="playback"></playback-bar>
       <div class="background theme-back"></div>
