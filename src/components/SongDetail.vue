@@ -3,11 +3,11 @@
     <div class="flex-one">
       <button @click="close" class="hfull text-left marginb"><i class="fas fa-chevron-left"></i> CLOSE</button>
 
-      <p class="text-center font-large pad">{{readablePassage}}</p>
+      <p class="text-center font-large small-pad">{{readablePassage}}</p>
+      <p v-if="song.title" class="text-center muted marginb">{{song.title}}</p>
 
-      <div v-if="song.labels.length" class="pad">
-        <span class="muted">Labels</span> <span v-for="label in song.labels" class="song-label back-blue">{{label}}</span>
-      </div>
+      <p class="small-pad"><span class="muted">Artist</span> {{song.artist}} <span v-if="song.featuredArtists">(feat. {{song.featuredArtists}})</span></p>
+      <p v-if="song.labels.length" class="small-pad"><span class="muted">Labels</span> {{joinedLabels}}</p>
     </div>
 
     <div v-if="isMySong" class="pad text-center">
@@ -33,6 +33,9 @@ export default {
     ...mapGetters(['user']),
     readablePassage () {
       return bibleParser.normalize(this.song.passage)
+    },
+    joinedLabels () {
+      return this.song.labels.length ? this.song.labels.join(', ') : ''
     },
     isMySong () {
       return this.song.user === this.user.id
