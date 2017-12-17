@@ -10,8 +10,8 @@
       <p>{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span></p>
       <p class="muted">{{song.artist}} </p>
     </div>
-    <div>
-      <button class="muted alt" @click="toggleOptions"><i class="fas fa-ellipsis-v"></i></button>
+    <div @click="toggleOptions" class="options-button">
+      <button class="muted alt"><i class="fas fa-ellipsis-v"></i></button>
     </div>
   </div>
 </template>
@@ -99,7 +99,7 @@ export default {
       opacity: 0.1;
       z-index: 1;
       transform-style: flat;
-      animation-name: rotate;
+      animation-name: pan;
       animation-duration: 1.2s;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
@@ -116,7 +116,10 @@ export default {
   left: 0;
   right: 0;
 }
-@keyframes rotate {
+.options-button {
+  padding: 8px 15px;
+}
+@keyframes pan {
   0% {
     transform: translateX(-50%);
   }
