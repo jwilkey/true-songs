@@ -20,6 +20,10 @@
       </div>
     </transition>
 
+    <div class="small-pad expandable" :class="{apply: showSearch}">
+      <input v-model="searchTerm" id="search-input" class="input theme-mid shadow" placeholder="search" />
+    </div>
+
     <transition name="fade">
       <div v-if="filter" class="small-pad">
         <div class="theme-mid pad flex-row rounded shadow">
@@ -39,11 +43,14 @@
 import { mapGetters, mapActions } from 'vuex'
 import SongItem from './SongItem'
 import server from '../services/true-songs-service'
+import bibleParser from '../helpers/bible-parser'
 
 export default {
   name: 'SongList',
   data () {
     return {
+      showSearch: false,
+      searchTerm: undefined,
       filter: undefined,
       showMenu: false
     }
@@ -51,10 +58,20 @@ export default {
   computed: {
     ...mapGetters(['songs', 'currentSong', 'user']),
     visibleSongs () {
+      var filteredSongs = this.songs
       if (this.filter) {
-        return this.songs.filter(s => s[this.filter.key] === this.filter.value)
+        filteredSongs = filteredSongs.filter(s => s[this.filter.key] === this.filter.value)
       }
-      return this.songs
+      if (this.searchTerm) {
+        var osis = bibleParser.osis(this.searchTerm)
+        if (osis && !this.searchTerm.match(/\d/)) {
+          osis = osis.split('.')[0]
+        }
+        const search = this.searchTerm.toLowerCase().replace(' ', '')
+        filteredSongs = filteredSongs
+        .filter(s => s.search.indexOf(`|${search}`) > -1 || (osis && s.passage.startsWith(osis)))
+      }
+      return filteredSongs
     },
     filterLabel () {
       switch (this.filter.key) {
@@ -66,6 +83,14 @@ export default {
   components: { SongItem },
   methods: {
     ...mapActions(['setSongs', 'configureTitlebar']),
+    toggleSearch () {
+      this.showSearch = !this.showSearch
+      if (this.showSearch) {
+        this.$nextTick(() => {
+          this.$el.querySelector('#search-input').focus()
+        })
+      }
+    },
     toggleMenu () {
       this.showMenu = !this.showMenu
     },
@@ -81,8 +106,10 @@ export default {
     }
   },
   mounted () {
-    window.r = this.$root
-    this.configureTitlebar({'<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu})
+    this.configureTitlebar({
+      '<i class="fas fa-search"></i>': this.toggleSearch,
+      '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
+    })
 
     this.showLoading()
     const self = this
@@ -114,6 +141,20 @@ export default {
     padding-top: 5px;
     padding-right: 0px;
     padding-left: 5px;
+  }
+}
+.expandable {
+  max-height: 0px;
+  transform: scale(0);
+  opacity: 0;
+  transition: max-height 0.5s, transform 0.5s, opacity 0.5s, padding 0.5s;
+  &:not(.apply) {
+    padding: 0 !important;
+  }
+  &.apply {
+    max-height: 100px;
+    transform: scale(1);
+    opacity: 1;
   }
 }
 </style>

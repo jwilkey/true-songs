@@ -27,6 +27,9 @@ export const actions = {
       s.bible_version = JSON.parse(s.bible_version)
       s.user = s.user
       s.labels = s.labels ? JSON.parse(s.labels) : []
+      s.search = `|${s.passage}|${s.bible_version.versionCode}|${s.artist}|${s.labels.join('|')}`
+      .toLowerCase()
+      .replace(' ', '')
     })
     commit('SET_SONGS', songs)
   },

@@ -40,6 +40,8 @@ export default {
   .titlebar-action {
     padding: 4px 10px;
     border-radius: 30px;
+    margin-left: 10px;
+    min-width: 40px;
   }
 }
 </style>
