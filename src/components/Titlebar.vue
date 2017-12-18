@@ -36,6 +36,7 @@ export default {
   .logo {
     height: 25px;
     filter: invert();
+    transform: translateX(1px);
   }
   .titlebar-action {
     padding: 4px 10px;

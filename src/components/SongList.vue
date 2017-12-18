@@ -20,8 +20,11 @@
       </div>
     </transition>
 
-    <div class="small-pad expandable" :class="{apply: showSearch}">
+    <div class="search-wrapper small-pad expandable" :class="{apply: showSearch}">
       <input v-model="searchTerm" id="search-input" class="input theme-mid shadow" placeholder="search" />
+      <button class="search-clear small-pad clear" @click="clearSearch">
+        <i class="fa-inverse fas fa-times muted" data-fa-transform="shrink-3"></i>
+      </button>
     </div>
 
     <transition name="fade">
@@ -91,6 +94,12 @@ export default {
         })
       }
     },
+    clearSearch () {
+      this.searchTerm = ''
+      this.$nextTick(() => {
+        this.$el.querySelector('#search-input').focus()
+      })
+    },
     toggleMenu () {
       this.showMenu = !this.showMenu
     },
@@ -141,6 +150,15 @@ export default {
     padding-top: 5px;
     padding-right: 0px;
     padding-left: 5px;
+  }
+}
+.search-wrapper {
+  position: relative;
+  .search-clear {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    box-shadow: none;
   }
 }
 .expandable {
