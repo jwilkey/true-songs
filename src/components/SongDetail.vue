@@ -1,6 +1,6 @@
 <template>
   <div class="song-details flex-column">
-    <div class="flex-one">
+    <div class="flex-one scrolly">
       <button @click="close" class="hfull text-left marginb"><i class="fas fa-chevron-left"></i> CLOSE</button>
 
       <p class="text-center font-large small-pad">{{readablePassage}}</p>
@@ -8,6 +8,10 @@
 
       <p class="small-pad"><span class="muted">Artist</span> {{song.artist}} <span v-if="song.featuredArtists">(feat. {{song.featuredArtists}})</span></p>
       <p v-if="song.labels.length" class="small-pad"><span class="muted">Labels</span> {{joinedLabels}}</p>
+
+      <p class="muted margint">Bible text ({{song.bible_version.versionCode}})</p>
+      <div v-if="isLoadingText" class="spinner fa-spin"></div>
+      <div class="bible-text" v-html="bibleText"></div>
     </div>
 
     <div v-if="isMySong" class="pad text-center">
@@ -26,7 +30,9 @@ export default {
   name: 'SongDetail',
   data () {
     return {
-      errorMessage: undefined
+      bibleText: undefined,
+      errorMessage: undefined,
+      isLoadingText: true
     }
   },
   computed: {
@@ -71,15 +77,35 @@ export default {
         self.errorMessage = 'Failed to delete song'
       })
     }
+  },
+  mounted () {
+    const self = this
+    server.fetchBibleText(this.song)
+    .then(response => {
+      self.isLoadingText = false
+      self.bibleText = response.text
+    })
+    .catch(e => {
+      self.isLoadingText = false
+    })
   }
 }
 </script>
 
 <style lang="less" scoped>
+.song-details {
+  .spinner {
+    display: inline-block;
+    margin: 10px;
+  }
+}
 .song-label {
   margin: 0 3px;
   padding: 3px 5px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+.bible-text {
+  line-height: 1.5;
 }
 </style>

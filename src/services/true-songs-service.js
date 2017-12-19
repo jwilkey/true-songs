@@ -2,6 +2,15 @@ import axios from 'axios'
 
 const baseUrl = process.env.GATEWAY
 
+var versesCache = []
+function cacheVerse (key, verse) {
+  var obj = {key, verse}
+  versesCache.splice(0, 0, obj)
+  if (versesCache.length > 5) {
+    versesCache.pop()
+  }
+}
+
 export default {
   authState: () => {
     return axios.get(`${baseUrl}/user`, {withCredentials: true})
@@ -17,6 +26,19 @@ export default {
   fetchBibles: function () {
     return axios.get(`${baseUrl}/bible/versions`)
     .then(response => response.data)
+  },
+  fetchBibleText: function (song) {
+    const key = `${song.bible_version.id}-${song.passage}`
+    const found = versesCache.find(v => v.key === key)
+    if (found) {
+      return Promise.resolve(found.verse)
+    } else {
+      return axios.get(`${baseUrl}/bible/text/${song.bible_version.id}?osis=${song.passage}`)
+      .then(response => {
+        cacheVerse(key, response.data)
+        return response.data
+      })
+    }
   },
   fetchSongs: function () {
     return axios.get(`${baseUrl}/songs`)
