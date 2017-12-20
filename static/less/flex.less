@@ -31,10 +31,22 @@
   flex-wrap: wrap;
 }
 
-@media only screen
-and (min-device-width : 768px) {
+@media (min-width : 768px) {
   .conditional-row {
     display: flex;
     flex-direction: row;
+    & > *:not(.flex-two) {
+      .flex-one;
+    }
+  }
+}
+
+@media (min-width : 1024px) {
+  .row-large {
+    display: flex;
+    flex-direction: row;
+    & > *:not(.flex-two) {
+      .flex-one;
+    }
   }
 }

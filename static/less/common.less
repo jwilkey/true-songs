@@ -121,6 +121,10 @@ hr {
 }
 button {
   .button;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 button.clear {
   background-color: transparent !important;
@@ -132,6 +136,9 @@ select {
   outline: none;
 }
 input {
+  .input;
+}
+.input {
   box-sizing: border-box;
   width: 100%;
   background-color: transparent;
@@ -149,6 +156,9 @@ input {
     height: 80px;
     width: 80px;
   }
+}
+.pointer {
+  cursor: pointer;
 }
 
 .rounded {
