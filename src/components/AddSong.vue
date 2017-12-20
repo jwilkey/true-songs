@@ -2,72 +2,93 @@
   <div class="add-song pad vfull flex-column">
     <transition name="fade">
       <div v-if="showInput" class="super-input flex-column pad nopad-top">
-        <artist-picker v-if="field === 'artist'" class="flex-one substance" :filter="input" :on-select="artistSelected"></artist-picker>
-        <passage-picker v-if="field === 'passage'" class="flex-one substance" :filter="input" :on-select="passageSelected" :on-change="passageChanged"></passage-picker>
-        <version-picker v-if="field === 'version'" class="flex-one substance" :filter="input" :on-select="versionSelected"></version-picker>
+        <artist-picker v-if="field === 'artist'" class="flex-one substance" :input="input" :on-select="artistSelected"></artist-picker>
+        <passage-picker v-if="field === 'passage'" class="flex-one substance" :input="input" :on-select="passageSelected" :on-change="passageChanged"></passage-picker>
+        <version-picker v-if="field === 'version'" class="flex-one substance" :input="input" :on-select="versionSelected"></version-picker>
       </div>
     </transition>
 
-    <div class="distance flex-one scrolly" :class="{apply: showInput}">
+    <div class="distance flex-one small-pad scrolly" :class="{apply: showInput}">
       <div class="theme-mid pad marginb shadow bullet">
         <h3>Publish a song</h3>
       </div>
-      <form method="POST" enctype="multipart/form-data" @submit.prevent="submit">
-        <div class="theme-mid pad shadow marginb">
-          <div class="flex-row marginb">
-            <p class="flex-one edit-item" @click="startInput('artist')">
-              {{artist}}<span v-if="!artist" class="muted i">Artist name</span>
-            </p>
-            <p class="flex-one edit-item" @click="startInput('passage')">
-              {{normalizedPassage}}<span v-if="!passage" class="muted i">Scripture passage</span>
-            </p>
-            <p class="flex-one edit-item" @click="startInput('version')">
-              {{versionLabel}}<span v-if="!version" class="muted i">Bible version</span>
-            </p>
+
+      <div class="file-container theme-mid rounded marginb">
+        <vue-dropzone  ref="dropzone" id="song-file"
+        :options="dropzoneOptions"
+        v-on:vdropzone-file-added="fileChanged"
+        :class="{'has-file': songUploads.length}"
+        class="theme-mid pad text-center shadow-inset callout alt rounded"></vue-dropzone>
+      </div>
+
+      <form v-for="(upload, i) in songUploads">
+        <div class="theme-mid pad shadow marginb rounded">
+          <div class="marginb small-pad rounded flex-row align-center" :class="uploadHeaderClass(upload)">
+            <p class="flex-one">{{upload.file.name}}</p>
+            <div @click="removeSong(upload, i)" class="small-pad pointer"><i class="fas fa-times"></i></div>
           </div>
 
-          <div class="file-container">
-            <vue-dropzone  ref="dropzone" id="song-file"
-            :options="dropzoneOptions"
-            v-on:vdropzone-file-added="fileChanged"
-            :class="{'has-file': file}"
-            class="pad text-center shadow-inset callout alt rounded marginb"></vue-dropzone>
-          </div>
-
-          <p v-if="errorMessage" class="red text-center"><i class="fas fa-star"></i> {{errorMessage}}</p>
-
-          <hr />
-
-          <div class="optional">
-            <p class="subtitle marginb">OPTIONAL</p>
-            <div class="conditional-row">
-              <div class="flex-one flex-column marginb">
-                <input
-                @keydown.prevent.comma="labelsChanged"
-                @keydown.prevent.semicolon="labelsChanged"
-                @keydown.prevent.enter="labelsChanged"
-                v-model="labelInput" class="input" placeholder="labels: genre, instrument, live..." />
-                <div v-if="labels.length" class="labels marginb">
-                  <p v-for="label in labels" @click="deleteLabel(label)" class="song-label back-red shadow"><i class="fas fa-times"></i> {{label}}</p>
+          <div v-if="!upload.isUploaded" class="row-large">
+            <div>
+              <p class="subtitle small-pad">REQUIRED</p>
+              <div class="conditional-row align-center marginb">
+                <div class="flex-row align-center">
+                  <p class="flex-one input simple" @click="startInput('artist', upload.artist, upload)">
+                    {{upload.artist}}<span v-if="!upload.artist" class="muted i">Artist name</span>
+                  </p>
+                  <div v-if="manyUploads && upload.artist" @click="setAllArtist(upload.artist)" class="marginl">
+                    <i class="fas fa-copy green"></i>
+                  </div>
+                </div>
+                <div>
+                  <p class="input simple" @click="startInput('passage', upload.passage, upload)">
+                    {{normalizedPassage(upload.passage)}}<span v-if="!upload.passage" class="muted i">Bible passage</span>
+                  </p>
+                </div>
+                <div class="flex-row align-center">
+                  <p class="flex-one input simple" @click="startInput('version', upload.version, upload)">
+                    {{versionLabel(upload)}}<span v-if="!upload.version" class="muted i">Bible version</span>
+                  </p>
+                  <div v-if="manyUploads && upload.version" @click="setAllVersions(upload.version)" class="marginl">
+                    <i class="fas fa-copy green"></i>
+                  </div>
                 </div>
               </div>
-              <div class="flex-one marginb">
-                <input v-model="title" class="input" placeholder="alternate song title" />
-              </div>
-              <div class="flex-one">
-                <input v-model="featuredArtists" class="input" placeholder="featured artists" />
+            </div>
+
+            <div class="hi-left">
+              <p class="subtitle small-pad">OPTIONAL</p>
+              <div class="conditional-row">
+                <div class="flex-column marginb">
+                  <input
+                  @keydown.prevent.comma="labelsChanged(upload)"
+                  @keydown.prevent.semicolon="labelsChanged(upload)"
+                  @keydown.prevent.enter="labelsChanged(upload)"
+                  v-model="upload.labelInput" class="input simple" placeholder="labels" />
+                  <div v-if="upload.labels.length" class="labels marginb">
+                    <p v-for="label in upload.labels" @click="deleteLabel(label, upload)" class="song-label back-red shadow"><i class="fas fa-times"></i> {{label}}</p>
+                  </div>
+                </div>
+                <div class="marginb">
+                  <input v-model="upload.title" class="input simple" placeholder="song title" />
+                </div>
+                <div>
+                  <input v-model="upload.featuredArtists" class="input simple" placeholder="featured artists" />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="text-center pad">
-          <button class="marginb float-btn">Publish Song</button>
+          <p v-if="upload.errorMessage" class="red text-center"><i class="fas fa-exclamation-circle"></i> {{upload.errorMessage}}</p>
         </div>
       </form>
+
+      <div v-if="songUploads.length" class="text-center pad">
+        <button @click="uploadSongs" :disabled="publishDisabled" class="marginb float-btn">Publish Song{{manyUploads ? 's' : ''}}</button>
+      </div>
     </div>
 
-    <div class="text-center user-info theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
+    <div class="text-center user-info margint theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
       <img :src="user.image" class="rounded shadow" /> <span>{{user.name}}</span>
     </div>
   </div>
@@ -82,133 +103,154 @@ import server from '../services/true-songs-service'
 import bibleParser from '../helpers/bible-parser'
 import vue2Dropzone from 'vue2-dropzone'
 
+function SongUpload (file, passage) {
+  this.input = ''
+  this.artist = undefined
+  this.passage = passage
+  this.version = undefined
+  this.file = file
+  this.labelInput = undefined
+  this.labels = []
+  this.title = undefined
+  this.featuredArtists = undefined
+  this.errorMessage = undefined
+  this.isUploaded = false
+}
+
 export default {
   name: 'AddSong',
   data () {
     return {
-      input: '',
+      songUploads: [],
       showInput: false,
       field: undefined,
-      artist: undefined,
-      passage: undefined,
-      version: undefined,
-      file: undefined,
+      input: undefined,
+      editingUpload: undefined,
       dropzoneOptions: {
         url: 'https://truewordsapp.com',
         thumbnailWidth: 150,
-        maxFilesize: 15,
+        maxFilesize: 20,
         autoProcessQueue: false,
-        dictDefaultMessage: '<i class="fas fa-cloud-upload-alt"></i> &nbsp;Add song file'
-      },
-      labelInput: undefined,
-      labels: [],
-      title: undefined,
-      featuredArtists: undefined,
-      errorMessage: undefined
+        dictDefaultMessage: '<i class="fas fa-cloud-upload-alt"></i> &nbsp;Add song files'
+      }
     }
   },
   computed: {
     ...mapGetters(['user']),
-    normalizedPassage () {
-      return bibleParser.normalize(this.passage)
+    manyUploads () {
+      return this.songUploads.length > 1
     },
-    versionLabel () {
-      return this.version ? `${this.version.versionCode} - ${this.version.title}` : undefined
-    },
-    placeholder () {
-      switch (this.field) {
-        case 'artist': return 'Artist name'
-        case 'passage': return 'Scripture passage'
-        case 'version': return 'Bible version'
-        default: return ''
-      }
+    publishDisabled () {
+      return !this.songUploads.length || !this.songUploads.find(su => !su.isUploaded) || this.songUploads.find(su => su.isUploading)
     }
   },
   components: { ArtistPicker, VersionPicker, PassagePicker, vueDropzone: vue2Dropzone },
   methods: {
     ...mapActions(['configureTitlebar']),
+    uploadHeaderClass (upload) {
+      return upload.isUploaded
+      ? ['back-green']
+      : upload.isUploading
+      ? ['callout', 'pulse']
+      : ['callout']
+    },
+    normalizedPassage (passage) {
+      return bibleParser.normalize(passage)
+    },
+    versionLabel (upload) {
+      return upload.version ? upload.version.versionCode : undefined
+    },
     passageChanged (passage) {
       this.input = passage
     },
     versionSelected (version) {
-      this.version = version
+      this.editingUpload.version = version
       this.startInput(undefined)
     },
     passageSelected (passage) {
-      this.passage = passage
+      this.editingUpload.passage = passage
       this.startInput(undefined)
     },
     artistSelected (artist) {
-      this.artist = artist
+      this.editingUpload.artist = artist
       this.startInput(undefined)
     },
-    startInput (field) {
+    setAllArtist (artist) {
+      this.songUploads.forEach(su => { su.artist = artist })
+    },
+    setAllVersions (version) {
+      this.songUploads.forEach(su => { su.version = version })
+    },
+    startInput (field, input, upload) {
       this.field = field
+      this.input = input
+      this.editingUpload = upload
       this.showInput = field !== undefined
       if (!this.field) {
         this.input = ''
       }
     },
     fileChanged (file) {
-      if (file) {
-        if (this.file) {
-          this.$refs.dropzone.removeFile(this.file)
-        }
-        this.file = file
-        this.$set(this.dropzoneOptions, 'dictDefaultMessage', '')
-      }
+      this.songUploads.push(new SongUpload(file, bibleParser.osis(file.name.replace('_', ' '))))
     },
-    labelsChanged (e) {
-      var lbls = this.labelInput.split(',').map(l => l.trim())
+    labelsChanged (songUpload) {
+      var lbls = songUpload.labelInput.split(',').map(l => l.trim())
       lbls.forEach(l => {
-        if (!this.labels.includes(l)) {
-          this.labels.push(l)
+        if (!songUpload.labels.includes(l)) {
+          songUpload.labels.push(l)
         }
       })
-      e.target.value = ''
-      this.labelInput = ''
+      songUpload.labelInput = ''
     },
-    deleteLabel (label) {
-      this.labels.splice(this.labels.indexOf(label), 1)
+    deleteLabel (label, upload) {
+      upload.labels.splice(upload.labels.indexOf(label), 1)
     },
-    validate () {
-      this.errorMessage = undefined
+    removeSong (songUpload, index) {
+      this.$refs.dropzone.removeFile(songUpload.file)
+      this.songUploads.splice(index, 1)
+    },
+    validate (upload) {
+      upload.errorMessage = undefined
       var errs = []
-      if (!this.artist) errs.push('artist name')
-      if (!this.passage) errs.push('bible passage')
-      if (!this.version) errs.push('bible version')
-      if (!this.file) errs.push('song file')
+      if (!upload.artist) errs.push('artist name')
+      if (!upload.passage) errs.push('bible passage')
+      if (!upload.version) errs.push('bible version')
+      if (!upload.file) errs.push('song file')
       if (errs.length) {
-        this.errorMessage = `You must provide: ${errs.join(', ')}`
+        upload.errorMessage = `You must provide: ${errs.join(', ')}`
         return false
       }
+      upload.errorMessage = undefined
       return true
     },
-    submit (event) {
-      if (!this.validate()) {
+    uploadSongs () {
+      var upload = this.songUploads.find(su => !su.isUploaded && !su.isUploading && this.validate(su))
+      if (!upload) {
         return
       }
-      const self = this
-      var data = new FormData()
-      data.append('artist', this.artist)
-      data.append('user', this.user.id)
-      data.append('passage', this.passage)
-      data.append('version', JSON.stringify(this.version))
-      data.append('labels', JSON.stringify(this.labels))
-      data.append('title', this.title)
-      data.append('featuredArtists', this.featuredArtists)
-      data.append('songData', this.file)
 
-      this.showLoading()
-      server.createSong(data, this.artist)
+      var data = new FormData()
+      data.append('artist', upload.artist)
+      data.append('user', this.user.id)
+      data.append('passage', upload.passage)
+      data.append('version', JSON.stringify(upload.version))
+      data.append('labels', JSON.stringify(upload.labels))
+      if (upload.title) { data.append('title', upload.title) }
+      if (upload.featuredArtists) { data.append('featuredArtists', upload.featuredArtists) }
+      data.append('songData', upload.file)
+
+      const self = this
+      this.$set(upload, 'isUploading', true)
+      server.createSong(data, upload.artist)
       .then(response => {
-        self.errorMessage = undefined
-        self.hideLoading()
-        self.$router.push('/')
+        self.$set(upload, 'isUploading', false)
+        upload.isUploaded = true
+        upload.errorMessage = undefined
+        self.uploadSongs()
       })
       .catch(err => {
-        self.hideLoading()
-        self.errorMessage = `Error uploading song: ${err}`
+        upload.isUploading = false
+        upload.errorMessage = `Error uploading song: ${err}`
       })
     },
     cancelAddSong () {
@@ -216,14 +258,20 @@ export default {
     }
   },
   mounted () {
-    this.configureTitlebar({'CANCEL': this.cancelAddSong})
+    this.configureTitlebar({'DONE': this.cancelAddSong})
   }
 }
 </script>
 
 <style lang="less">
+.dz-file-preview {
+  border: dashed 1px #999;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 8px;
+}
 #song-file {
-  background-color: #d1d1d1;
   .dz-success-mark, .dz-error-mark {
     display: none;
   }
@@ -278,20 +326,13 @@ export default {
   }
 }
 .file-container {
-  padding: 0 10px;
 }
 #song-file {
-  margin-top: 20px;
 }
 .add-song {
   position: relative;
   h3 {
     margin: 0;
-  }
-  form {
-    .edit-item {
-      margin: 0 10px;
-    }
   }
   .progress {
     height: 20px;
@@ -300,8 +341,8 @@ export default {
 .bullet {
   border-top-right-radius: 30px;
 }
-.conditional-row > .flex-one {
-  margin: 0 10px;
+.conditional-row > * {
+  margin: 0 8px;
 }
 .user-info {
   img {

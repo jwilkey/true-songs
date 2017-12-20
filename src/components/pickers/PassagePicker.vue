@@ -57,7 +57,7 @@ export default {
       verse: undefined
     }
   },
-  props: ['onSelect'],
+  props: ['input', 'onSelect'],
   watch: {
     filter () {
       if (this.osis) {
@@ -148,6 +148,7 @@ export default {
     }
   },
   mounted () {
+    this.filter = this.input
   }
 }
 </script>

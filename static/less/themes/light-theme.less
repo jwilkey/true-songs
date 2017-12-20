@@ -127,6 +127,11 @@
     &:focus {
       border-color: @color-highlight-blue;
     }
+    &.simple {
+      border-left: none;
+      border-radius: 5px;
+      border-width: 1px;
+    }
   }
   .spinner {
     background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
@@ -170,6 +175,9 @@
   }
   .muted-more {
     color: @color-deemphasize-more;
+  }
+  .muted-border {
+    border: solid 1px @color-deemphasize;
   }
 
   &.hover-on {

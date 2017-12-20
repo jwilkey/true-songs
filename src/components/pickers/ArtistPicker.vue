@@ -22,8 +22,9 @@ export default {
       filter: ''
     }
   },
-  props: ['onSelect'],
+  props: ['input', 'onSelect'],
   mounted () {
+    this.filter = this.input
     this.$nextTick(() => {
       this.$el.querySelector('input').focus()
     })

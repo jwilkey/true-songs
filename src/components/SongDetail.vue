@@ -9,9 +9,9 @@
       <p class="small-pad"><span class="muted">Artist</span> {{song.artist}} <span v-if="song.featuredArtists">(feat. {{song.featuredArtists}})</span></p>
       <p v-if="song.labels.length" class="small-pad"><span class="muted">Labels</span> {{joinedLabels}}</p>
 
-      <p class="muted margint">Bible text ({{song.bible_version.versionCode}})</p>
+      <p class="muted margint small-pad">Bible text ({{song.bible_version.versionCode}})</p>
       <div v-if="isLoadingText" class="spinner fa-spin"></div>
-      <div class="bible-text" v-html="bibleText"></div>
+      <div class="bible-text small-pad" v-html="bibleText"></div>
     </div>
 
     <div v-if="isMySong" class="pad text-center">
