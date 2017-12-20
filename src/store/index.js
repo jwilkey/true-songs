@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import bibleParser from '../helpers/bible-parser'
 
 Vue.use(Vuex)
 
@@ -25,12 +26,14 @@ export const actions = {
   setSongs ({ commit }, songs) {
     songs.forEach(s => {
       s.bible_version = JSON.parse(s.bible_version)
-      s.user = s.user
       s.labels = s.labels ? JSON.parse(s.labels) : []
       s.search = `|${s.passage}|${s.bible_version.versionCode}|${s.artist}|${s.labels.join('|')}`
       .toLowerCase()
       .replace(' ', '')
     })
+    console.log(songs)
+    songs.sort((a, b) => bibleParser.compare(a.passage, b.passage))
+    console.log(songs)
     commit('SET_SONGS', songs)
   },
   setUser ({ commit }, user) {

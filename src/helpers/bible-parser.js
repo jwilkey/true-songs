@@ -47,6 +47,22 @@ export default {
     }
     return [osis1, osis2]
   },
+  compare (osis1, osis2) {
+    if (osis1 === osis2) { return 0 }
+    const parts1 = osis1.split('.')
+    const parts2 = osis2.split('.')
+    if (!osis1 || parts1.length < 3) { return -1 }
+    if (!osis2 || parts2.length < 3) { return 1 }
+    if (osis1[0] === osis2[0]) {
+      if (i(parts1[1]) > i(parts2[1]) || (parts1[1] === parts2[1] && i(parts1[2]) > i(parts2[2]))) {
+        return -1
+      }
+      return 1
+    } else {
+      const books = Object.keys(osisNames)
+      return books.indexOf(parts1[0]) - books.indexOf(parts2[0])
+    }
+  },
   readable
 }
 
