@@ -60,11 +60,16 @@
               <p class="subtitle small-pad">OPTIONAL</p>
               <div class="conditional-row">
                 <div class="flex-column marginb">
-                  <input
-                  @keydown.prevent.comma="labelsChanged(upload)"
-                  @keydown.prevent.semicolon="labelsChanged(upload)"
-                  @keydown.prevent.enter="labelsChanged(upload)"
-                  v-model="upload.labelInput" class="input simple" placeholder="labels" />
+                  <div class="flex-row align-center">
+                    <input
+                    @keydown.prevent.comma="labelsChanged(upload)"
+                    @keydown.prevent.semicolon="labelsChanged(upload)"
+                    @keydown.prevent.enter="labelsChanged(upload)"
+                    v-model="upload.labelInput" class="input simple" placeholder="labels" />
+                    <div v-if="manyUploads && upload.labels.length" @click="setAllLabels(upload.labels)" class="marginl">
+                      <i class="fas fa-copy green"></i>
+                    </div>
+                  </div>
                   <div v-if="upload.labels.length" class="labels marginb">
                     <p v-for="label in upload.labels" @click="deleteLabel(label, upload)" class="song-label back-red shadow"><i class="fas fa-times"></i> {{label}}</p>
                   </div>
@@ -73,7 +78,12 @@
                   <input v-model="upload.title" class="input simple" placeholder="song title" />
                 </div>
                 <div>
-                  <input v-model="upload.featuredArtists" class="input simple" placeholder="featured artists" />
+                  <div class="flex-row align-center">
+                    <input v-model="upload.featuredArtists" class="input simple" placeholder="featured artists" />
+                    <div v-if="manyUploads && upload.featuredArtists" @click="setAllFeaturedArtists(upload.featuredArtists)" class="marginl">
+                      <i class="fas fa-copy green"></i>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -180,6 +190,12 @@ export default {
     },
     setAllVersions (version) {
       this.songUploads.forEach(su => { su.version = version })
+    },
+    setAllLabels (labels) {
+      this.songUploads.forEach(su => { su.labels = [...labels] })
+    },
+    setAllFeaturedArtists (artists) {
+      this.songUploads.forEach(su => { su.featuredArtists = artists })
     },
     startInput (field, input, upload) {
       this.field = field

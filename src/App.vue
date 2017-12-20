@@ -80,7 +80,6 @@ html, body, #app {
   position: fixed;
   top: 0;
   right: 0;
-  // left: calc(100% - @right-view-width);
   width: @right-view-width;
   max-width: 90%;
   bottom: 0;
