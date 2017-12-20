@@ -10,7 +10,7 @@
     <loading v-if="isLoading"></loading>
     <alert v-if="alertConfig" :content="alertConfig.content" :actions="alertConfig.actions"></alert>
 
-    <div v-if="revealRightView" class="right-view theme-under pad appear" :class="{blur: isLoading || alertConfig}">
+    <div v-if="revealRightView" class="right-view theme-under appear" :class="{blur: isLoading || alertConfig}">
       <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
     </div>
   </div>
@@ -53,7 +53,7 @@ html, body, #app {
 </style>
 
 <style lang="less" scoped>
-@right-view-width: 80%;
+@right-view-width: 320px;
 
 .main-content {
   position: relative;
@@ -71,11 +71,18 @@ html, body, #app {
   }
   transform: translateX(-@right-view-width) scale(1.2);
 }
+@media screen and (max-width: 355px) {
+  .shiftr {
+    transform: translateX(-90%) scale(1.2);
+  }
+}
 .right-view {
   position: fixed;
   top: 0;
   right: 0;
-  left: calc(100% - @right-view-width);
+  // left: calc(100% - @right-view-width);
+  width: @right-view-width;
+  max-width: 90%;
   bottom: 0;
   z-index: 0;
 }

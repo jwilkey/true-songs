@@ -1,6 +1,6 @@
 <template>
   <div class="song-details flex-column">
-    <div class="flex-one scrolly">
+    <div class="flex-one scrolly pad">
       <button @click="close" class="hfull text-left marginb"><i class="fas fa-chevron-left"></i> CLOSE</button>
 
       <p class="text-center font-large small-pad">{{readablePassage}}</p>
