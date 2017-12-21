@@ -49,18 +49,16 @@ export default {
   },
   compare (osis1, osis2) {
     if (osis1 === osis2) { return 0 }
-    const parts1 = osis1.split('.')
-    const parts2 = osis2.split('.')
-    if (!osis1 || parts1.length < 3) { return -1 }
-    if (!osis2 || parts2.length < 3) { return 1 }
-    if (osis1[0] === osis2[0]) {
-      if (i(parts1[1]) > i(parts2[1]) || (parts1[1] === parts2[1] && i(parts1[2]) > i(parts2[2]))) {
-        return -1
-      }
-      return 1
+
+    const one = bcv.parse(osis1).parsed_entities()[0].entities[0].start
+    const two = bcv.parse(osis2).parsed_entities()[0].entities[0].start
+
+    if (JSON.stringify(one) === JSON.stringify(two)) { return 0 }
+    if (one.b === two.b) {
+      return one.c > two.c || (one.c === two.c && one.v > two.v) ? 1 : -1
     } else {
       const books = Object.keys(osisNames)
-      return books.indexOf(parts1[0]) - books.indexOf(parts2[0])
+      return books.indexOf(one.b) - books.indexOf(two.b)
     }
   },
   readable

@@ -31,9 +31,7 @@ export const actions = {
       .toLowerCase()
       .replace(' ', '')
     })
-    console.log(songs)
     songs.sort((a, b) => bibleParser.compare(a.passage, b.passage))
-    console.log(songs)
     commit('SET_SONGS', songs)
   },
   setUser ({ commit }, user) {
