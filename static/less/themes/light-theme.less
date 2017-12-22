@@ -3,6 +3,8 @@
 @color-back: #efefe9;
 @color-back-raised: #fcfcfc;
 @color-back-raised2: #cac9ca;
+@color-under: #222133;
+@color-under-mid: #323143;
 @color-callout: #24508f;
 @color-callout-light: #8b94b4;
 @color-deemphasize: #999f99;
@@ -40,21 +42,21 @@
     }
   }
   .theme-under {
-    background: linear-gradient(#222133, #111022);
+    background: linear-gradient(@color-under, #111022);
     color: @color-back-raised;
     a {
       color: @color-back-raised;
     }
     button {
-      background-color: #323143;
+      background-color: @color-under-mid;
       color: #9291a3;
       font-weight: lighter;
       letter-spacing: 0.5px;
       box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4);
     }
-    .muted {
-      color: #9999bb;
-    }
+    .muted { color: #9999bb; }
+    .alt { color: @color-under; }
+    .mid-bottom { border-bottom: solid 1px @color-under-mid; }
   }
   .theme-back-text {
     color: white;
