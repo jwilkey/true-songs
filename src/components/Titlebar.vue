@@ -1,5 +1,5 @@
 <template>
-  <div class="titlebar theme-back-text flex-row align-center pad font-large">
+  <div class="titlebar z1 theme-back-text flex-row align-center pad font-large">
     <div class="logo-box callout marginr flex-column flex-center">
       <img class="logo" src="../../static/images/logo.png" />
     </div>
@@ -26,7 +26,6 @@ export default {
 
 <style lang="less">
 .titlebar {
-  z-index: 100;
   overflow: visible;
   .logo-box {
     border-radius: 15px;

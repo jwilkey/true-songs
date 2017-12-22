@@ -1,9 +1,9 @@
 <template>
   <div class="flex-row align-center theme-mid song">
     <div @click="playSong" class="song-art theme-back">
-      <p class="song-label cover">{{bookLabel}}</p>
+      <p class="song-label z2 cover">{{bookLabel}}</p>
       <div v-if="isLoading" class="spinner cover fa-spin"></div>
-      <div v-if="isPlayingSong" class="cover"><div class="playing-indicator"></div></div>
+      <div v-if="isPlayingSong" class="cover z1"><div class="playing-indicator"></div></div>
       <div v-if="isPlayingSong" class="cover"><div class="playing-indicator-left"></div></div>
     </div>
     <div @click="playSong" class="flex-one">
@@ -85,7 +85,6 @@ export default {
     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
     .song-label {
       margin: 0;
-      z-index: 10;
       padding-top: 10px;
     }
     .playing-indicator {
@@ -97,7 +96,6 @@ export default {
       background-image: url('../../static/images/waves.png');
       background-size: contain;
       opacity: 0.1;
-      z-index: 1;
       transform-style: flat;
       animation-name: pan;
       animation-duration: 1.2s;

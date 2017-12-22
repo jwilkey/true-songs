@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export const state = {
   songs: [],
+  sortMethod: 'passage',
   titlebar: {},
   user: undefined,
   currentSong: undefined,
@@ -15,6 +16,7 @@ export const state = {
 
 export const getters = {
   songs: state => state.songs,
+  sortMethod: state => state.sortMethod,
   titlebar: state => state.titlebar,
   user: state => state.user,
   currentSong: state => state.currentSong,
@@ -23,7 +25,7 @@ export const getters = {
 }
 
 export const actions = {
-  setSongs ({ commit }, songs) {
+  setSongs ({ commit, state }, songs) {
     songs.forEach(s => {
       s.bible_version = JSON.parse(s.bible_version)
       s.labels = s.labels ? JSON.parse(s.labels) : []
@@ -31,8 +33,11 @@ export const actions = {
       .toLowerCase()
       .replace(' ', '')
     })
-    songs.sort((a, b) => bibleParser.compare(a.passage, b.passage))
     commit('SET_SONGS', songs)
+    commit('SORT_BY', state.sortMethod)
+  },
+  sortBy ({ commit }, method) {
+    commit('SORT_BY', method)
   },
   setUser ({ commit }, user) {
     commit('SET_USER', user)
@@ -54,9 +59,31 @@ export const actions = {
   }
 }
 
+function passageSort (a, b) {
+  return bibleParser.compare(a.passage, b.passage)
+}
+function uploadSort (a, b) {
+  return b.uploadedAt.localeCompare(a.uploadedAt)
+}
+function artistSort (a, b) {
+  return a.artist.localeCompare(b.artist)
+}
+
 export const mutations = {
   SET_SONGS (state, songs) {
     state.songs = songs
+  },
+  SORT_BY (state, method) {
+    switch (method) {
+      case 'passage': state.songs.sort((a, b) => passageSort(a, b))
+        break
+      case 'upload': state.songs.sort((a, b) => uploadSort(a, b) || passageSort(a, b))
+        break
+      case 'artist': state.songs.sort((a, b) => artistSort(a, b) || passageSort(a, b))
+        break
+      default:
+    }
+    state.sortMethod = method
   },
   REMOVE_SONG (state, song) {
     state.songs.splice(state.songs.indexOf(song), 1)

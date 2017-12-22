@@ -1,7 +1,7 @@
 <template>
   <div class="add-song pad vfull flex-column">
     <transition name="fade">
-      <div v-if="showInput" class="super-input flex-column pad nopad-top">
+      <div v-if="showInput" class="super-input z5 flex-column pad nopad-top">
         <artist-picker v-if="field === 'artist'" class="flex-one substance" :input="input" :on-select="artistSelected"></artist-picker>
         <passage-picker v-if="field === 'passage'" class="flex-one substance" :input="input" :on-select="passageSelected" :on-change="passageChanged"></passage-picker>
         <version-picker v-if="field === 'version'" class="flex-one substance" :input="input" :on-select="versionSelected"></version-picker>
@@ -99,7 +99,7 @@
     </div>
 
     <div class="text-center user-info margint theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
-      <img :src="user.image" class="rounded shadow" /> <span>{{user.name}}</span>
+      <img :src="user.image" class="circle shadow" /> <span>{{user.name}}</span>
     </div>
   </div>
 </template>
@@ -316,7 +316,6 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 500;
   input {
     margin-right: 15px;
     margin-bottom: 0;

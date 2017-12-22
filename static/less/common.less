@@ -91,7 +91,6 @@ hr {
 .nowrap {
   white-space: nowrap;
 }
-
 .text-left {
   text-align: left;
 }
@@ -164,6 +163,9 @@ input {
 .rounded {
   border-radius: 5px;
 }
+.circle {
+  border-radius: 100%;
+}
 .float-btn {
   display: inline-block;
   margin: 5px;
@@ -189,18 +191,6 @@ input {
   padding-bottom: 200px;
 }
 
-.bottombar {
-  padding: 5px;
-  padding-bottom: 8px;
-  z-index: 100;
-}
-.bottombar.nopad {
-  padding: 0px;
-}
-
-.relative {
-  position: relative;
-}
 .content {
   max-width: 900px;
   margin-left: auto;
@@ -259,6 +249,9 @@ input {
 .hthird {
   width: 33.33%;
 }
+.relative {
+  position: relative;
+}
 .cover {
   position: absolute;
   top: 0;
@@ -269,6 +262,13 @@ input {
     position: fixed;
   }
 }
+.z-1 { z-index: -10; }
+.z0 { z-index: 0; }
+.z1 { z-index: 100; }
+.z2 { z-index: 200; }
+.z3 { z-index: 300; }
+.z4 { z-index: 400; }
+.z5 { z-index: 500; }
 
 .scrolly {
   overflow-y: scroll;

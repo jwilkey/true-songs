@@ -1,5 +1,5 @@
 <template>
-  <div class="loading center-box">
+  <div class="loading z5 center-box">
     <div> <div class="spinner large fa-spin"></div> </div>
     <!-- <div class="loading-back cover fixed"> </div> -->
   </div>

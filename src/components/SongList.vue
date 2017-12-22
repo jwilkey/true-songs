@@ -1,25 +1,5 @@
 <template>
   <div class="song-list flex-column vfull">
-    <transition name="fade">
-      <div v-if="showMenu" class="menu shadow-long pad marginb flex-row flex-center">
-        <button @click="addSong" class="theme-back-text mid-right mid-left">
-          <span class="fa-layers fa-fw">
-            <i class="fas fa-circle callout alt" data-fa-transform="grow-3"></i>
-            <i class="fa-inverse fas fa-plus" data-fa-transform="shrink-3"></i>
-          </span>
-          Add song
-        </button>
-        <button v-if="user" @click="viewUploads" class="theme-back-text mid-right mid-left">
-          <span class="fa-layers fa-fw">
-            <i class="fas fa-circle callout alt" data-fa-transform="grow-3"></i>
-            <i class="fas fa-arrow-up" data-fa-transform="shrink-3"></i>
-          </span>
-          My uploads
-        </button>
-        <button v-if="!user" @click="login" class="theme-back-text mid-right mid-left"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-      </div>
-    </transition>
-
     <div class="search-wrapper small-pad expandable" :class="{apply: showSearch}">
       <input v-model="searchTerm" id="search-input" class="input theme-mid shadow" placeholder="search" />
       <button class="search-clear small-pad clear" @click="clearSearch">
@@ -44,6 +24,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Menu from './Menu'
 import SongItem from './SongItem'
 import server from '../services/true-songs-service'
 import bibleParser from '../helpers/bible-parser'
@@ -54,8 +35,7 @@ export default {
     return {
       showSearch: false,
       searchTerm: undefined,
-      filter: undefined,
-      showMenu: false
+      filter: undefined
     }
   },
   computed: {
@@ -101,17 +81,10 @@ export default {
       })
     },
     toggleMenu () {
-      this.showMenu = !this.showMenu
-    },
-    addSong () {
-      this.$router.push('/add_song')
+      this.showRightView(Menu)
     },
     viewUploads () {
       this.filter = {key: 'user', value: this.user.id}
-      this.showMenu = false
-    },
-    login () {
-      this.$router.push('/login')
     }
   },
   mounted () {
@@ -137,10 +110,12 @@ export default {
 <style lang="less" scoped>
 .song-list {
   .menu {
+    padding-right: 15px !important;
     button {
-      background-color: transparent;
-      margin: 0 7px;
-      box-shadow: none;
+      padding: 4px 10px;
+      border-radius: 30px;
+      margin-left: 10px;
+      min-width: 40px;
     }
     i {
       text-shadow: 1px 0px 3px black;

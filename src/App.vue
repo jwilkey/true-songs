@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <div class="main-content flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
+    <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
       <titlebar class=""></titlebar>
       <router-view class=" router flex-one"/>
       <playback-bar ref="playback"></playback-bar>
-      <div class="background theme-back"></div>
+      <div class="background z-1 theme-back"></div>
+      <div v-if="revealRightView" @click="rightView = undefined" class="cover z5"></div>
     </div>
 
     <loading v-if="isLoading"></loading>
     <alert v-if="alertConfig" :content="alertConfig.content" :actions="alertConfig.actions"></alert>
 
-    <div v-if="revealRightView" class="right-view theme-under appear" :class="{blur: isLoading || alertConfig}">
+    <div v-if="revealRightView" class="right-view z0 theme-under appear" :class="{blur: isLoading || alertConfig}">
       <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
     </div>
   </div>
@@ -60,7 +61,6 @@ html, body, #app {
   box-shadow: 3px 0px 10px rgba(0, 0, 0, 0.7);
   transition: transform 0.7s;
   transform-origin: right top;
-  z-index: 1;
   .titlebar, .router {
     transition: opacity 0.7s;
   }
@@ -83,7 +83,6 @@ html, body, #app {
   width: @right-view-width;
   max-width: 90%;
   bottom: 0;
-  z-index: 0;
 }
 .background {
   position: absolute;
@@ -91,7 +90,6 @@ html, body, #app {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: -100;
   &::after {
     content: '';
     position: fixed;
@@ -104,8 +102,5 @@ html, body, #app {
     filter: grayscale(1);
     opacity: 0.08;
   }
-}
-.loading {
-  z-index: 500;
 }
 </style>
