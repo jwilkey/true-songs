@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export const state = {
   songs: [],
   sortMethod: 'passage',
+  filter: undefined,
   titlebar: {},
   user: undefined,
   currentSong: undefined,
@@ -17,6 +18,7 @@ export const state = {
 export const getters = {
   songs: state => state.songs,
   sortMethod: state => state.sortMethod,
+  filter: state => state.filter,
   titlebar: state => state.titlebar,
   user: state => state.user,
   currentSong: state => state.currentSong,
@@ -38,6 +40,9 @@ export const actions = {
   },
   sortBy ({ commit }, method) {
     commit('SORT_BY', method)
+  },
+  setFilter ({ commit }, filter) {
+    commit('SET_FILTER', filter)
   },
   setUser ({ commit }, user) {
     commit('SET_USER', user)
@@ -84,6 +89,9 @@ export const mutations = {
       default:
     }
     state.sortMethod = method
+  },
+  SET_FILTER (state, filter) {
+    state.filter = filter
   },
   REMOVE_SONG (state, song) {
     state.songs.splice(state.songs.indexOf(song), 1)

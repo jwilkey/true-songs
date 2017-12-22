@@ -1,8 +1,8 @@
 <template>
   <div class="menu flex-column small-pad">
     <div class="flex-row menu-buttons">
-      <button @click="showSortOptions" class="flex-one"><i class="fas fa-sort-alpha-down"></i></button>
-      <button @click="showProfile" class="flex-one"><i class="fas fa-user"></i></button>
+      <button @click="showSortOptions" class="flex-one" :class="{'callout-bottom': isSort}"><i class="fas fa-sort-alpha-down"></i></button>
+      <button @click="showProfile" class="flex-one" :class="{'callout-bottom': isProfile}"><i class="fas fa-user"></i></button>
     </div>
 
     <component :is="component"></component>
@@ -22,6 +22,14 @@ export default {
   data () {
     return {
       component: DisplayOptions
+    }
+  },
+  computed: {
+    isSort () {
+      return this.component === DisplayOptions
+    },
+    isProfile () {
+      return this.component === Profile
     }
   },
   methods: {

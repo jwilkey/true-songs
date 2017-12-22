@@ -11,7 +11,7 @@
       <div v-if="filter" class="small-pad">
         <div class="theme-mid pad flex-row rounded shadow">
           <div class="flex-one"><span class="muted">Showing:</span> {{ filterLabel }}</div>
-          <a @click="filter = undefined" class="callout alt nopad marginl">show all</a>
+          <a @click="setFilter(undefined)" class="callout alt nopad marginl">show all</a>
         </div>
       </div>
     </transition>
@@ -34,12 +34,11 @@ export default {
   data () {
     return {
       showSearch: false,
-      searchTerm: undefined,
-      filter: undefined
+      searchTerm: undefined
     }
   },
   computed: {
-    ...mapGetters(['songs', 'currentSong', 'user']),
+    ...mapGetters(['songs', 'currentSong', 'user', 'filter']),
     visibleSongs () {
       var filteredSongs = this.songs
       if (this.filter) {
@@ -65,7 +64,7 @@ export default {
   },
   components: { SongItem },
   methods: {
-    ...mapActions(['setSongs', 'configureTitlebar']),
+    ...mapActions(['setSongs', 'configureTitlebar', 'setFilter']),
     toggleSearch () {
       this.showSearch = !this.showSearch
       if (this.showSearch) {
@@ -82,9 +81,6 @@ export default {
     },
     toggleMenu () {
       this.showRightView(Menu)
-    },
-    viewUploads () {
-      this.filter = {key: 'user', value: this.user.id}
     }
   },
   mounted () {
