@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import SongList from '@/components/SongList'
 import Login from '@/components/Login'
 import AddSong from '@/components/AddSong'
+import YouVersion from '@/components/views/YouVersion'
 import store from '../store'
 import server from '../services/true-songs-service'
 
@@ -34,6 +35,11 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         next(!store.getters.user ? `/login?ref=${to.path}` : true)
       }
+    },
+    {
+      path: '/bible',
+      name: 'Bible',
+      component: YouVersion
     }
   ]
 })

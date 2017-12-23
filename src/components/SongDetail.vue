@@ -11,7 +11,8 @@
 
       <p class="muted margint small-pad">Bible text ({{song.bible_version.versionCode}})</p>
       <div v-if="isLoadingText" class="spinner fa-spin"></div>
-      <div class="bible-text small-pad" v-html="bibleText"></div>
+      <div v-if="!showReadExternally" class="bible-text small-pad" v-html="bibleText"></div>
+      <button v-if="showReadExternally" @click="readPassageExternally">Read this passage <i class="fas fa-arrow-right"></i></button>
     </div>
 
     <div v-if="isMySong" class="pad text-center">
@@ -42,6 +43,9 @@ export default {
     },
     joinedLabels () {
       return this.song.labels.length ? this.song.labels.join(', ') : ''
+    },
+    showReadExternally () {
+      return ['niv', 'nkjv'].includes(this.song.bible_version.versionCode.toLowerCase())
     },
     isMySong () {
       return this.song.user === this.user.id
@@ -76,6 +80,11 @@ export default {
         self.isDeleting = false
         self.errorMessage = 'Failed to delete song'
       })
+    },
+    readPassageExternally () {
+      this.showRightView(undefined)
+      const version = this.song.bible_version.versionCode
+      this.$router.push(`/bible?passage=${this.song.passage}&version=${version}`)
     }
   },
   mounted () {
