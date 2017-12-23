@@ -1,7 +1,9 @@
 <template>
-  <div class="you-version flex-column small-pad">
-    <p class="small-pad">Read the Bible from YouVersion.com:</p>
-    <iframe :src="bibleEmbedUrl" class="flex-one shadow" width="100%"></iframe>
+  <div class="you-version flex-column small-pad vfull">
+    <p class="small-pad theme-back-text">Read the Bible from YouVersion.com:</p>
+    <div class="flex-one relative mid-bottom scrolly">
+      <iframe :src="bibleEmbedUrl" class="cover" height="100%" width="100%"></iframe>
+    </div>
   </div>
 </template>
 
