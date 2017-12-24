@@ -1,7 +1,8 @@
 <template>
   <div class="center-box">
-    <div class="alert theme-mid pad shadow rounded">
-      <div class="text-center pad">{{content}}</div>
+    <div class="alert theme-mid pad shadow rounded flex-column">
+      <div v-if="isComponent" :is="content" class="flex-one"></div>
+      <div v-if="!isComponent" class="text-center pad flex-one">{{content}}</div>
       <div class="actions pad text-center">
         <button v-for="(callback, title) in actions" @click="callback">{{title}}</button>
       </div>
@@ -12,19 +13,25 @@
 <script>
 export default {
   name: 'Alert',
-  props: ['content', 'actions']
+  props: ['content', 'actions'],
+  computed: {
+    isComponent () {
+      return typeof this.content.render === 'function'
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
 .alert {
-  min-width: 280px;
-  max-width: 550px;
+  width: 80vw;
+  max-width: 550px !important;
+  max-height: 80vh;
 }
-  .actions {
-    button {
-      margin: 0 8px;
-      min-width: 60px;
-    }
+.actions {
+  button {
+    margin: 0 8px;
+    min-width: 60px;
   }
+}
 </style>

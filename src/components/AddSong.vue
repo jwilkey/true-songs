@@ -95,6 +95,7 @@
 
       <div v-if="songUploads.length" class="text-center pad">
         <button @click="uploadSongs" :disabled="publishDisabled" class="marginb float-btn">Publish Song{{manyUploads ? 's' : ''}}</button>
+        <p class="theme-back-text margint">By publishing songs you agree to the service <a @click="showTerms">terms</a></p>
       </div>
     </div>
 
@@ -112,6 +113,7 @@ import PassagePicker from '@/components/pickers/PassagePicker'
 import server from '../services/true-songs-service'
 import bibleParser from '../helpers/bible-parser'
 import vue2Dropzone from 'vue2-dropzone'
+import Terms from '@/components/views/Terms'
 
 function SongUpload (file, passage) {
   this.input = ''
@@ -268,6 +270,9 @@ export default {
         upload.isUploading = false
         upload.errorMessage = `Error uploading song: ${err}`
       })
+    },
+    showTerms () {
+      this.alert(Terms, {close: this.dismissalert})
     },
     cancelAddSong () {
       this.$router.replace('/')
