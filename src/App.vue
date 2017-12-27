@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{noscroll: revealRightView}">
     <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
       <titlebar class=""></titlebar>
       <router-view class=" router flex-one"/>
@@ -70,6 +70,7 @@ html, body, #app {
     opacity: 0.3;
   }
   transform: translateX(-@right-view-width) scale(1.2);
+  overflow: hidden;
 }
 @media screen and (max-width: 355px) {
   .shiftr {
