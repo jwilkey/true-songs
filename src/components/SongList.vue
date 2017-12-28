@@ -38,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['songs', 'currentSong', 'user', 'filter']),
+    ...mapGetters(['songs', 'user', 'filter']),
     visibleSongs () {
       var filteredSongs = this.songs
       if (this.filter) {

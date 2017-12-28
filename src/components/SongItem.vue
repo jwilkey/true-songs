@@ -38,10 +38,10 @@ export default {
       return this.readablePassage.replace(/\s/g, '').substring(0, 2)
     },
     isLoading () {
-      return this.currentSong === this.song.key && this.isLoadingSong
+      return this.currentSong && this.currentSong.key === this.song.key && this.isLoadingSong
     },
     isCurrentSong () {
-      return this.currentSong === this.song.key
+      return this.currentSong && this.currentSong.key === this.song.key
     },
     isPlayingSong () {
       return this.isCurrentSong && this.isPlaying
@@ -51,7 +51,7 @@ export default {
   methods: {
     ...mapActions(['setCurrentSong']),
     playSong () {
-      this.setCurrentSong(this.song.key)
+      this.setCurrentSong(this.song)
       this.play()
     },
     toggleOptions () {

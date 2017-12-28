@@ -56,8 +56,8 @@ export const actions = {
   setUser ({ commit }, user) {
     commit('SET_USER', user)
   },
-  setCurrentSong ({ commit }, songKey) {
-    commit('SET_CURRENT_SONG', songKey)
+  setCurrentSong ({ commit }, song) {
+    commit('SET_CURRENT_SONG', song)
   },
   removeSong ({ commit }, song) {
     commit('REMOVE_SONG', song)
@@ -121,8 +121,8 @@ export const mutations = {
   SET_USER (state, user) {
     state.user = user
   },
-  SET_CURRENT_SONG (state, key) {
-    state.currentSong = key
+  SET_CURRENT_SONG (state, song) {
+    state.currentSong = song
   }
 }
 
