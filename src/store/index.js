@@ -38,6 +38,15 @@ export const actions = {
     commit('SET_SONGS', songs)
     commit('SORT_BY', state.sortMethod)
   },
+  updateSong ({ commit }, song) {
+    song.bible_version = JSON.parse(song.bible_version)
+    song.labels = song.labels ? JSON.parse(song.labels) : []
+    song.search = `|${song.passage}|${song.bible_version.versionCode}|${song.artist}|${song.labels.join('|')}`
+    .toLowerCase()
+    .replace(' ', '')
+    commit('UPDATE_SONG', song)
+    return song
+  },
   sortBy ({ commit }, method) {
     commit('SORT_BY', method)
   },
@@ -77,6 +86,10 @@ function artistSort (a, b) {
 export const mutations = {
   SET_SONGS (state, songs) {
     state.songs = songs
+  },
+  UPDATE_SONG (state, song) {
+    const i = state.songs.findIndex(s => s.passage === song.passage && s.uploadedAt === song.uploadedAt)
+    state.songs[i] = song
   },
   SORT_BY (state, method) {
     switch (method) {

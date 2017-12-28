@@ -1,20 +1,20 @@
 <template>
   <div class="passage-picker center text-center flex-column">
-    <div class="flex-row flex-center rounded">
+    <div class="flex-row flex-center marginb rounded">
       <button v-if="this.osis" @click="finished" class="float-btn shadow back-green"><i class="fas fa-check"></i></button>
       <input @keyup.enter="finished" class="input theme-mid shadow" v-model="filter" placeholder="Bible passage"/>
       <button class="back-red float-btn" @click="onSelect(undefined)"><i class="fas fa-times"></i></button>
     </div>
 
-    <div class="flex-one substance">
-      <div v-if="header" class="passage-bar shadow theme-mid flex-row flex-center align-center marginb">
-        <a v-if="chapter" @click="chapterBack" class="pad"><i class="fas fa-chevron-left"></i></a>
-        <div class="flex-one">
-          <h2 class="pad">{{header}}</h2>
-        </div>
-        <a v-if="chapter" @click="chapterForward" class="pad"><i class="fas fa-chevron-right"></i></a>
+    <div v-if="header" class="passage-bar shadow theme-mid flex-row flex-center align-center marginb">
+      <a v-if="chapter" @click="chapterBack" class="pad"><i class="fas fa-chevron-left"></i></a>
+      <div class="flex-one">
+        <h2 class="pad">{{header}}</h2>
       </div>
+      <a v-if="chapter" @click="chapterForward" class="pad"><i class="fas fa-chevron-right"></i></a>
+    </div>
 
+    <div class="flex-one scrolly small-pad">
       <div v-if="showTestaments" class="flex-column flex-center testaments">
         <button class="center" @click="setTestament('OT')">OLD TESTAMENT</button>
         <button class="center" @click="setTestament('NT')">NEW TESTAMENT</button>
@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import bibleParser from '../../helpers/bible-parser'
-import { Bible } from '../../helpers/bible'
+import bibleParser from '@/helpers/bible-parser'
+import { Bible } from '@/helpers/bible'
 
 export default {
   name: 'PassagePicker',

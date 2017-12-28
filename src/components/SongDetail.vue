@@ -17,6 +17,7 @@
 
     <div v-if="isMySong" class="pad text-center">
       <p v-if="errorMessage" class="red text-center marginb"><i class="fas fa-star"></i> {{errorMessage}}</p>
+      <a @click="editPressed" class="nowrap green marginr"><i class="fas fa-edit green"></i> edit song</a>
       <a @click="deletePressed" class="nowrap red"><i class="fas fa-trash-alt red"></i> delete song</a>
     </div>
   </div>
@@ -26,6 +27,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import bibleParser from '../helpers/bible-parser'
 import server from '../services/true-songs-service'
+import EditSong from '@/components/views/EditSong'
 
 export default {
   name: 'SongDetail',
@@ -56,6 +58,9 @@ export default {
     ...mapActions(['removeSong']),
     close () {
       this.hideRightView()
+    },
+    editPressed () {
+      this.showRightView(EditSong, {song: this.song})
     },
     deletePressed () {
       const self = this
