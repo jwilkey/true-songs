@@ -2,7 +2,7 @@
   <div id="app" :class="{noscroll: revealRightView}">
     <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
       <titlebar class=""></titlebar>
-      <router-view class=" router flex-one"/>
+      <router-view class="router flex-one"/>
       <playback-bar ref="playback"></playback-bar>
       <div class="background z-1 theme-back"></div>
       <div v-if="revealRightView" @click="rightView = undefined" class="cover z5"></div>

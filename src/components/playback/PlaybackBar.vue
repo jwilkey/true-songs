@@ -124,6 +124,10 @@ export default {
 <style lang="less" scoped>
 .controls-wrapper {
   transition: max-height 0.5s;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   .controls {
     padding: 5px 15px;
     & > * {

@@ -11,7 +11,7 @@
     <div class="shadow rounded marginl marginr">
       <div class="progress theme-back" :style="{width: `${progress * 100}%`}"></div>
     </div>
-    <div class="flex-row align-center marginb pad">
+    <div class="flex-row align-center pad">
       <a @click="delegate.rewindAudio" class="tracking"><img src="../../../static/images/track-minus-10.png" /></a>
       <div class="flex-one flex-row align-center flex-center">
         <div @click="previousSong"><i class="fas fa-backward"></i></div>
