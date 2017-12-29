@@ -2,13 +2,20 @@
   <div class="playback-detail theme-mid flex-column">
     <div @click="delegate.toggleDetailView" class="detail-toggle hi-bottom rounded text-center small-pad"></div>
 
-    <div class="flex-one">
+    <div class="flex-one scrolly hi-bottom">
       <p class="font-large text-center">{{readablePassage}}</p>
       <p v-if="song.title" class="muted text-center marginb">{{song.title}}</p>
       <p class="text-center">{{song.artist}}</p>
+      <div class="pad">
+        <div v-if="isLoadingText" class="text-center pad"><div class="spinner inline fa-spin"></div></div>
+        <div v-if="!showReadExternally" v-html="bibleText"></div>
+        <div v-if="showReadExternally" class="text-center">
+          <a @click="readPassageExternally" class="callout alt">Read this passage...</a>
+        </div>
+      </div>
     </div>
 
-    <div class="shadow rounded marginl marginr">
+    <div class="shadow progress-wrapper">
       <div class="progress theme-back" :style="{width: `${progress * 100}%`}"></div>
     </div>
     <div class="flex-row align-center pad">
@@ -28,11 +35,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import server from '@/services/true-songs-service'
 
 export default {
   name: 'playback-detail',
   data () {
     return {
+      isLoadingText: false,
+      bibleText: undefined
     }
   },
   props: ['delegate', 'song', 'readablePassage', 'progress'],
@@ -42,6 +52,9 @@ export default {
       return this.delegate.currentTime && this.delegate.duration
       ? `${this.time(this.delegate.currentTime)} / ${this.time(this.delegate.duration)}`
       : ''
+    },
+    showReadExternally () {
+      return ['niv', 'nkjv'].includes(this.song.bible_version.versionCode.toLowerCase())
     }
   },
   methods: {
@@ -49,6 +62,11 @@ export default {
     time (n) {
       const seconds = parseInt(n % 60)
       return `${parseInt(n / 60)}:${seconds < 10 ? '0' : ''}${seconds}`
+    },
+    readPassageExternally () {
+      const version = this.song.bible_version.versionCode
+      this.$router.push(`/bible?passage=${this.song.passage}&version=${version}`)
+      this.delegate.toggleDetailView()
     },
     previousSong () {
       const self = this
@@ -62,6 +80,17 @@ export default {
       const nextSong = this.songs.length === index + 1 ? this.songs[0] : this.songs[index + 1]
       this.setCurrentSong(nextSong)
     }
+  },
+  mounted () {
+    const self = this
+    server.fetchBibleText(this.song)
+    .then(response => {
+      self.isLoadingText = false
+      self.bibleText = response.text
+    })
+    .catch(e => {
+      self.isLoadingText = false
+    })
   }
 }
 </script>
@@ -113,6 +142,11 @@ export default {
   img {
     background-color: blue;
   }
+}
+.progress-wrapper {
+  margin: 30px 20px 10px 20px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .progress {
   height: 5px;
