@@ -272,7 +272,7 @@ export default {
       })
     },
     showTerms () {
-      this.alert(Terms, {close: this.dismissalert})
+      this.alert(Terms, {close: this.dismissAlert})
     },
     cancelAddSong () {
       this.$router.replace('/')

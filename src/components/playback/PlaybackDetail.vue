@@ -2,21 +2,24 @@
   <div class="playback-detail theme-mid flex-column">
     <div @click="delegate.toggleDetailView" class="detail-toggle hi-bottom rounded text-center small-pad"></div>
 
-    <div class="flex-one scrolly hi-bottom">
+    <div class="flex-one song-quickview hi-bottom">
       <p class="font-large text-center">{{readablePassage}}</p>
       <p v-if="song.title" class="muted text-center marginb">{{song.title}}</p>
       <p class="text-center">{{song.artist}}</p>
       <div class="pad">
         <div v-if="isLoadingText" class="text-center pad"><div class="spinner inline fa-spin"></div></div>
-        <div v-if="!showReadExternally" v-html="bibleText"></div>
+        <div v-if="!showReadExternally" v-html="bibleText" @click="presentBibleText" class="pointer"></div>
         <div v-if="showReadExternally" class="text-center">
           <a @click="readPassageExternally" class="callout alt">Read this passage...</a>
         </div>
       </div>
+      <div class="mid-fade"></div>
     </div>
 
     <div class="shadow progress-wrapper">
-      <div class="progress theme-back" :style="{width: `${progress * 100}%`}"></div>
+      <div class="progress theme-back" :style="{width: `${progress * 100}%`}">
+        <div class="progress-knob callout shadow"></div>
+      </div>
     </div>
     <div class="flex-row align-center pad">
       <a @click="delegate.rewindAudio" class="tracking"><img src="../../../static/images/track-minus-10.png" /></a>
@@ -30,6 +33,19 @@
     </div>
 
     <div class="muted text-center pad">{{timeLabel}}</div>
+
+    <transition name="fade">
+      <div v-if="showFullBibleText" class="cover fixed pad">
+        <div class="theme-mid rounded shadow-long z5 vfull flex-column">
+          <div class="small-pad">
+            <a @click="showFullBibleText = false" class="circle pull-right small-pad"><i class="fas fa-times"></i></a>
+          </div>
+          <p class="font-large text-center">{{readablePassage}}</p>
+          <div class="pad scrolly" v-html="bibleText"></div>
+          <a @click="showFullBibleText = false" class="pad text-center callout alt">close</a>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -42,7 +58,8 @@ export default {
   data () {
     return {
       isLoadingText: false,
-      bibleText: undefined
+      bibleText: undefined,
+      showFullBibleText: false
     }
   },
   props: ['delegate', 'song', 'readablePassage', 'progress'],
@@ -79,6 +96,9 @@ export default {
       const index = this.songs.findIndex(song => song.key === self.song.key)
       const nextSong = this.songs.length === index + 1 ? this.songs[0] : this.songs[index + 1]
       this.setCurrentSong(nextSong)
+    },
+    presentBibleText () {
+      this.showFullBibleText = true
     }
   },
   mounted () {
@@ -97,15 +117,9 @@ export default {
 
 <style lang="less" scoped>
 .playback-detail {
-  height: 90vh;
+  height: 80vh;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-}
-.playback {
-  height: 90vh;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  overflow: hidden;
 }
 .detail-toggle {
   margin: 15px;
@@ -115,6 +129,17 @@ export default {
   background-position: center;
   background-size: 50px;
   height: 25px;
+}
+.song-quickview {
+  overflow: hidden;
+  position: relative;
+  .mid-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+  }
 }
 .tracking {
   img {
@@ -146,10 +171,18 @@ export default {
 .progress-wrapper {
   margin: 30px 20px 10px 20px;
   border-radius: 10px;
-  overflow: hidden;
 }
 .progress {
+  position: relative;
   height: 5px;
   transition: width 0.3s;
+  .progress-knob {
+    position: absolute;
+    left: calc(100% - 8px);
+    top: -5px;
+    height: 16px;
+    width: 16px;
+    border-radius: 100%;
+  }
 }
 </style>

@@ -66,11 +66,11 @@ export default {
       const self = this
       this.alert('Delete this song?', {
         'Yes': self.deleteSong,
-        'No': self.dismissalert
+        'No': self.dismissAlert
       })
     },
     deleteSong () {
-      this.dismissalert()
+      this.dismissAlert()
       this.showLoading()
       const self = this
       server.deleteSong(this.song)

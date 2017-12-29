@@ -11,7 +11,7 @@ Vue.mixin({
     alert (content, actions) {
       this.$root.$children[0].alertConfig = { content, actions }
     },
-    dismissalert () {
+    dismissAlert () {
       this.$root.$children[0].alertConfig = undefined
     },
     showRightView (component, props) {
