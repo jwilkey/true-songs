@@ -36,8 +36,8 @@
     <div class="muted text-center pad">{{timeLabel}}</div>
 
     <transition name="fade">
-      <div v-if="showFullBibleText" class="cover fixed pad">
-        <div class="theme-mid rounded shadow-long z5 vfull flex-column">
+      <div v-if="showFullBibleText" class="cover z5 fixed pad">
+        <div class="theme-mid rounded shadow-long vfull flex-column">
           <div class="small-pad">
             <a @click="showFullBibleText = false" class="circle pull-right small-pad"><i class="fas fa-times"></i></a>
           </div>
@@ -64,8 +64,7 @@ export default {
         min: 0,
         max: 1,
         interval: 0.001,
-        tooltip: 'none',
-        dotWidth: 2
+        tooltip: 'none'
       },
       isLoadingText: false,
       bibleText: undefined,
