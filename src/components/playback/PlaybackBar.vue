@@ -96,6 +96,10 @@ export default {
     pause () {
       this.audio.pause()
     },
+    setProgress (percentage) {
+      this.audio.currentTime = this.audio.duration * percentage
+      this.currentTime = this.audio.currentTime
+    },
     songEnded () {
       this.isPlaying = false
       this.nextSong()

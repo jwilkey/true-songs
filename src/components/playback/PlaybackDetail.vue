@@ -16,11 +16,12 @@
       <div class="mid-fade"></div>
     </div>
 
-    <div class="shadow progress-wrapper">
-      <div class="progress theme-back" :style="{width: `${progress * 100}%`}">
-        <div class="progress-knob callout shadow"></div>
-      </div>
-    </div>
+    <vue-slider ref="slider"
+      v-model="position"
+      v-bind="sliderOptions"
+      v-on:callback="sliderCallback"
+      class="progress"></vue-slider>
+
     <div class="flex-row align-center pad">
       <a @click="delegate.rewindAudio" class="tracking"><img src="../../../static/images/track-minus-10.png" /></a>
       <div class="flex-one flex-row align-center flex-center">
@@ -52,11 +53,20 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import server from '@/services/true-songs-service'
+import VueSlider from 'vue-slider-component'
 
 export default {
   name: 'playback-detail',
   data () {
     return {
+      position: 0,
+      sliderOptions: {
+        min: 0,
+        max: 1,
+        interval: 0.001,
+        tooltip: 'none',
+        dotWidth: 2
+      },
       isLoadingText: false,
       bibleText: undefined,
       showFullBibleText: false
@@ -74,11 +84,20 @@ export default {
       return ['niv', 'nkjv'].includes(this.song.bible_version.versionCode.toLowerCase())
     }
   },
+  watch: {
+    progress () {
+      this.position = this.progress
+    }
+  },
+  components: { VueSlider },
   methods: {
     ...mapActions(['setCurrentSong']),
     time (n) {
       const seconds = parseInt(n % 60)
       return `${parseInt(n / 60)}:${seconds < 10 ? '0' : ''}${seconds}`
+    },
+    sliderCallback (value) {
+      this.delegate.setProgress(value)
     },
     readPassageExternally () {
       const version = this.song.bible_version.versionCode
@@ -168,21 +187,7 @@ export default {
     background-color: blue;
   }
 }
-.progress-wrapper {
-  margin: 30px 20px 10px 20px;
-  border-radius: 10px;
-}
 .progress {
-  position: relative;
-  height: 5px;
-  transition: width 0.3s;
-  .progress-knob {
-    position: absolute;
-    left: calc(100% - 8px);
-    top: -5px;
-    height: 16px;
-    width: 16px;
-    border-radius: 100%;
-  }
+  margin: 30px 20px 10px 20px;
 }
 </style>
