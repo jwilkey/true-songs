@@ -5,6 +5,7 @@ import bibleParser from '../helpers/bible-parser'
 Vue.use(Vuex)
 
 export const state = {
+  allSongs: [],
   songs: [],
   sortMethod: 'passage',
   filter: undefined,
@@ -16,6 +17,7 @@ export const state = {
 }
 
 export const getters = {
+  allSongs: state => state.allSongs,
   songs: state => state.songs,
   sortMethod: state => state.sortMethod,
   filter: state => state.filter,
@@ -27,7 +29,7 @@ export const getters = {
 }
 
 export const actions = {
-  setSongs ({ commit, state }, songs) {
+  setAllSongs ({ commit }, songs) {
     songs.forEach(s => {
       s.bible_version = JSON.parse(s.bible_version)
       s.labels = s.labels ? JSON.parse(s.labels) : []
@@ -35,8 +37,10 @@ export const actions = {
       .toLowerCase()
       .replace(' ', '')
     })
+    commit('SET_ALL_SONGS', songs)
+  },
+  setSongs ({ commit }, songs) {
     commit('SET_SONGS', songs)
-    commit('SORT_BY', state.sortMethod)
   },
   updateSong ({ commit }, song) {
     song.bible_version = JSON.parse(song.bible_version)
@@ -50,8 +54,18 @@ export const actions = {
   sortBy ({ commit }, method) {
     commit('SORT_BY', method)
   },
-  setFilter ({ commit }, filter) {
+  setFilter ({ commit, state }, filter) {
     commit('SET_FILTER', filter)
+    var songs = []
+    if (filter) {
+      switch (filter.key) {
+        case 'book': songs = state.allSongs.filter(s => s.passage.startsWith(`${filter.value}.`))
+          break
+        case 'user': songs = state.allSongs.filter(s => s.user === filter.value)
+          break
+      }
+    }
+    commit('SET_SONGS', songs)
   },
   setUser ({ commit }, user) {
     commit('SET_USER', user)
@@ -73,6 +87,17 @@ export const actions = {
   }
 }
 
+function applySort (method, state) {
+  switch (method) {
+    case 'passage': state.songs.sort((a, b) => passageSort(a, b))
+      break
+    case 'upload': state.songs.sort((a, b) => uploadSort(a, b) || passageSort(a, b))
+      break
+    case 'artist': state.songs.sort((a, b) => artistSort(a, b) || passageSort(a, b))
+      break
+    default:
+  }
+}
 function passageSort (a, b) {
   return bibleParser.compare(a.passage, b.passage)
 }
@@ -84,24 +109,20 @@ function artistSort (a, b) {
 }
 
 export const mutations = {
+  SET_ALL_SONGS (state, songs) {
+    state.allSongs = songs
+  },
   SET_SONGS (state, songs) {
     state.songs = songs
+    applySort(state.sortMethod, state)
   },
   UPDATE_SONG (state, song) {
     const i = state.songs.findIndex(s => s.passage === song.passage && s.uploadedAt === song.uploadedAt)
     state.songs[i] = song
   },
   SORT_BY (state, method) {
-    switch (method) {
-      case 'passage': state.songs.sort((a, b) => passageSort(a, b))
-        break
-      case 'upload': state.songs.sort((a, b) => uploadSort(a, b) || passageSort(a, b))
-        break
-      case 'artist': state.songs.sort((a, b) => artistSort(a, b) || passageSort(a, b))
-        break
-      default:
-    }
     state.sortMethod = method
+    applySort(method, state)
   },
   SET_FILTER (state, filter) {
     state.filter = filter

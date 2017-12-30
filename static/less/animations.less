@@ -4,6 +4,16 @@
 .fade-enter, .fade-leave-to {
   opacity: 0
 }
+.collapse-enter-active, .collapse-leave-active {
+  & > * {
+    transition: max-height 1.5s
+  }
+}
+.collapse-enter, .collapse-leave-to {
+  & > * {
+    max-height: 0px;
+  }
+}
 
 .expand {
   animation-name: expand;

@@ -7,17 +7,30 @@
       </button>
     </div>
 
-    <transition name="fade">
-      <div v-if="filter" class="small-pad">
-        <div class="theme-mid pad flex-row rounded shadow">
-          <div class="flex-one"><span class="muted">Showing:</span> {{ filterLabel }}</div>
-          <a @click="setFilter(undefined)" class="callout alt nopad marginl">show all</a>
+    <div v-if="filter" class="small-pad">
+      <div class="theme-back-text small-pad flex-row align-center rounded">
+        <p class="font-small small-pad">{{visibleSongs.length}}</p>
+        <div class="flex-one font-large">{{ filterLabel }}</div>
+        <a @click="setFilter(undefined)" class="callout alt nopad marginl">show all</a>
+      </div>
+    </div>
+
+    <div v-if="showSongs" class="songs flex-one scrolly bottompad">
+      <song-item v-for="(song, i) in visibleSongs" :song="song" :key="i"></song-item>
+    </div>
+
+    <div v-if="!showSongs" class="book-selector pointer">
+      <div class="pad">
+        <p class="theme-back-text font-large">Songs by Bible book</p>
+      </div>
+      <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="hthird pull-left">
+        <div class="small-pad">
+          <div class="theme-mid shadow rounded relative text-center">
+            <p class="book-label">{{ title }}</p>
+            <p class="callout alt count-label font-small text-right">{{songsByBook[book]}}</p>
+          </div>
         </div>
       </div>
-    </transition>
-
-    <div class="songs flex-one scrolly bottompad">
-      <song-item v-for="(song, i) in visibleSongs" :song="song" :key="i"></song-item>
     </div>
   </div>
 </template>
@@ -26,24 +39,36 @@
 import { mapGetters, mapActions } from 'vuex'
 import Menu from './Menu'
 import SongItem from './SongItem'
-import server from '../services/true-songs-service'
-import bibleParser from '../helpers/bible-parser'
+import server from '@/services/true-songs-service'
+import bookNames from '@/helpers/osis_names.json'
+import bibleParser from '@/helpers/bible-parser'
 
 export default {
   name: 'SongList',
   data () {
     return {
+      selectedBook: undefined,
       showSearch: false,
       searchTerm: undefined
     }
   },
   computed: {
-    ...mapGetters(['songs', 'user', 'filter']),
+    ...mapGetters(['allSongs', 'songs', 'user', 'filter']),
+    bookNames () {
+      return bookNames
+    },
+    showSongs () {
+      return this.songs.length && (this.songs.length <= 30 || this.filter)
+    },
+    songsByBook () {
+      var books = {}
+      this.allSongs.forEach(s => {
+        books[s.book] = (books[s.book] || 0) + 1
+      })
+      return books
+    },
     visibleSongs () {
       var filteredSongs = this.songs
-      if (this.filter) {
-        filteredSongs = filteredSongs.filter(s => s[this.filter.key] === this.filter.value)
-      }
       if (this.searchTerm) {
         var osis = bibleParser.osis(this.searchTerm)
         if (osis && !this.searchTerm.match(/\d/)) {
@@ -57,6 +82,7 @@ export default {
     },
     filterLabel () {
       switch (this.filter.key) {
+        case 'book': return `Song${this.visibleSongs.length > 1 ? 's' : ''} from ${this.bookNames[this.filter.value]}`
         case 'user': return 'Songs uploaded by me'
         default: return undefined
       }
@@ -64,7 +90,10 @@ export default {
   },
   components: { SongItem },
   methods: {
-    ...mapActions(['setSongs', 'configureTitlebar', 'setFilter']),
+    ...mapActions(['setAllSongs', 'setSongs', 'configureTitlebar', 'setFilter']),
+    bookSelected (osisBook) {
+      this.setFilter({key: 'book', value: osisBook})
+    },
     toggleSearch () {
       this.showSearch = !this.showSearch
       if (this.showSearch) {
@@ -93,7 +122,7 @@ export default {
     const self = this
     server.fetchSongs()
     .then(songs => {
-      self.setSongs(songs)
+      self.setAllSongs(songs)
       self.hideLoading()
     })
     .catch(e => {
@@ -132,6 +161,9 @@ export default {
     box-shadow: none;
   }
 }
+.fa-music {
+  margin-right: 5px;
+}
 .expandable {
   max-height: 0px;
   transform: scale(0);
@@ -144,6 +176,17 @@ export default {
     max-height: 100px;
     transform: scale(1);
     opacity: 1;
+  }
+}
+.book-selector {
+  .book-label {
+    padding: 15px 5px;
+    padding-bottom: 0px;
+    font-weight: bold;
+  }
+  .count-label {
+    min-width: 20px;
+    padding: 1px 5px;
   }
 }
 </style>
