@@ -94,6 +94,7 @@
   .mid-left { border-left: solid 1px @color-back-raised; }
   .mid-top { border-top: solid 1px @color-back-raised; }
   .mid-bottom { border-bottom: solid 1px @color-back-raised; }
+  .mid-fade { background: linear-gradient(transparent, @color-back-raised); }
   .hi-right { border-right: solid 1px @color-back-raised2; }
   .hi-left { border-left: solid 1px @color-back-raised2; }
   .hi-top { border-top: solid 1px @color-back-raised2; }
@@ -185,6 +186,15 @@
     border-bottom: solid 1px @color-callout-light;
     border-left: solid 1px @color-callout-light;
     border-bottom-left-radius: 2px;
+  }
+  .vue-slider {
+    background-color: transparent !important;
+    border: solid 1px @color-deemphasize-more;
+    .vue-slider-process { .theme-back; }
+    .vue-slider-dot {
+      background-color: @color-callout !important;
+      box-shadow: none;
+    }
   }
 
   .muted {
