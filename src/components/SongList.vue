@@ -28,13 +28,12 @@
       </div>
 
       <div v-if="category === 'books'" class="books flex-row flex-wrap flex-center">
-        <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="book theme-mid circle shadow-long">
+        <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="book theme-mid shadow-long">
           <div class="book-image vfull callout flex-column" :style="{'background-image': bookImage(book)}">
-            <div class="flex-one flex-column flex-center">
-              <p class="count-label text-center font-larger">{{songsByBook[book]}}</p>
-              <p class="theme-back-text text-center font-small">song{{songsByBook[book] > 1 ? 's' : ''}}</p>
+            <div class="text-right z3 font-small"><p class="count-label pull-right shadow theme-mid">{{songsByBook[book]}}</p></div>
+            <div class="flex-one">
             </div>
-            <p class="book-label theme-mid shadow text-center">{{ title }}</p>
+            <p class="book-label z2 theme-mid shadow text-center">{{ title }}</p>
           </div>
         </div>
       </div>
@@ -249,32 +248,36 @@ export default {
   }
   .book {
     position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 5px;
+    width: 115px;
+    height: 130px;
+    margin: 5px 2px;
     cursor: pointer;
     .book-image {
       position: absolute;
-      top: 5px;
-      left: 5px;
-      right: 5px;
-      height: 90px;
-      border-radius: 100%;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      box-shadow: inset 0px 0px 10px black;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
     }
     .book-label {
-      border-radius: 4px;
-      margin-bottom: -8px;
-      margin-left: -3px;
-      margin-right: -3px;
-      padding: 0 3px;
+      padding: 1px;
+      border-top-left-radius: 100%;
+      border-top-right-radius: 100%;
     }
     .count-label {
-      color: white;
-      text-shadow: 0px 0px 6px black;
+      padding: 1px 5px 5px 8px;
+      border-bottom-left-radius: 100%;
     }
   }
   .label {
