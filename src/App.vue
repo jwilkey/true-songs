@@ -98,11 +98,13 @@ html, body, #app {
     bottom: 0;
     left: 0;
     right: 0;
-    background-image: url('../static/images/triangles.jpg');
+    background-image: url('../static/images/curves.jpg');
+    // background-image: url('https://graf1x.com/wp-content/uploads/2014/09/diagonal-lines.jpg');
     background-position: center;
-    background-size: 300px;
+    background-size: cover;
     filter: grayscale(1);
-    opacity: 0.08;
+    // opacity: 0.08;
+    opacity: 0.2;
   }
 }
 </style>

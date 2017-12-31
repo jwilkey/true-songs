@@ -21,9 +21,9 @@
 
     <div v-if="!showSongs" class="book-selector flex-one scrolly">
       <div class="flex-row flex-center marginb">
-        <div class="categories theme-back-text pointer">
-          <div @click="category = 'books'" :class="{callout: category === 'books'}" class="pad rounded">Bible books</div>
-          <div @click="category = 'artists'" :class="{callout: category === 'artists'}" class="pad rounded">Artists</div>
+        <div class="categories shadow-long theme-mid rounded pointer">
+          <div @click="category = 'books'" :class="category === 'books' ? ['callout', 'shadow-long'] : []" class="pad rounded">Bible books</div>
+          <div @click="category = 'artists'" :class="category === 'artists' ? ['callout', 'shadow-long'] : []" class="pad rounded">Artists</div>
         </div>
       </div>
 
