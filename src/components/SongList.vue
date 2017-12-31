@@ -27,12 +27,12 @@
         </div>
       </div>
 
-      <div v-if="category === 'books'" class="flex-row flex-wrap flex-center">
+      <div v-if="category === 'books'" class="books flex-row flex-wrap flex-center">
         <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="book theme-mid circle shadow-long">
           <div class="book-image vfull callout flex-column" :style="{'background-image': bookImage(book)}">
             <div class="flex-one flex-column flex-center">
-              <p class="count-label text-center font-large">{{songsByBook[book]}}</p>
-              <p class="text-center">song{{songsByBook[book] > 1 ? 's' : ''}}</p>
+              <p class="count-label text-center font-larger">{{songsByBook[book]}}</p>
+              <p class="theme-back-text text-center font-small">song{{songsByBook[book] > 1 ? 's' : ''}}</p>
             </div>
             <p class="book-label theme-mid shadow text-center">{{ title }}</p>
           </div>
@@ -242,11 +242,17 @@ export default {
       padding: 10px;
     }
   }
+  .books {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .book {
     position: relative;
     width: 100px;
     height: 100px;
     margin: 5px;
+    cursor: pointer;
     .book-image {
       position: absolute;
       top: 5px;
@@ -257,9 +263,10 @@ export default {
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      box-shadow: inset 0px 0px 10px black;
     }
     .book-label {
-      border-radius: 2px;
+      border-radius: 4px;
       margin-bottom: -8px;
       margin-left: -3px;
       margin-right: -3px;
@@ -267,7 +274,7 @@ export default {
     }
     .count-label {
       color: white;
-      text-shadow: 0px 0px 5px black;
+      text-shadow: 0px 0px 6px black;
     }
   }
   .label {
