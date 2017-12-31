@@ -19,21 +19,22 @@
       <song-item v-for="(song, i) in visibleSongs" :song="song" :key="i"></song-item>
     </div>
 
-    <div v-if="!showSongs" class="book-selector pointer">
+    <div v-if="!showSongs" class="book-selector flex-one scrolly">
       <div class="flex-row flex-center marginb">
-        <div class="categories theme-back-text rounded">
+        <div class="categories theme-back-text pointer">
           <div @click="category = 'books'" :class="{callout: category === 'books'}" class="pad rounded">Bible books</div>
           <div @click="category = 'artists'" :class="{callout: category === 'artists'}" class="pad rounded">Artists</div>
         </div>
       </div>
 
-      <div v-if="category === 'books'">
-        <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="hthird pull-left">
-          <div class="small-pad">
-            <div class="theme-mid shadow rounded relative text-center">
-              <p class="label">{{ title }}</p>
-              <p class="callout alt count-label font-small text-right">{{songsByBook[book]}}</p>
+      <div v-if="category === 'books'" class="flex-row flex-wrap flex-center">
+        <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="book theme-mid circle shadow-long">
+          <div class="book-image vfull callout flex-column" :style="{'background-image': bookImage(book)}">
+            <div class="flex-one flex-column flex-center">
+              <p class="count-label text-center font-large">{{songsByBook[book]}}</p>
+              <p class="text-center">song{{songsByBook[book] > 1 ? 's' : ''}}</p>
             </div>
+            <p class="book-label theme-mid shadow text-center">{{ title }}</p>
           </div>
         </div>
       </div>
@@ -45,7 +46,6 @@
           </div>
           <p class="flex-one">{{ artist[0] }}</p>
           <p class="muted alt font-small">{{ artist[1] }} songs</p>
-          <i class="fas fa-chevron-right muted marginl"></i>
         </div>
       </div>
     </div>
@@ -58,6 +58,7 @@ import Menu from './Menu'
 import SongItem from './SongItem'
 import server from '@/services/true-songs-service'
 import bookNames from '@/helpers/osis_names.json'
+import bookImages from '@/helpers/book_images.json'
 import bibleParser from '@/helpers/bible-parser'
 
 export default {
@@ -122,6 +123,9 @@ export default {
     },
     artistSelected (artist) {
       this.setFilter({key: 'artist', value: artist})
+    },
+    bookImage (book) {
+      return bookImages[book]
     },
     toggleSearch () {
       this.showSearch = !this.showSearch
@@ -208,6 +212,7 @@ export default {
   }
 }
 .book-selector {
+  padding-bottom: 100px;
   .phaser {
     padding: 3px 10px;
     margin-bottom: 2px;
@@ -237,14 +242,38 @@ export default {
       padding: 10px;
     }
   }
+  .book {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    .book-image {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      height: 90px;
+      border-radius: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .book-label {
+      border-radius: 2px;
+      margin-bottom: -8px;
+      margin-left: -3px;
+      margin-right: -3px;
+      padding: 0 3px;
+    }
+    .count-label {
+      color: white;
+      text-shadow: 0px 0px 5px black;
+    }
+  }
   .label {
     padding: 15px 5px;
     padding-bottom: 0px;
     font-weight: bold;
-  }
-  .count-label {
-    min-width: 20px;
-    padding: 1px 5px;
   }
 }
 </style>

@@ -100,6 +100,7 @@ html, body, #app {
     right: 0;
     background-image: url('../static/images/triangles.jpg');
     background-position: center;
+    background-size: 300px;
     filter: grayscale(1);
     opacity: 0.08;
   }
