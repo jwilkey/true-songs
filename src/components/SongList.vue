@@ -20,15 +20,32 @@
     </div>
 
     <div v-if="!showSongs" class="book-selector pointer">
-      <div class="pad">
-        <p class="theme-back-text font-large">Songs by Bible book</p>
+      <div class="flex-row flex-center marginb">
+        <div class="categories theme-back-text rounded">
+          <div @click="category = 'books'" :class="{callout: category === 'books'}" class="pad rounded">Bible books</div>
+          <div @click="category = 'artists'" :class="{callout: category === 'artists'}" class="pad rounded">Artists</div>
+        </div>
       </div>
-      <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="hthird pull-left">
-        <div class="small-pad">
-          <div class="theme-mid shadow rounded relative text-center">
-            <p class="book-label">{{ title }}</p>
-            <p class="callout alt count-label font-small text-right">{{songsByBook[book]}}</p>
+
+      <div v-if="category === 'books'">
+        <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="hthird pull-left">
+          <div class="small-pad">
+            <div class="theme-mid shadow rounded relative text-center">
+              <p class="label">{{ title }}</p>
+              <p class="callout alt count-label font-small text-right">{{songsByBook[book]}}</p>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div v-if="category === 'artists'" class="small-pad">
+        <div v-for="artist in songsByArtist" @click="artistSelected(artist[0])" class="flex-row align-center theme-mid phaser">
+          <div class="emblem theme-back">
+            <p class="emblem-label z2 cover">{{ artist[1] }}</p>
+          </div>
+          <p class="flex-one">{{ artist[0] }}</p>
+          <p class="muted alt font-small">{{ artist[1] }} songs</p>
+          <i class="fas fa-chevron-right muted marginl"></i>
         </div>
       </div>
     </div>
@@ -47,6 +64,7 @@ export default {
   name: 'SongList',
   data () {
     return {
+      category: 'books',
       selectedBook: undefined,
       showSearch: false,
       searchTerm: undefined
@@ -67,6 +85,13 @@ export default {
       })
       return books
     },
+    songsByArtist () {
+      var artists = {}
+      this.allSongs.forEach(s => {
+        artists[s.artist] = (artists[s.artist] || 0) + 1
+      })
+      return Object.entries(artists)
+    },
     visibleSongs () {
       var filteredSongs = this.songs
       if (this.searchTerm) {
@@ -83,6 +108,7 @@ export default {
     filterLabel () {
       switch (this.filter.key) {
         case 'book': return `Song${this.visibleSongs.length > 1 ? 's' : ''} from ${this.bookNames[this.filter.value]}`
+        case 'artist': return `Song${this.visibleSongs.length > 1 ? 's' : ''} by ${this.filter.value}`
         case 'user': return 'Songs uploaded by me'
         default: return undefined
       }
@@ -93,6 +119,9 @@ export default {
     ...mapActions(['setAllSongs', 'setSongs', 'configureTitlebar', 'setFilter']),
     bookSelected (osisBook) {
       this.setFilter({key: 'book', value: osisBook})
+    },
+    artistSelected (artist) {
+      this.setFilter({key: 'artist', value: artist})
     },
     toggleSearch () {
       this.showSearch = !this.showSearch
@@ -179,7 +208,36 @@ export default {
   }
 }
 .book-selector {
-  .book-label {
+  .phaser {
+    padding: 3px 10px;
+    margin-bottom: 2px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    min-height: 44px;
+    .emblem {
+      position: relative;
+      height: 31px;
+      width: 31px;
+      text-align: center;
+      border-radius: 50px;
+      margin-right: 8px;
+      margin-bottom: 1px;
+      .emblem-label {
+        margin: 0;
+        padding-top: 5px;
+      }
+    }
+  }
+  .categories {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    & > * {
+      display: inline-block;
+      padding: 10px;
+    }
+  }
+  .label {
     padding: 15px 5px;
     padding-bottom: 0px;
     font-weight: bold;

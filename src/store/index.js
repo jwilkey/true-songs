@@ -61,6 +61,8 @@ export const actions = {
       switch (filter.key) {
         case 'book': songs = state.allSongs.filter(s => s.passage.startsWith(`${filter.value}.`))
           break
+        case 'artist': songs = state.allSongs.filter(s => s.artist === filter.value)
+          break
         case 'user': songs = state.allSongs.filter(s => s.user === filter.value)
           break
       }
