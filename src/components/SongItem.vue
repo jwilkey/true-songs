@@ -8,7 +8,7 @@
     </div>
     <div @click="playSong" class="flex-one">
       <p>{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span></p>
-      <p class="muted">{{song.artist}} </p>
+      <p class="muted">{{song.artist}}{{featuredArtistLabel}}</p>
     </div>
     <div @click="toggleOptions" class="options-button">
       <button class="muted alt"><i class="fas fa-ellipsis-v"></i></button>
@@ -36,6 +36,9 @@ export default {
     },
     bookLabel () {
       return this.readablePassage.replace(/\s/g, '').substring(0, 2)
+    },
+    featuredArtistLabel () {
+      return this.song.featuredArtists ? ` (feat. ${this.song.featuredArtists})` : ''
     },
     isLoading () {
       return this.currentSong && this.currentSong.key === this.song.key && this.isLoadingSong
