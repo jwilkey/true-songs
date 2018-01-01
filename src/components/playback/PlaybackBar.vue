@@ -6,7 +6,7 @@
         <div v-if="isPlaying" @click="pause"><img src="../../../static/images/pause.svg" /></div>
         <div v-if="!isPlaying" @click="play"><img src="../../../static/images/play.svg" /></div>
         <div v-if="currentSong" @click="toggleDetailView" class="flex-one">
-          <p>{{readablePassage}}</p>
+          <p>{{readablePassage}} <span class="version callout alt font-small">{{currentSong.bible_version.versionCode}}</span></p>
           <p class="muted font-small">{{currentSong.artist}}</p>
         </div>
         <div @click="toggleDetailView">
@@ -100,6 +100,12 @@ export default {
       this.audio.currentTime = this.audio.duration * percentage
       this.currentTime = this.audio.currentTime
     },
+    nextSong () {
+      const self = this
+      const index = this.songs.findIndex(song => song.key === self.currentSong.key)
+      const nextSong = this.songs.length === index + 1 ? this.songs[0] : this.songs[index + 1]
+      this.setCurrentSong(nextSong)
+    },
     songEnded () {
       this.isPlaying = false
       this.nextSong()
@@ -146,5 +152,8 @@ export default {
     height: 5px;
     transition: width 0.3s;
   }
+}
+.version {
+  margin-left: 6px;
 }
 </style>

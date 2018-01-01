@@ -6,8 +6,8 @@
       <div v-if="isPlayingSong" class="cover z1"><div class="playing-indicator"></div></div>
       <div v-if="isPlayingSong" class="cover"><div class="playing-indicator-left"></div></div>
     </div>
-    <div @click="playSong" class="flex-one">
-      <p>{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span></p>
+    <div @click="playSong" class="flex-one min-width">
+      <p class="title-line nowrap">{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span> <span class="muted">{{song.title}}</span></p>
       <p class="muted">{{song.artist}}{{featuredArtistLabel}}</p>
     </div>
     <div @click="toggleOptions" class="options-button">
@@ -74,8 +74,15 @@ export default {
     padding: 5px;
   }
   .version-label {
-    margin-left: 6px;
+    margin: 0 6px;
   }
+.min-width {
+  min-width: 0;
+}
+.title-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
   .song-art {
     position: relative;
     height: 31px;
@@ -89,6 +96,9 @@ export default {
     .song-label {
       margin: 0;
       padding-top: 10px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     .playing-indicator {
       position: absolute;
