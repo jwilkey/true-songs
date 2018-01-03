@@ -5,6 +5,7 @@ import bibleParser from '../helpers/bible-parser'
 Vue.use(Vuex)
 
 export const state = {
+  platform: 'web',
   allSongs: [],
   songs: [],
   sortMethod: 'passage',
@@ -17,6 +18,7 @@ export const state = {
 }
 
 export const getters = {
+  platform: state => state.platform,
   allSongs: state => state.allSongs,
   songs: state => state.songs,
   sortMethod: state => state.sortMethod,
@@ -29,6 +31,9 @@ export const getters = {
 }
 
 export const actions = {
+  setPlatform ({ commit }, platform) {
+    commit('SET_PLATFORM', platform)
+  },
   setAllSongs ({ commit }, songs) {
     songs.forEach(s => {
       s.bible_version = JSON.parse(s.bible_version)
@@ -111,6 +116,9 @@ function artistSort (a, b) {
 }
 
 export const mutations = {
+  SET_PLATFORM (state, platform) {
+    state.platform = platform
+  },
   SET_ALL_SONGS (state, songs) {
     state.allSongs = songs
   },

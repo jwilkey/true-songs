@@ -3,6 +3,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './mixins/global'
+import server from '@/services/true-songs-service'
 
 Vue.config.productionTip = false
 
@@ -17,3 +18,12 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+window.truesongs = {
+  auth (token, strategy) {
+    server.auth(token, strategy)
+    .catch(response => {
+      console.log(response)
+    })
+  }
+}

@@ -12,6 +12,10 @@ function cacheVerse (key, verse) {
 }
 
 export default {
+  auth (token, strategy) {
+    return axios.post(`${baseUrl}/auth/${strategy}/token`, {access_token: token})
+    .then(response => response.data)
+  },
   authState: () => {
     return axios.get(`${baseUrl}/user`, {withCredentials: true})
     .then(response => response.data)

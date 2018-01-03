@@ -27,12 +27,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(['user', 'platform']),
     googleUrl () {
-      return server.loginUrl('google')
+      return this.platform === 'ios' ? 'webapp:google:signIn' : server.loginUrl('google')
     },
     facebookUrl () {
-      return server.loginUrl('facebook')
+      return this.platform === 'ios' ? 'webapp:facebook:signIn' : server.loginUrl('facebook')
     }
   },
   methods: {

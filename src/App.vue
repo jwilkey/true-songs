@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Titlebar from '@/components/Titlebar'
 import PlaybackBar from '@/components/playback/PlaybackBar'
 import Loading from '@/components/modals/Loading'
@@ -39,7 +40,15 @@ export default {
       return this.rightView !== undefined
     }
   },
-  components: { Titlebar, PlaybackBar, Loading, Alert }
+  components: { Titlebar, PlaybackBar, Loading, Alert },
+  methods: {
+    ...mapActions(['setPlatform'])
+  },
+  mounted () {
+    if (this.$route.query.platform) {
+      this.setPlatform(this.$route.query.platform)
+    }
+  }
 }
 </script>
 
