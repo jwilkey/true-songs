@@ -9,7 +9,10 @@
     </div>
     <div v-else class="flex-column">
       <p class="sign-in-label theme-back-text text-center font-large">Sign in so that you can upload songs</p>
-      <a :href="googleUrl" class="button text-center pad marginb flex-row align-center flex-center"><img src="../../static/images/btn_google_light_normal_ios.svg" /> Sign in with Google</a>
+
+      <a :href="googleUrl" class="button text-center pad marginb flex-row align-center flex-center"><img src="../../static/images/btn_google_light_normal_ios.svg" class="google" /> Sign in with Google</a>
+
+      <a :href="facebookUrl" class="button text-center pad marginb flex-row align-center flex-center"><img src="../../static/images/fb_logo.png" class="facebook" /> Sign in with Facebook</a>
       <!-- <a :href="facebookUrl" class="button text-center pad marginb">Facebook</a> -->
     </div>
   </div>
@@ -45,7 +48,7 @@ export default {
       self.setUser(response)
       if (self.user) {
         setTimeout(() => {
-          self.$router.replace(self.$route.query.ref || '/')
+          self.$router.replace(self.$route.query.ref ? `/${self.$route.query.ref}` : '/')
         }, 3000)
       }
     })
@@ -60,7 +63,12 @@ export default {
 a {
   img {
     margin-right: 10px;
+  }
+  .google {
     height: 30px;
+  }
+  .facebook {
+    height: 25px;
   }
 }
 .user {

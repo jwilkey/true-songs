@@ -33,7 +33,7 @@ export default new Router({
       name: 'AddSong',
       component: AddSong,
       beforeEnter: (to, from, next) => {
-        next(!store.getters.user ? `/login?ref=${to.path}` : true)
+        next(!store.getters.user ? `/login?ref=add_song` : true)
       }
     },
     {
