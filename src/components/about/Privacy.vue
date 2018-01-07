@@ -1,6 +1,6 @@
 <template>
-  <div class="privacy pad">
-    <div class="theme-mid rounded shadow pad">
+  <div class="privacy pad flex-column">
+    <div class="theme-mid rounded shadow pad scrolly">
       <p>
         Privacy Policy Last updated: January 7, 2018 True Songs ("us", "we", or "our") operates the True Songs app (the "Service"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service. We will not use or share your information with anyone except as described in this Privacy Policy. We use your Personal Information for providing and improving the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at https://songs.truewordsapp.com Information Collection And Use While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your name ("Personal Information"). Log Data We collect information that your browser or device sends whenever you visit our Service ("Log Data"). This Log Data may include information such as your computer's Internet Protocol ("IP") address, browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, your device type and other statistics.
       </p>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'privacy',
   data () {
@@ -45,6 +47,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['configureTitlebar'])
+  },
+  mounted () {
+    const self = this
+    this.configureTitlebar({'Home': () => { self.$router.push('/') }})
   }
 }
 </script>
