@@ -1,6 +1,6 @@
 <template>
   <div class="titlebar z1 theme-back-text flex-row align-center pad font-large">
-    <div class="logo-box theme-mid marginr shadow flex-column flex-center">
+    <div @click="$router.push('/')" class="logo-box theme-mid marginr shadow flex-column flex-center">
       <img class="logo" src="../../static/images/waves_halftone.png" />
     </div>
     <p class="flex-one">{{title}}</p>
