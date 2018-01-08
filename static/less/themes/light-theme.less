@@ -91,6 +91,10 @@
       &.btn { border-color: @color-callout-light; }
     }
   }
+  .glass {
+    // background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+    background: linear-gradient(45deg, fade(@color-callout, 60%), rgba(100, 100, 100, 0.3));
+  }
   .mid-right { border-right: solid 1px @color-back-raised; }
   .mid-left { border-left: solid 1px @color-back-raised; }
   .mid-top { border-top: solid 1px @color-back-raised; }
@@ -220,11 +224,6 @@
         &:hover { color: @color-deemphasize; }
       }
     }
-  }
-
-  .book .book-image::after {
-    border: solid 5px rgba(255, 255, 255, 0.8);
-    box-shadow: inset 0px 0px 10px darken(@color-callout, 20%);
   }
 
   .shadow {

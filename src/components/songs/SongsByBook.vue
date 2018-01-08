@@ -1,0 +1,86 @@
+<template>
+  <div class="songs-by-book books flex-row flex-wrap flex-center">
+    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="book glass shadow-long flex-column relative">
+      <div class="pad-10">
+        <div class="book-icon-wrapper shadow-long flex-column flex-center">
+          <p class="book-icon text-center font-larger">{{bookImage(book)}}</p>
+        </div>
+      </div>
+      <p class="book-label z2 theme-back-text text-center">{{ title }}</p>
+      <div class="z3 font-small"><p class="count-label pull-right theme-back-text">{{songsByBook[book]}}</p></div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+import bookNames from '@/helpers/osis_names.json'
+import bookImages from '@/helpers/book_images.json'
+
+export default {
+  name: 'songs-by-book',
+  data () {
+    return {
+    }
+  },
+  computed: {
+    ...mapGetters(['allSongs']),
+    bookNames () {
+      return bookNames
+    },
+    songsByBook () {
+      var books = {}
+      this.allSongs.forEach(s => {
+        books[s.book] = (books[s.book] || 0) + 1
+      })
+      return books
+    }
+  },
+  methods: {
+    ...mapActions(['setFilter']),
+    bookSelected (osisBook) {
+      this.setFilter({key: 'book', value: osisBook})
+    },
+    bookImage (book) {
+      return bookImages[book]
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.songs-by-book {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.book {
+  margin: 5px 3px;
+  cursor: pointer;
+  border-radius: 3px;
+  width: 113px;
+  .pad-10 {
+    padding: 10px;
+  }
+  .book-icon-wrapper {
+    border-radius: 100%;
+    background: linear-gradient(45deg, #003344, #24508f);
+    overflow: hidden;
+    width: 93px;
+    height: 93px;
+  }
+  .book-icon {
+    font-size: 50px;
+    color: #33ddaa;
+    text-shadow: -1px -1px 5px black;
+  }
+  .book-label {
+    padding-bottom: 10px;
+  }
+  .count-label {
+    position: absolute;
+    top: 2px;
+    right: 3px;
+  }
+}
+</style>

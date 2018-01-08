@@ -19,7 +19,7 @@
       <song-item v-for="(song, i) in visibleSongs" :song="song" :key="i"></song-item>
     </div>
 
-    <div v-if="!showSongs" class="book-selector flex-one scrolly">
+    <div v-if="!showSongs" class="category-selector flex-one scrolly">
       <div class="flex-row flex-center marginb">
         <div class="categories shadow-long theme-mid rounded pointer">
           <div @click="category = 'books'" :class="category === 'books' ? ['callout', 'shadow-long'] : []" class="pad rounded">Bible books</div>
@@ -27,26 +27,8 @@
         </div>
       </div>
 
-      <div v-if="category === 'books'" class="books flex-row flex-wrap flex-center">
-        <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="book theme-mid shadow-long">
-          <div class="book-image vfull callout flex-column" :style="{'background-image': bookImage(book)}">
-            <div class="text-right z3 font-small"><p class="count-label pull-right shadow theme-mid">{{songsByBook[book]}}</p></div>
-            <div class="flex-one">
-            </div>
-            <p class="book-label z2 theme-mid shadow text-center">{{ title }}</p>
-          </div>
-        </div>
-      </div>
-
-      <div v-if="category === 'artists'" class="small-pad">
-        <div v-for="artist in songsByArtist" @click="artistSelected(artist[0])" class="flex-row align-center theme-mid phaser">
-          <div class="emblem theme-back">
-            <p class="emblem-label z2 cover">{{ artist[1] }}</p>
-          </div>
-          <p class="flex-one">{{ artist[0] }}</p>
-          <p class="muted alt font-small">{{ artist[1] }} songs</p>
-        </div>
-      </div>
+      <songs-by-book v-if="category === 'books'"></songs-by-book>
+      <songs-by-artist v-if="category === 'artists'"></songs-by-artist>
     </div>
   </div>
 </template>
@@ -55,9 +37,10 @@
 import { mapGetters, mapActions } from 'vuex'
 import Menu from './Menu'
 import SongItem from './SongItem'
+import SongsByBook from '@/components/songs/SongsByBook'
+import SongsByArtist from '@/components/songs/SongsByArtist'
 import server from '@/services/true-songs-service'
 import bookNames from '@/helpers/osis_names.json'
-import bookImages from '@/helpers/book_images.json'
 import bibleParser from '@/helpers/bible-parser'
 
 export default {
@@ -77,20 +60,6 @@ export default {
     },
     showSongs () {
       return this.songs.length && (this.songs.length <= 30 || this.filter)
-    },
-    songsByBook () {
-      var books = {}
-      this.allSongs.forEach(s => {
-        books[s.book] = (books[s.book] || 0) + 1
-      })
-      return books
-    },
-    songsByArtist () {
-      var artists = {}
-      this.allSongs.forEach(s => {
-        artists[s.artist] = (artists[s.artist] || 0) + 1
-      })
-      return Object.entries(artists)
     },
     visibleSongs () {
       var filteredSongs = this.songs
@@ -114,18 +83,9 @@ export default {
       }
     }
   },
-  components: { SongItem },
+  components: { SongItem, SongsByBook, SongsByArtist },
   methods: {
     ...mapActions(['setAllSongs', 'setSongs', 'configureTitlebar', 'setFilter']),
-    bookSelected (osisBook) {
-      this.setFilter({key: 'book', value: osisBook})
-    },
-    artistSelected (artist) {
-      this.setFilter({key: 'artist', value: artist})
-    },
-    bookImage (book) {
-      return bookImages[book]
-    },
     toggleSearch () {
       this.showSearch = !this.showSearch
       if (this.showSearch) {
@@ -210,28 +170,8 @@ export default {
     opacity: 1;
   }
 }
-.book-selector {
+.category-selector {
   padding-bottom: 100px;
-  .phaser {
-    padding: 3px 10px;
-    margin-bottom: 2px;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    min-height: 44px;
-    .emblem {
-      position: relative;
-      height: 31px;
-      width: 31px;
-      text-align: center;
-      border-radius: 50px;
-      margin-right: 8px;
-      margin-bottom: 1px;
-      .emblem-label {
-        margin: 0;
-        padding-top: 5px;
-      }
-    }
-  }
   .categories {
     display: inline-block;
     margin-left: auto;
@@ -240,50 +180,6 @@ export default {
       display: inline-block;
       padding: 10px;
     }
-  }
-  .books {
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .book {
-    position: relative;
-    width: 115px;
-    height: 130px;
-    margin: 5px 2px;
-    cursor: pointer;
-    .book-image {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      bottom: 0px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-      }
-    }
-    .book-label {
-      padding: 1px;
-      border-top-left-radius: 100%;
-      border-top-right-radius: 100%;
-    }
-    .count-label {
-      padding: 1px 5px 5px 8px;
-      border-bottom-left-radius: 100%;
-    }
-  }
-  .label {
-    padding: 15px 5px;
-    padding-bottom: 0px;
-    font-weight: bold;
   }
 }
 </style>
