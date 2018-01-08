@@ -25,6 +25,16 @@
       </span>
       My uploads
     </div>
+
+    <div class="spacer"></div>
+
+    <div @click="aboutTrueSongs" class="pad mid-bottom pointer">
+      <span class="fa-layers fa-fw marginr">
+        <i class="fas fa-circle" data-fa-transform="grow-3"></i>
+        <i class="fa-inverse fas fa-info alt" data-fa-transform="shrink-3"></i>
+      </span>
+      About True Songs
+    </div>
   </div>
 </template>
 
@@ -49,6 +59,10 @@ export default {
     login () {
       this.$router.push('/login')
       this.showRightView(undefined)
+    },
+    aboutTrueSongs () {
+      this.$router.push('/about')
+      this.showRightView(undefined)
     }
   }
 }
@@ -59,5 +73,8 @@ export default {
   img {
     height: 30px;
   }
+}
+.spacer {
+  height: 40px;
 }
 </style>

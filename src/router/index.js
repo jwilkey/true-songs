@@ -4,7 +4,10 @@ import SongList from '@/components/SongList'
 import Login from '@/components/Login'
 import AddSong from '@/components/AddSong'
 import YouVersion from '@/components/views/YouVersion'
+
+import About from '@/components/about/About'
 import Privacy from '@/components/about/Privacy'
+
 import store from '../store'
 import server from '../services/true-songs-service'
 
@@ -41,6 +44,11 @@ export default new Router({
       path: '/bible',
       name: 'Bible',
       component: YouVersion
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: About
     },
     {
       path: '/privacy',
