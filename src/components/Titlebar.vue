@@ -1,7 +1,7 @@
 <template>
   <div class="titlebar z1 theme-back-text flex-row align-center pad font-large">
-    <div @click="$router.push('/')" class="logo-box theme-mid marginr shadow flex-column flex-center">
-      <img class="logo" src="../../static/images/waves_halftone.png" />
+    <div @click="$router.push('/')" class="logo-box callout marginr shadow flex-column flex-center">
+      <img class="logo" src="../../static/images/wavebar_padded.png" />
     </div>
     <p class="flex-one">{{title}}</p>
     <button v-for="(action, display) in titlebar" @click.prevent="action" v-html="display" class="titlebar-action theme-back-text"></button>
@@ -10,6 +10,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Logo from '../../static/images/vertical_wave.svg'
 
 export default {
   name: 'Titlebar',
@@ -20,7 +21,8 @@ export default {
   },
   computed: {
     ...mapGetters(['titlebar'])
-  }
+  },
+  components: { Logo }
 }
 </script>
 
@@ -29,11 +31,14 @@ export default {
   overflow: visible;
   .logo-box {
     border-radius: 15px;
-    padding: 2px;
+    padding: 3px;
     transform: scale(1.3);
+    img {
+      filter: invert();
+    }
   }
   .logo {
-    height: 25px;
+    height: 22px;
   }
   .titlebar-action {
     padding: 4px 10px;
