@@ -132,6 +132,8 @@ export default {
       } else {
         const references = this.osis.split('-')
         const sorted = bibleParser.sort(selectedOsis, references[0])
+        console.log(references)
+        console.log(sorted)
         if (references[0] === sorted[0]) {
           this.filter = this.normalize(`${references[0]}-${selectedOsis}`)
         } else if (selectedOsis === sorted[0]) {

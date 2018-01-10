@@ -39,6 +39,8 @@ export default {
   sort (osis1, osis2) {
     const parts1 = osis1.split('.')
     const parts2 = osis2.split('.')
+    if (parts1.length === 2) { parts1.push('1') }
+    if (parts2.length === 2) { parts2.push('1') }
     if (!osis1 || !osis2 || parts1.length !== 3 || parts2.length !== 3 || (parts1[0] !== parts2[0])) {
       return undefined
     }
