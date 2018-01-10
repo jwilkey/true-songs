@@ -10,7 +10,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Logo from '../../static/images/vertical_wave.svg'
 
 export default {
   name: 'Titlebar',
@@ -21,8 +20,7 @@ export default {
   },
   computed: {
     ...mapGetters(['titlebar'])
-  },
-  components: { Logo }
+  }
 }
 </script>
 
