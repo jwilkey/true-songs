@@ -10,7 +10,7 @@
 
     <div class="distance flex-one small-pad scrolly" :class="{apply: showInput}">
       <div class="theme-mid pad marginb shadow bullet">
-        <h3>Publish a song</h3>
+        <h3>Publish songs</h3>
       </div>
 
       <div class="file-container theme-mid rounded marginb">
