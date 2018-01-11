@@ -1,7 +1,7 @@
 <template>
   <div class="display-options small-pad">
     <div class="sort-options margint">
-      <p class="muted">SORT BY</p>
+      <p class="muted">SORT SONGS BY</p>
       <div @click="sortBy('passage')" class="pad mid-bottom pointer">
         <span v-if="isSortPassage"><i class="fas fa-check muted" data-fa-transform="shrink-2"></i></span> Bible passage
       </div>

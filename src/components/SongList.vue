@@ -19,9 +19,9 @@
       <song-item v-for="(song, i) in visibleSongs" :song="song" :key="i"></song-item>
     </div>
 
-    <div v-if="!showSongs" class="category-selector flex-one scrolly">
-      <div class="flex-row flex-center marginb">
-        <div class="categories shadow-long theme-mid rounded pointer">
+    <div v-if="!showSongs" class="flex-one scrolly bottompad">
+      <div class="category-selector flex-row flex-center marginb pad nopad-top nopad-bottom">
+        <div class="categories flex-one flex-row shadow-long theme-mid rounded pointer">
           <div @click="category = 'books'" :class="category === 'books' ? ['callout', 'shadow-long'] : []" class="pad rounded">Bible books</div>
           <div @click="category = 'artists'" :class="category === 'artists' ? ['callout', 'shadow-long'] : []" class="pad rounded">Artists</div>
         </div>
@@ -171,13 +171,13 @@ export default {
   }
 }
 .category-selector {
-  padding-bottom: 100px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
   .categories {
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
     & > * {
-      display: inline-block;
+      flex: 1;
+      text-align: center;
       padding: 10px;
     }
   }
