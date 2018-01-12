@@ -83,6 +83,20 @@ export default {
       }
     }
   },
+  watch: {
+    songs () {
+      if (this.showSongs) {
+        this.configureTitlebar({
+          '<i class="fas fa-search"></i>': this.toggleSearch,
+          '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
+        })
+      } else {
+        this.configureTitlebar({
+          '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
+        })
+      }
+    }
+  },
   components: { SongItem, SongsByBook, SongsByArtist },
   methods: {
     ...mapActions(['setAllSongs', 'setSongs', 'configureTitlebar', 'setFilter']),
@@ -105,11 +119,6 @@ export default {
     }
   },
   mounted () {
-    this.configureTitlebar({
-      '<i class="fas fa-search"></i>': this.toggleSearch,
-      '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
-    })
-
     this.showLoading()
     const self = this
     server.fetchSongs()
