@@ -85,6 +85,13 @@ export default {
   },
   watch: {
     songs () {
+      this.setupTitlebar()
+    }
+  },
+  components: { SongItem, SongsByBook, SongsByArtist },
+  methods: {
+    ...mapActions(['setAllSongs', 'setSongs', 'configureTitlebar', 'setFilter']),
+    setupTitlebar () {
       if (this.showSongs) {
         this.configureTitlebar({
           '<i class="fas fa-search"></i>': this.toggleSearch,
@@ -95,11 +102,7 @@ export default {
           '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
         })
       }
-    }
-  },
-  components: { SongItem, SongsByBook, SongsByArtist },
-  methods: {
-    ...mapActions(['setAllSongs', 'setSongs', 'configureTitlebar', 'setFilter']),
+    },
     toggleSearch () {
       this.showSearch = !this.showSearch
       if (this.showSearch) {
@@ -119,6 +122,8 @@ export default {
     }
   },
   mounted () {
+    this.setupTitlebar()
+
     this.showLoading()
     const self = this
     server.fetchSongs()

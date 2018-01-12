@@ -1,8 +1,17 @@
 <template>
   <div class="songs-by-book books flex-row flex-wrap flex-center">
-    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="book glass shadow-long flex-column relative">
+    <div @click="addSong" class="tile flex-column relative">
       <div class="pad-10">
-        <div class="book-icon-wrapper shadow-long flex-column flex-center">
+        <div class="icon-wrapper action shadow-long flex-column flex-center">
+          <p class="text-center"><i class="fas fa-invert fa-plus fa-3x"></i></p>
+        </div>
+      </div>
+      <p class="book-label z2 theme-back-text text-center">Add songs</p>
+    </div>
+
+    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="tile glass shadow-long flex-column relative">
+      <div class="pad-10">
+        <div class="icon-wrapper book shadow-long flex-column flex-center">
           <p class="book-icon text-center font-larger">{{bookImage(book)}}</p>
         </div>
       </div>
@@ -43,6 +52,9 @@ export default {
     },
     bookImage (book) {
       return bookImages[book]
+    },
+    addSong () {
+      this.$router.push('/add_song')
     }
   }
 }
@@ -54,7 +66,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.book {
+.tile {
   margin: 5px 3px;
   cursor: pointer;
   border-radius: 3px;
@@ -62,12 +74,18 @@ export default {
   .pad-10 {
     padding: 10px;
   }
-  .book-icon-wrapper {
+  .icon-wrapper {
     border-radius: 100%;
-    background: linear-gradient(45deg, #003344, #24508f);
     overflow: hidden;
     width: 93px;
     height: 93px;
+    &.book {
+      background: linear-gradient(45deg, #003344, #24508f);
+    }
+    &.action {
+      background: linear-gradient(45deg, #003344, #24508f);
+      color: #eee;
+    }
   }
   .book-icon {
     font-size: 50px;
