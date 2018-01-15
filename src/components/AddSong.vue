@@ -11,7 +11,7 @@
     <div class="distance flex-one small-pad scrolly" :class="{apply: showInput}">
       <div class="theme-mid pad marginb shadow bullet">
         <h3>Publish songs</h3>
-      </div>
+    </div>
 
       <div class="file-container theme-mid rounded marginb">
         <vue-dropzone  ref="dropzone" id="song-file"
@@ -21,6 +21,10 @@
         class="theme-mid pad text-center shadow-inset callout alt rounded"></vue-dropzone>
       </div>
 
+	  <div class="text-center pad">
+        <p class="theme-back-text margint">Please confirm that your uploads conform to our <a @click="showGuidelines">guidelines</a>.</p>
+      </div>
+	  
       <form v-for="(upload, i) in songUploads">
         <div class="theme-mid pad shadow marginb rounded">
           <div class="marginb small-pad rounded flex-row align-center" :class="uploadHeaderClass(upload)">
@@ -95,7 +99,7 @@
 
       <div v-if="songUploads.length" class="text-center pad">
         <button @click="uploadSongs" :disabled="publishDisabled" class="marginb float-btn">Publish Song{{manyUploads ? 's' : ''}}</button>
-        <p class="theme-back-text margint">By publishing songs you agree to the service <a @click="showTerms">terms</a></p>
+        <p class="theme-back-text margint">By publishing songs you agree to the service <a @click="showTerms">terms</a>.</p>
       </div>
     </div>
 
@@ -114,6 +118,7 @@ import server from '../services/true-songs-service'
 import bibleParser from '../helpers/bible-parser'
 import vue2Dropzone from 'vue2-dropzone'
 import Terms from '@/components/views/Terms'
+import Guidelines from '@/components/views/Guidelines'
 
 function SongUpload (file, passage) {
   this.input = ''
@@ -273,6 +278,9 @@ export default {
     },
     showTerms () {
       this.alert(Terms, {close: this.dismissAlert})
+    },
+    showGuidelines () {
+      this.alert(Guidelines, {close: this.dismissAlert})
     },
     cancelAddSong () {
       this.$router.replace('/')

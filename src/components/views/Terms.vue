@@ -1,6 +1,6 @@
 <template>
   <div class="terms flex-column vfull">
-    <p class="text-center callout alt">True Songs terms of service</p>
+    <p class="text-center callout alt">True Songs Terms of Service</p>
     <div class="flex-one pad scrolly">
       <p>By uploading song/music files (henceforward referred to as ‘files’) to the True Songs website/app (henceforward referred to as ‘True Songs’), you are providing express and explicit permission to the True Songs owners (henceforward referred to as ‘the owners’) to stream this music on True Songs or any related apps/sites which have the True Songs name/logo.</p>
 
