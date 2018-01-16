@@ -2,21 +2,21 @@
   <div class="songs-by-book books flex-row flex-wrap flex-center">
     <div @click="addSong" class="tile flex-column relative">
       <div class="pad-10">
-        <div class="icon-wrapper action shadow-long flex-column flex-center">
-          <p class="text-center"><i class="fas fa-invert fa-plus fa-3x"></i></p>
+        <div class="icon-wrapper theme-mid shadow flex-column flex-center">
+          <p class="text-center callout alt"><i class="fas fa-invert fa-plus fa-3x"></i></p>
         </div>
       </div>
       <p class="book-label z2 theme-back-text text-center">Add songs</p>
     </div>
 
-    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="tile glass shadow-long flex-column relative">
+    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="tile theme-mid shadow flex-column relative">
       <div class="pad-10">
-        <div class="icon-wrapper book shadow-long flex-column flex-center">
+        <div class="icon-wrapper theme-back shadow-inset flex-column flex-center">
           <p class="book-icon text-center font-larger">{{bookImage(book)}}</p>
         </div>
       </div>
-      <p class="book-label z2 theme-back-text text-center">{{ title }}</p>
-      <div class="z3 font-small"><p class="count-label pull-right theme-back-text">{{songsByBook[book]}}</p></div>
+      <p class="book-label z2 text-center">{{ title }}</p>
+      <div class="z3 font-small"><p class="count-label muted pull-right">{{songsByBook[book]}}</p></div>
     </div>
   </div>
 </template>
@@ -79,9 +79,6 @@ export default {
     overflow: hidden;
     width: 93px;
     height: 93px;
-    &.book {
-      background: linear-gradient(45deg, #003344, #24508f);
-    }
     &.action {
       background: linear-gradient(45deg, #003344, #24508f);
       color: #eee;
@@ -89,8 +86,6 @@ export default {
   }
   .book-icon {
     font-size: 50px;
-    color: #33ddaa;
-    text-shadow: -1px -1px 5px black;
   }
   .book-label {
     padding-bottom: 10px;
