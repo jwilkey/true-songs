@@ -21,7 +21,6 @@ new Vue({
 
 window.truesongs = {
   auth (token, strategy) {
-    console.log('Injecting auth')
     server.auth(token, strategy)
     .catch(response => {
       console.log('Error injecting auth:')
