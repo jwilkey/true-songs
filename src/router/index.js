@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import analytics from '@/helpers/analytics-helper'
+
 import SongList from '@/components/SongList'
 import Login from '@/components/Login'
 import AddSong from '@/components/AddSong'
@@ -13,7 +15,7 @@ import server from '../services/true-songs-service'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   routes: [
     {
       path: '/',
@@ -57,3 +59,11 @@ export default new Router({
     }
   ]
 })
+
+router.afterEach((to, from) => {
+  if (to.name !== 'Activity') {
+    analytics.trackScreen(to.name)
+  }
+})
+
+export default router

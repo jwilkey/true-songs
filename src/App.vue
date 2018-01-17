@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import '@/configuration/google-analytics'
 import { mapActions } from 'vuex'
 import Titlebar from '@/components/Titlebar'
 import PlaybackBar from '@/components/playback/PlaybackBar'
