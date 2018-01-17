@@ -9,14 +9,14 @@
       <p class="book-label z2 theme-back-text text-center">Add songs</p>
     </div>
 
-    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="tile theme-mid shadow flex-column relative">
+    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="tile theme-mid glass shadow flex-column relative">
       <div class="pad-10">
-        <div class="icon-wrapper theme-back shadow-inset flex-column flex-center">
-          <p class="book-icon text-center font-larger">{{bookImage(book)}}</p>
+        <div class="icon-wrapper theme-mid shadow-inset flex-column flex-center">
+          <p class="book-icon text-center callout alt font-larger">{{bookImage(book)}}</p>
         </div>
       </div>
-      <p class="book-label z2 text-center">{{ title }}</p>
-      <div class="z3 font-small"><p class="count-label muted pull-right">{{songsByBook[book]}}</p></div>
+      <p class="book-label z2 text-center callout alt">{{ title }}</p>
+      <div class="z3 font-small"><p class="count-label callout alt pull-right">{{songsByBook[book]}}</p></div>
     </div>
   </div>
 </template>
@@ -69,7 +69,7 @@ export default {
 .tile {
   margin: 5px 3px;
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: 2px;
   width: 113px;
   .pad-10 {
     padding: 10px;

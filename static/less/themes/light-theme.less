@@ -50,6 +50,11 @@
   .theme-mid {
     background-color: @color-back-raised;
     color: @color-text;
+    &.glass {
+      background: linear-gradient(fade(@color-back-raised, 0%), fade(@color-back-raised, 70%));
+      background-color: transparent;
+      border: solid 1px @color-back-raised;
+    }
   }
   .theme-hi {
     background-color: @color-back-raised2;
@@ -89,10 +94,6 @@
       color: @color-callout-light;
       &.btn { border-color: @color-callout-light; }
     }
-  }
-  .glass {
-    // background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
-    background: linear-gradient(45deg, fade(@color-callout, 60%), rgba(100, 100, 100, 0.3));
   }
   .mid-right { border-right: solid 1px @color-back-raised; }
   .mid-left { border-left: solid 1px @color-back-raised; }
