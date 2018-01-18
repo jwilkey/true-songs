@@ -7,8 +7,8 @@
       <div v-if="isPlayingSong" class="cover"><div class="playing-indicator-left"></div></div>
     </div>
     <div @click="playSong" class="flex-one min-width">
-      <p class="title-line nowrap">{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span> <span class="muted">{{song.title}}</span></p>
-      <p class="muted">{{song.artist}}{{featuredArtistLabel}}</p>
+      <p class="title-line nowrap">{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span> <span class="muted font-small">{{song.title}}</span></p>
+      <p class="muted font-small">{{song.artist}}{{featuredArtistLabel}}</p>
     </div>
     <div @click="toggleOptions" class="options-button">
       <button class="muted alt"><i class="fas fa-ellipsis-v"></i></button>
