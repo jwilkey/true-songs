@@ -37,20 +37,23 @@ export default {
       return this.platform === 'ios' ? 'webapp:facebook:signIn' : server.loginUrl('facebook')
     }
   },
+  watch: {
+    user () {
+      if (this.user) {
+        const self = this
+        setTimeout(() => {
+          self.$router.replace(self.$route.query.ref ? `/${self.$route.query.ref}` : '/')
+        }, 3000)
+      }
+    }
+  },
   methods: {
     ...mapActions(['setUser'])
   },
   mounted () {
     const self = this
     server.authState()
-    .then(response => {
-      self.setUser(response)
-      if (self.user) {
-        setTimeout(() => {
-          self.$router.replace(self.$route.query.ref ? `/${self.$route.query.ref}` : '/')
-        }, 3000)
-      }
-    })
+    .then(self.setUser)
   }
 }
 </script>
