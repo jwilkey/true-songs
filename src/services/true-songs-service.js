@@ -13,14 +13,8 @@ function cacheVerse (key, verse) {
 
 export default {
   auth (token, strategy) {
-    var form = document.createElement('form')
-    form.method = 'post'
-    form.action = `${baseUrl}/auth/${strategy}/token`
-    var t = document.createElement('input')
-    t.name = 'access_token'
-    t.value = token
-    form.append(t)
-    form.submit()
+    return axios.post(`${baseUrl}/auth/${strategy}/token`, {access_token: token}, {withCredentials: true})
+    .then(response => response.data)
   },
   authState: () => {
     return axios.get(`${baseUrl}/user`, {withCredentials: true})

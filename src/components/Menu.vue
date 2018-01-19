@@ -1,7 +1,7 @@
 <template>
   <div class="menu flex-column small-pad relative">
-    <div class="close-button">
-      <button @click="showRightView(undefined)" class="z2 pull-right small-pad circle"><i class="fas fa-times"></i></button>
+    <div class="close-button z2">
+      <button @click="showRightView(undefined)" class="pull-right small-pad circle"><i class="fas fa-times"></i></button>
     </div>
     <div class="substance">
       <profile class="marginb"></profile>

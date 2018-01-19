@@ -22,6 +22,12 @@ new Vue({
 window.truesongs = {
   auth (token, strategy) {
     server.auth(token, strategy)
+    .then(r => {
+      server.authState()
+      .then(user => {
+        store.dispatch('setUser', user)
+      })
+    })
     .catch(response => {
       console.log('Error injecting auth:')
       console.log(response)
