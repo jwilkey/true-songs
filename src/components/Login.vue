@@ -54,6 +54,7 @@ export default {
     const self = this
     server.authState()
     .then(self.setUser)
+    .catch(() => {})
   }
 }
 </script>

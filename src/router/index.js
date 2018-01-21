@@ -26,6 +26,7 @@ var router = new Router({
         .then(response => {
           store.dispatch('setUser', response)
         })
+        .catch(() => {})
         next()
       }
     },
