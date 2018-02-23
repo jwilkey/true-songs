@@ -7,14 +7,6 @@
       </button>
     </div>
 
-    <div v-if="filter" class="small-pad">
-      <div class="theme-back-text small-pad flex-row align-center rounded">
-        <p class="font-small small-pad">{{visibleSongs.length}}</p>
-        <div class="flex-one font-large">{{ filterLabel }}</div>
-        <a @click="setFilter(undefined)" class="callout alt nopad marginl">show all</a>
-      </div>
-    </div>
-
     <div v-if="showSongs" class="songs flex-one scrolly bottompad">
       <song-item v-for="(song, i) in visibleSongs" :song="song" :key="i"></song-item>
     </div>
@@ -74,13 +66,16 @@ export default {
       }
       return filteredSongs
     },
-    filterLabel () {
+    filterTitle () {
       switch (this.filter.key) {
-        case 'book': return `Song${this.visibleSongs.length > 1 ? 's' : ''} from ${this.bookNames[this.filter.value]}`
-        case 'artist': return `Song${this.visibleSongs.length > 1 ? 's' : ''} by ${this.filter.value}`
-        case 'user': return 'Songs uploaded by me'
+        case 'book': return this.bookNames[this.filter.value]
+        case 'artist': return this.filter.value
+        case 'user': return 'My uploads'
         default: return undefined
       }
+    },
+    filterSongsLabel () {
+      return `${this.visibleSongs.length} SONG${this.visibleSongs.length > 1 ? 'S' : ''}`
     }
   },
   watch: {
@@ -90,18 +85,27 @@ export default {
   },
   components: { SongItem, SongsByBook, SongsByArtist },
   methods: {
-    ...mapActions(['setAllSongs', 'setSongs', 'configureTitlebar', 'setFilter']),
+    ...mapActions(['setAllSongs', 'setSongs', 'setTitlebarLeftItems', 'setTitlebarRightItems', 'setTitlebarTitle', 'setFilter']),
     setupTitlebar () {
       if (this.showSongs) {
-        this.configureTitlebar({
+        this.setTitlebarTitle(this.filterTitle)
+        this.setTitlebarLeftItems({
+          '<i class="fas fa-chevron-left"></i>': this.goBack
+        })
+        this.setTitlebarRightItems({
           '<i class="fas fa-search"></i>': this.toggleSearch,
           '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
         })
       } else {
-        this.configureTitlebar({
+        this.setTitlebarTitle(undefined)
+        this.setTitlebarLeftItems(undefined)
+        this.setTitlebarRightItems({
           '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
         })
       }
+    },
+    goBack () {
+      this.setFilter(undefined)
     },
     toggleSearch () {
       this.showSearch = !this.showSearch
@@ -195,5 +199,9 @@ export default {
       padding: 10px;
     }
   }
+}
+.badge {
+  padding: 3px 10px;
+  border-radius: 25px;
 }
 </style>

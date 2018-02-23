@@ -1,10 +1,13 @@
 <template>
   <div class="titlebar z1 theme-back-text flex-row align-center pad font-large">
-    <div @click="$router.push('/')" class="logo-box callout marginr shadow flex-column flex-center">
+    <div v-if="!showLeftItems" @click="$router.push('/')" class="logo-box callout marginr shadow flex-column flex-center">
       <img class="logo" src="../../static/images/wavebar_padded.png" />
     </div>
-    <p class="flex-one">{{title}}</p>
-    <button v-for="(action, display) in titlebar" @click.prevent="action" v-html="display" class="titlebar-action theme-back-text"></button>
+    <button v-for="(action, display) in titlebarLeftItems" @click.prevent="action" v-html="display" class="titlebar-action left theme-back-text"></button>
+
+    <p class="flex-one">{{titlebarTitle || title}}</p>
+
+    <button v-for="(action, display) in titlebarRightItems" @click.prevent="action" v-html="display" class="titlebar-action right theme-back-text"></button>
   </div>
 </template>
 
@@ -19,7 +22,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['titlebar'])
+    ...mapGetters(['titlebarTitle', 'titlebarLeftItems', 'titlebarRightItems']),
+    showLeftItems () {
+      return this.titlebarLeftItems && Object.keys(this.titlebarLeftItems).length
+    }
   }
 }
 </script>
@@ -39,10 +45,15 @@ export default {
     height: 22px;
   }
   .titlebar-action {
-    padding: 4px 10px;
-    border-radius: 30px;
-    margin-left: 10px;
-    min-width: 40px;
+    padding: 6px 10px 5px 10px;
+    border-radius: 20px;
+    min-width: 32px;
+    &.left {
+      margin-right: 10px;
+    }
+    &.right {
+      margin-left: 10px;
+    }
   }
 }
 </style>

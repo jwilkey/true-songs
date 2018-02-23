@@ -24,7 +24,7 @@
 	  <div class="text-center pad">
         <p class="theme-back-text margint">Please confirm that your uploads conform to our <a @click="showGuidelines">guidelines</a>.</p>
       </div>
-	  
+
       <form v-for="(upload, i) in songUploads">
         <div class="theme-mid pad shadow marginb rounded">
           <div class="marginb small-pad rounded flex-row align-center" :class="uploadHeaderClass(upload)">
@@ -163,7 +163,7 @@ export default {
   },
   components: { ArtistPicker, VersionPicker, PassagePicker, vueDropzone: vue2Dropzone },
   methods: {
-    ...mapActions(['configureTitlebar']),
+    ...mapActions(['setTitlebarRightItems']),
     uploadHeaderClass (upload) {
       return upload.isUploaded
       ? ['back-green']
@@ -287,7 +287,7 @@ export default {
     }
   },
   mounted () {
-    this.configureTitlebar({'DONE': this.cancelAddSong})
+    this.setTitlebarRightItems({'DONE': this.cancelAddSong})
   }
 }
 </script>

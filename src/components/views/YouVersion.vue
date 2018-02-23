@@ -32,13 +32,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['configureTitlebar']),
+    ...mapActions(['setTitlebarRightItems']),
     closeBible () {
       this.$router.push('/')
     }
   },
   mounted () {
-    this.configureTitlebar({
+    this.setTitlebarRightItems({
       '<i class="fas fa-times"></i> CLOSE': this.closeBible
     })
     this.passage = this.$route.query.passage
