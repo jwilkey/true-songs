@@ -7,7 +7,7 @@
 	  <p>Our mission is to provide a platform to harness the talents and service of God’s children to create a place where the entire Word of God can be heard through the power and beauty of the music He has given us.</p>
 	  <br>
 	  <p><b>Share your music! &#9833;&#9834;&#9835;&#9836;&nbsp;&nbsp;</b>Click <a @click="addSong"><b>here</b></a> to upload your Scripture songs.</p>
-	  
+
 	  <br>
 	  <br>
 
@@ -27,14 +27,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['configureTitlebar']),
+    ...mapActions(['setTitlebarRightItems']),
     addSong () {
       this.$router.push('/add_song')
     }
   },
   mounted () {
     const self = this
-    this.configureTitlebar({'Home': () => { self.$router.push('/') }})
+    this.setTitlebarRightItems({'Home': () => { self.$router.push('/') }})
   }
 }
 </script>

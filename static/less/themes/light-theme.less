@@ -107,13 +107,10 @@
   .hi-bottom { border-bottom: solid 1px @color-back-raised2; }
   .callout-border { border: solid 1px @color-callout-light; }
   .callout-bottom { border-bottom: solid 1px @color-callout-light; }
-  ::-webkit-scrollbar-thumb
-  {
-    background: @color-callout-light;
-  }
-  a {
-    color: @color-text;
-  }
+
+  ::-webkit-scrollbar-thumb { background: @color-callout-light; }
+  
+  a { color: @color-text; }
   hr { border-color: lighten(@color-callout, 50%); }
   .button {
     .shadow;
@@ -122,9 +119,7 @@
     color: white;
     text-shadow: 1px 0px 4px rgba(0, 0, 0, 0.4);
   }
-  button {
-    .button;
-  }
+  button { .button; }
   button.alt {
     background-color: @color-back-raised;
     box-shadow: none;
@@ -139,9 +134,7 @@
       border-right: none;
     }
   }
-  input {
-    .input;
-  }
+  input { .input; }
   .input {
     border-radius: 30px;
     border-bottom: solid 3px @color-callout;
@@ -203,15 +196,9 @@
     }
   }
 
-  .muted {
-    color: @color-deemphasize;
-  }
-  .muted-more {
-    color: @color-deemphasize-more;
-  }
-  .muted-border {
-    border: solid 1px @color-deemphasize;
-  }
+  .muted { color: @color-deemphasize; }
+  .muted-more { color: @color-deemphasize-more; }
+  .muted-border { border: solid 1px @color-deemphasize; }
 
   &.hover-on {
     .hover {
@@ -227,19 +214,9 @@
     }
   }
 
-  .shadow {
-    box-shadow: @shadow;
-  }
-  .shadow-light {
-    box-shadow: @shadow-light;
-  }
-  .shadow-long {
-    box-shadow: @shadow-long;
-  }
-  .shadow-top {
-    box-shadow: @shadow-top;
-  }
-  .shadow-inset {
-    box-shadow: @shadow-inset;
-  }
+  .shadow { box-shadow: @shadow; }
+  .shadow-light { box-shadow: @shadow-light; }
+  .shadow-long { box-shadow: @shadow-long; }
+  .shadow-top { box-shadow: @shadow-top; }
+  .shadow-inset { box-shadow: @shadow-inset; }
 }

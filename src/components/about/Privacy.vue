@@ -47,11 +47,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['configureTitlebar'])
+    ...mapActions(['setTitlebarRightItems'])
   },
   mounted () {
     const self = this
-    this.configureTitlebar({'Home': () => { self.$router.push('/') }})
+    this.setTitlebarRightItems({'Home': () => { self.$router.push('/') }})
   }
 }
 </script>

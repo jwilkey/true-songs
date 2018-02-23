@@ -10,7 +10,9 @@ export const state = {
   songs: [],
   sortMethod: 'passage',
   filter: undefined,
-  titlebar: {},
+  titlebarTitle: '',
+  titlebarLeftItems: {},
+  titlebarRightItems: {},
   user: undefined,
   currentSong: undefined,
   isLoadingSong: false,
@@ -23,7 +25,9 @@ export const getters = {
   songs: state => state.songs,
   sortMethod: state => state.sortMethod,
   filter: state => state.filter,
-  titlebar: state => state.titlebar,
+  titlebarTitle: state => state.titlebarTitle,
+  titlebarLeftItems: state => state.titlebarLeftItems,
+  titlebarRightItems: state => state.titlebarRightItems,
   user: state => state.user,
   currentSong: state => state.currentSong,
   isLoadingSong: state => state.isLoadingSong,
@@ -89,8 +93,14 @@ export const actions = {
   setIsPlaying ({ commit }, isPlaying) {
     commit('SET_IS_PLAYING', isPlaying)
   },
-  configureTitlebar ({ commit }, options) {
-    commit('TITLEBAR_OPTIONS', options)
+  setTitlebarTitle ({ commit }, title) {
+    commit('TITLEBAR_TITLE', title)
+  },
+  setTitlebarLeftItems ({ commit }, options) {
+    commit('TITLEBAR_LEFT_OPTIONS', options)
+  },
+  setTitlebarRightItems ({ commit }, options) {
+    commit('TITLEBAR_RIGHT_OPTIONS', options)
   }
 }
 
@@ -146,8 +156,14 @@ export const mutations = {
   SET_IS_PLAYING (state, isPlaying) {
     state.isPlaying = isPlaying
   },
-  TITLEBAR_OPTIONS (state, options) {
-    state.titlebar = options
+  TITLEBAR_TITLE (state, title) {
+    state.titlebarTitle = title
+  },
+  TITLEBAR_LEFT_OPTIONS (state, options) {
+    state.titlebarLeftItems = options
+  },
+  TITLEBAR_RIGHT_OPTIONS (state, options) {
+    state.titlebarRightItems = options
   },
   SET_USER (state, user) {
     state.user = user
