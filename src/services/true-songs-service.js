@@ -27,6 +27,9 @@ export default {
     return axios.post(`${baseUrl}/auth/${provider}`)
     .then(response => response.data)
   },
+  logout: () => {
+    return axios.get(`${baseUrl}/auth/logout`, {withCredentials: true})
+  },
   fetchBibles: function () {
     return axios.get(`${baseUrl}/bible/versions`)
     .then(response => response.data)
