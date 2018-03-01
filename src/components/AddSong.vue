@@ -81,7 +81,10 @@
                 <div class="marginb">
                   <input v-model="upload.title" class="input simple" placeholder="song title" />
                 </div>
-                <div>
+                <div class="flex-row align-center">
+                  <datepicker format="MMM.dd.yyyy" v-model="upload.releaseDate" input-class="input simple" placeholder="release date"></datepicker>
+                </div>
+                 <div>
                   <div class="flex-row align-center">
                     <input v-model="upload.featuredArtists" class="input simple" placeholder="featured artists" />
                     <div v-if="manyUploads && upload.featuredArtists" @click="setAllFeaturedArtists(upload.featuredArtists)" class="marginl">
@@ -89,7 +92,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+               </div>
             </div>
           </div>
 
@@ -119,6 +122,7 @@ import bibleParser from '../helpers/bible-parser'
 import vue2Dropzone from 'vue2-dropzone'
 import Terms from '@/components/views/Terms'
 import Guidelines from '@/components/views/Guidelines'
+import Datepicker from 'vuejs-datepicker'
 
 function SongUpload (file, passage) {
   this.input = ''
@@ -130,6 +134,7 @@ function SongUpload (file, passage) {
   this.labels = []
   this.title = undefined
   this.featuredArtists = undefined
+  this.releaseDate = undefined
   this.errorMessage = undefined
   this.isUploaded = false
 }
@@ -161,7 +166,7 @@ export default {
       return !this.songUploads.length || !this.songUploads.find(su => !su.isUploaded) || this.songUploads.find(su => su.isUploading)
     }
   },
-  components: { ArtistPicker, VersionPicker, PassagePicker, vueDropzone: vue2Dropzone },
+  components: { ArtistPicker, VersionPicker, PassagePicker, vueDropzone: vue2Dropzone, Datepicker },
   methods: {
     ...mapActions(['setTitlebarRightItems']),
     uploadHeaderClass (upload) {
@@ -258,6 +263,7 @@ export default {
       data.append('passage', upload.passage)
       data.append('version', JSON.stringify(upload.version))
       data.append('labels', JSON.stringify(upload.labels))
+      if (upload.releaseDate) { data.append('releaseDate', this.formatDate(upload.releaseDate)) }
       if (upload.title) { data.append('title', upload.title) }
       if (upload.featuredArtists) { data.append('featuredArtists', upload.featuredArtists) }
       data.append('songData', upload.file)
@@ -284,6 +290,11 @@ export default {
     },
     cancelAddSong () {
       this.$router.replace('/')
+    },
+    formatDate (date) {
+      let strDate = date.toDateString()
+      let parts = strDate.split(' ')
+      return parts[1] + '.' + parts[2] + '.' + parts[3]
     }
   },
   mounted () {

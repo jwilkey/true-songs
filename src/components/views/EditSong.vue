@@ -7,6 +7,7 @@
       <input class="simple pointer" v-model="title" placeholder="song title" />
       <input class="simple pointer" v-model="artist"  placeholder="artist"/>
       <input class="simple pointer" v-model="featuredArtists"  placeholder="featured artists"/>
+      <datepicker v-model="releaseDate" format="MMM.dd.yyyy" input-class="simple pointer" calendar-class="red text" placeholder="release date"></datepicker>
 
       <div class="flex-column marginb margint">
         <div class="flex-row align-center">
@@ -44,6 +45,7 @@ import SongDetail from '@/components/SongDetail'
 import bibleParser from '@/helpers/bible-parser'
 import server from '@/services/true-songs-service'
 import { mapActions } from 'vuex'
+import Datepicker from 'vuejs-datepicker'
 
 export default {
   name: 'edit-song',
@@ -54,6 +56,7 @@ export default {
       title: undefined,
       artist: undefined,
       featuredArtists: undefined,
+      releaseDate: undefined,
       labels: [],
       labelInput: undefined,
       field: undefined,
@@ -61,7 +64,7 @@ export default {
     }
   },
   props: ['song'],
-  components: { PassagePicker, VersionPicker },
+  components: { PassagePicker, VersionPicker, Datepicker },
   computed: {
     versionLabel () {
       return this.version ? this.version.versionCode : ''
@@ -132,6 +135,7 @@ export default {
           title: this.title,
           artist: this.artist,
           featuredArtists: this.featuredArtists || '',
+          releaseDate: this.releaseDate,
           labels: this.labels
         }
         this.showLoading()
@@ -158,6 +162,7 @@ export default {
     this.title = this.song.title
     this.artist = this.song.artist
     this.featuredArtists = this.song.featuredArtists
+    this.releaseDate = this.song.releaseDate
     this.labels = [...this.song.labels]
   }
 }

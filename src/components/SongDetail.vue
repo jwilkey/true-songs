@@ -7,6 +7,7 @@
       <p v-if="song.title" class="text-center muted marginb">{{song.title}}</p>
 
       <p class="small-pad"><span class="muted">Artist</span> {{song.artist}} <span v-if="song.featuredArtists">(feat. {{song.featuredArtists}})</span></p>
+      <p v-if="song.releaseDate" class="small-pad"><span class="muted">Release Date</span>{{song.releaseDate}}</p>
       <p v-if="song.labels.length" class="small-pad"><span class="muted">Labels</span> {{joinedLabels}}</p>
 
       <p class="muted margint small-pad">Bible text ({{song.bible_version.versionCode}})</p>
