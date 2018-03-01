@@ -35,7 +35,7 @@ export default {
       return bibleParser.normalize(this.song.passage)
     },
     bookLabel () {
-      return this.readablePassage.replace(/\s/g, '').substring(0, 2)
+      return this.readablePassage.replace(/\s/g, '').substring(0, 3)
     },
     featuredArtistLabel () {
       return this.song.featuredArtists ? ` (feat. ${this.song.featuredArtists})` : ''
