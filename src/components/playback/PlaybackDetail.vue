@@ -59,7 +59,6 @@ export default {
   name: 'playback-detail',
   data () {
     return {
-      position: 0,
       sliderOptions: {
         min: 0,
         max: 1,
@@ -81,11 +80,9 @@ export default {
     },
     showReadExternally () {
       return ['niv', 'nkjv'].includes(this.song.bible_version.versionCode.toLowerCase())
-    }
-  },
-  watch: {
-    progress () {
-      this.position = this.progress
+    },
+    position () {
+      return this.progress
     }
   },
   components: { VueSlider },
