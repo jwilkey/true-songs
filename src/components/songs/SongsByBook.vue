@@ -1,6 +1,6 @@
 <template>
   <div class="songs-by-book books flex-row flex-wrap flex-center">
-    <div @click="addSong" class="tile flex-column relative">
+    <div @click="addSong" class="tile flex-one flex-column align-center relative">
       <div class="pad-10">
         <div class="icon-wrapper theme-mid shadow flex-column flex-center">
           <p class="text-center callout alt"><i class="fas fa-invert fa-plus fa-3x"></i></p>
@@ -9,7 +9,7 @@
       <p class="book-label z2 theme-back-text text-center">Add songs</p>
     </div>
 
-    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="tile theme-mid glass shadow flex-column relative">
+    <div v-for="(title, book) in bookNames" v-if="songsByBook[book]" @click="bookSelected(book)" class="tile flex-one theme-mid glass shadow flex-column align-center relative">
       <div class="pad-10">
         <div class="icon-wrapper theme-mid shadow-inset flex-column flex-center">
           <p class="book-icon text-center callout alt font-larger">{{bookImage(book)}}</p>
@@ -17,6 +17,9 @@
       </div>
       <p class="book-label z2 text-center callout alt">{{ title }}</p>
       <div class="z3 font-small"><p class="count-label callout alt pull-right">{{songsByBook[book]}}</p></div>
+    </div>
+
+    <div v-for="n in 5" class="tile flex-one spacer">
     </div>
   </div>
 </template>
@@ -70,7 +73,11 @@ export default {
   margin: 5px 3px;
   cursor: pointer;
   border-radius: 2px;
-  width: 113px;
+  min-width: 113px;
+  flex: 1 3 90px;
+  &.spacer {
+    opacity: 0;
+  }
   .pad-10 {
     padding: 10px;
   }
