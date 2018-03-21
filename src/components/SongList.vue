@@ -89,9 +89,10 @@ export default {
     setupTitlebar () {
       if (this.showSongs) {
         this.setTitlebarTitle(this.filterTitle)
-        this.setTitlebarLeftItems({
-          '<i class="fas fa-chevron-left"></i>': this.goBack
-        })
+        this.setTitlebarLeftItems([{
+          template: '<i class="fas fa-chevron-left"></i>',
+          action: this.goBack
+        }])
         this.setTitlebarRightItems({
           '<i class="fas fa-search"></i>': this.toggleSearch,
           '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu

@@ -96,8 +96,8 @@ export const actions = {
   setTitlebarTitle ({ commit }, title) {
     commit('TITLEBAR_TITLE', title)
   },
-  setTitlebarLeftItems ({ commit }, options) {
-    commit('TITLEBAR_LEFT_OPTIONS', options)
+  setTitlebarLeftItems ({ commit }, items) {
+    commit('TITLEBAR_LEFT_OPTIONS', items)
   },
   setTitlebarRightItems ({ commit }, options) {
     commit('TITLEBAR_RIGHT_OPTIONS', options)
@@ -159,8 +159,8 @@ export const mutations = {
   TITLEBAR_TITLE (state, title) {
     state.titlebarTitle = title
   },
-  TITLEBAR_LEFT_OPTIONS (state, options) {
-    state.titlebarLeftItems = options
+  TITLEBAR_LEFT_OPTIONS (state, items) {
+    state.titlebarLeftItems = items
   },
   TITLEBAR_RIGHT_OPTIONS (state, options) {
     state.titlebarRightItems = options

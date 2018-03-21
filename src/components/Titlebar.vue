@@ -3,7 +3,7 @@
     <div v-if="!showLeftItems" @click="$router.push('/')" class="logo-box callout marginr shadow flex-column flex-center">
       <img class="logo" src="../../static/images/wavebar_padded.png" />
     </div>
-    <button v-for="(action, display) in leftItems" @click.prevent="action" v-html="display" class="titlebar-action left theme-back-text"></button>
+    <button v-for="item in leftItems" @click.prevent="item.action" v-html="item.template" class="titlebar-action left theme-back-text"></button>
 
     <p class="flex-one">{{title || 'TRUE SONGS'}}</p>
 
