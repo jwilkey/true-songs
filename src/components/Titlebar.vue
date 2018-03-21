@@ -3,28 +3,25 @@
     <div v-if="!showLeftItems" @click="$router.push('/')" class="logo-box callout marginr shadow flex-column flex-center">
       <img class="logo" src="../../static/images/wavebar_padded.png" />
     </div>
-    <button v-for="(action, display) in titlebarLeftItems" @click.prevent="action" v-html="display" class="titlebar-action left theme-back-text"></button>
+    <button v-for="(action, display) in leftItems" @click.prevent="action" v-html="display" class="titlebar-action left theme-back-text"></button>
 
-    <p class="flex-one">{{titlebarTitle || title}}</p>
+    <p class="flex-one">{{title || 'TRUE SONGS'}}</p>
 
-    <button v-for="(action, display) in titlebarRightItems" @click.prevent="action" v-html="display" class="titlebar-action right theme-back-text"></button>
+    <button v-for="(action, display) in rightItems" @click.prevent="action" v-html="display" class="titlebar-action right theme-back-text"></button>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'Titlebar',
   data () {
     return {
-      title: 'TRUE SONGS'
     }
   },
+  props: ['title', 'leftItems', 'rightItems'],
   computed: {
-    ...mapGetters(['titlebarTitle', 'titlebarLeftItems', 'titlebarRightItems']),
     showLeftItems () {
-      return this.titlebarLeftItems && Object.keys(this.titlebarLeftItems).length
+      return this.leftItems && Object.keys(this.leftItems).length
     }
   }
 }

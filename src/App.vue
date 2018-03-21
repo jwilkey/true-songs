@@ -1,7 +1,7 @@
 <template>
   <div id="app" :class="{noscroll: revealRightView}">
     <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
-      <titlebar class=""></titlebar>
+      <titlebar :title="titlebarTitle" :leftItems="titlebarLeftItems" :rightItems="titlebarRightItems"></titlebar>
       <router-view class="router flex-one"/>
       <playback-bar ref="playback"></playback-bar>
       <div class="background z-1 theme-back"></div>
@@ -19,7 +19,7 @@
 
 <script>
 import '@/configuration/google-analytics'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Titlebar from '@/components/Titlebar'
 import PlaybackBar from '@/components/playback/PlaybackBar'
 import Loading from '@/components/modals/Loading'
@@ -37,6 +37,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['titlebarTitle', 'titlebarLeftItems', 'titlebarRightItems']),
     revealRightView () {
       return this.rightView !== undefined
     }
