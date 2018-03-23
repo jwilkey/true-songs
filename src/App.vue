@@ -1,19 +1,29 @@
 <template>
   <div id="app" :class="{noscroll: revealRightView}">
-    <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig, shiftr: revealRightView}">
+    <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig}">
       <titlebar :title="titlebarTitle" :leftItems="titlebarLeftItems" :rightItems="titlebarRightItems"></titlebar>
-      <router-view class="router flex-one"/>
+
+      <div class="flex-one flex-row hfull">
+        <div class="flex-one">
+          <router-view class="router"/>
+        </div>
+        <div v-if="revealRightView" class="right-view z2 marginl slide-from-right" :class="{blur: isLoading || alertConfig}">
+          <div class="theme-mid shadow vfull">
+            <div class="right-view-close pad nopad-bottom">
+              <button class="muted alt hfull" @click="hideRightView"><span class="muted-more">CLOSE</span></button>
+            </div>
+            <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
+          </div>
+        </div>
+      </div>
+
       <playback-bar ref="playback"></playback-bar>
       <div class="background z-1 theme-back"></div>
-      <div v-if="revealRightView" @click="rightView = undefined" class="cover z5"></div>
     </div>
 
     <loading v-if="isLoading"></loading>
     <alert v-if="alertConfig" :content="alertConfig.content" :actions="alertConfig.actions"></alert>
 
-    <div v-if="revealRightView" class="right-view z0 theme-under appear" :class="{blur: isLoading || alertConfig}">
-      <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
-    </div>
   </div>
 </template>
 
@@ -65,36 +75,33 @@ html, body, #app {
 </style>
 
 <style lang="less" scoped>
-@right-view-width: 320px;
-
 .main-content {
   position: relative;
   box-shadow: 3px 0px 10px rgba(0, 0, 0, 0.7);
   transition: transform 0.7s;
   transform-origin: right top;
-  .titlebar, .router {
-    transition: opacity 0.7s;
-  }
-}
-.shiftr {
-  .titlebar, .router {
-    opacity: 0.3;
-  }
-  transform: translateX(-@right-view-width) scale(1.2);
-  overflow: hidden;
-}
-@media screen and (max-width: 355px) {
-  .shiftr {
-    transform: translateX(-90%) scale(1.2);
-  }
 }
 .right-view {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: @right-view-width;
+  width: 300px;
+  min-width: 220px;
   max-width: 90%;
-  bottom: 0;
+  & > .theme-mid {
+    border-top-left-radius: 8px;
+  }
+  .right-view-close {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  .right-view {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    .right-view-close {
+      display: block;
+    }
+  }
 }
 .background {
   position: absolute;

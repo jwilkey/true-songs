@@ -1,13 +1,5 @@
 <template>
   <div class="menu flex-column small-pad relative">
-    <div class="close-button z2">
-      <div @click="showRightView(undefined)" class="pull-right small-pad pointer">
-        <span class="fa-layers fa-fw marginr">
-          <i class="fa-inverse fas fa-circle muted" data-fa-transform="grow-5"></i>
-          <i class="fa-inverse fas fa-times alt"></i>
-        </span>
-      </div>
-    </div>
     <div class="substance">
       <profile class="marginb"></profile>
       <display-options class="marginb"></display-options>
@@ -81,12 +73,6 @@ export default {
       margin: 1px;
     }
   }
-}
-.close-button {
-  position: absolute;
-  top: 8px;
-  right: 0px;
-  button { min-width: 25px; }
 }
 .spacer {
   height: 40px;

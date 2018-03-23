@@ -7,7 +7,10 @@
       <div v-if="isPlayingSong" class="cover"><div class="playing-indicator-left"></div></div>
     </div>
     <div @click="playSong" class="flex-one min-width">
-      <p class="title-line nowrap">{{readablePassage}} <span class="version-label callout alt font-small">{{song.bible_version.versionCode}}</span> <span class="muted font-small">{{song.title}}</span></p>
+      <div class="flex-row align-center">
+        <p class="nowrap">{{readablePassage}}</p>
+        <p class="nowrap version-label callout alt font-small">{{song.bible_version.versionCode}}</p>
+      </div>
       <p class="muted font-small">{{song.artist}}{{featuredArtistLabel}}</p>
     </div>
     <div @click="toggleOptions" class="options-button">
@@ -66,30 +69,32 @@ export default {
 
 <style lang="less" scoped>
 .song {
-  padding: 3px 10px;
+  padding: 3px 7px;
   margin-bottom: 2px;
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
   & > * {
     padding: 5px;
   }
   .version-label {
     margin: 0 6px;
   }
-.min-width {
-  min-width: 0;
-}
-.title-line {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  .min-width {
+    min-width: 0;
+  }
+  .title-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .song-art {
     position: relative;
     height: 31px;
     width: 31px;
     text-align: center;
     border-radius: 50px;
-    margin-right: 8px;
+    margin-right: 4px;
     margin-bottom: 1px;
     overflow: hidden;
     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);

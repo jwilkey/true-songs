@@ -1,19 +1,19 @@
 <template>
   <div class="song-details flex-column">
     <div class="flex-one scrolly pad">
-      <button @click="close" class="hfull text-left marginb"><i class="fas fa-chevron-left"></i> CLOSE</button>
-
       <p class="text-center font-large small-pad">{{readablePassage}}</p>
       <p v-if="song.title" class="text-center muted marginb">{{song.title}}</p>
 
-      <p class="small-pad"><span class="muted">Artist</span> {{song.artist}} <span v-if="song.featuredArtists">(feat. {{song.featuredArtists}})</span></p>
-      <p v-if="song.releaseDate" class="small-pad"><span class="muted">Release Date</span>{{song.releaseDate}}</p>
-      <p v-if="song.labels.length" class="small-pad"><span class="muted">Labels</span> {{joinedLabels}}</p>
+      <hr />
 
-      <p class="muted margint small-pad">Bible text ({{song.bible_version.versionCode}})</p>
+      <p class="marginb"><span class="muted">Artist</span> {{song.artist}} <span v-if="song.featuredArtists">(feat. {{song.featuredArtists}})</span></p>
+      <p v-if="song.releaseDate" class="marginb"><span class="muted">Release Date</span> {{song.releaseDate}}</p>
+      <p v-if="song.labels.length" class="marginb"><span class="muted">Labels</span> {{joinedLabels}}</p>
+
+      <p class="muted margint">Bible text ({{song.bible_version.versionCode}})</p>
       <div v-if="isLoadingText" class="spinner fa-spin"></div>
-      <div v-if="!showReadExternally" class="bible-text small-pad" v-html="bibleText"></div>
-      <button v-if="showReadExternally" @click="readPassageExternally">Read this passage <i class="fas fa-arrow-right"></i></button>
+      <div v-if="!showReadExternally" class="bible-text" v-html="bibleText"></div>
+      <a v-if="showReadExternally" class="callout alt" @click="readPassageExternally">Read this passage <i class="fas fa-arrow-right"></i></a>
     </div>
 
     <div v-if="isMySong" class="pad text-center">
@@ -51,15 +51,12 @@ export default {
       return ['niv', 'nkjv'].includes(this.song.bible_version.versionCode.toLowerCase())
     },
     isMySong () {
-      return this.song.user === this.user.id
+      return this.song.user === {...this.user}.id
     }
   },
   props: ['song'],
   methods: {
     ...mapActions(['removeSong']),
-    close () {
-      this.hideRightView()
-    },
     editPressed () {
       this.showRightView(EditSong, {song: this.song})
     },
