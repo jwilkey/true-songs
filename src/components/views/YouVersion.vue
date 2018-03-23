@@ -38,9 +38,7 @@ export default {
     }
   },
   mounted () {
-    this.setTitlebarRightItems({
-      '<i class="fas fa-times"></i> CLOSE': this.closeBible
-    })
+    this.setTitlebarRightItems([{template: '<i class="fas fa-times"></i> CLOSE', action: this.closeBible}])
     this.passage = this.$route.query.passage
     this.version = this.$route.query.version
   }

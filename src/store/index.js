@@ -11,8 +11,8 @@ export const state = {
   sortMethod: 'passage',
   filter: undefined,
   titlebarTitle: '',
-  titlebarLeftItems: {},
-  titlebarRightItems: {},
+  titlebarLeftItems: [],
+  titlebarRightItems: [],
   user: undefined,
   currentSong: undefined,
   isLoadingSong: false,
@@ -99,8 +99,8 @@ export const actions = {
   setTitlebarLeftItems ({ commit }, items) {
     commit('TITLEBAR_LEFT_OPTIONS', items)
   },
-  setTitlebarRightItems ({ commit }, options) {
-    commit('TITLEBAR_RIGHT_OPTIONS', options)
+  setTitlebarRightItems ({ commit }, items) {
+    commit('TITLEBAR_RIGHT_OPTIONS', items)
   }
 }
 
@@ -162,8 +162,8 @@ export const mutations = {
   TITLEBAR_LEFT_OPTIONS (state, items) {
     state.titlebarLeftItems = items
   },
-  TITLEBAR_RIGHT_OPTIONS (state, options) {
-    state.titlebarRightItems = options
+  TITLEBAR_RIGHT_OPTIONS (state, items) {
+    state.titlebarRightItems = items
   },
   SET_USER (state, user) {
     state.user = user

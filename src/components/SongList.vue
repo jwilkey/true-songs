@@ -93,16 +93,16 @@ export default {
           template: '<i class="fas fa-chevron-left"></i>',
           action: this.goBack
         }])
-        this.setTitlebarRightItems({
-          '<i class="fas fa-search"></i>': this.toggleSearch,
-          '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
-        })
+        this.setTitlebarRightItems([
+          {template: '<i class="fas fa-search"></i>', action: this.toggleSearch},
+          {template: '<i class="fa fa-ellipsis-v theme-back-text"></i>', action: this.toggleMenu}
+        ])
       } else {
         this.setTitlebarTitle(undefined)
         this.setTitlebarLeftItems(undefined)
-        this.setTitlebarRightItems({
-          '<i class="fa fa-ellipsis-v theme-back-text"></i>': this.toggleMenu
-        })
+        this.setTitlebarRightItems([
+          {template: '<i class="fa fa-ellipsis-v theme-back-text"></i>', action: this.toggleMenu}
+        ])
       }
     },
     goBack () {

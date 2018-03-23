@@ -7,7 +7,7 @@
 
     <p class="flex-one">{{title || 'TRUE SONGS'}}</p>
 
-    <button v-for="(action, display) in rightItems" @click.prevent="action" v-html="display" class="titlebar-action right theme-back-text"></button>
+    <button v-for="item in rightItems" @click.prevent="item.action" v-html="item.template" class="titlebar-action right theme-back-text"></button>
   </div>
 </template>
 

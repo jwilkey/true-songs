@@ -298,7 +298,7 @@ export default {
     }
   },
   mounted () {
-    this.setTitlebarRightItems({'DONE': this.cancelAddSong})
+    this.setTitlebarRightItems([{template: 'DONE', action: this.cancelAddSong}])
   }
 }
 </script>

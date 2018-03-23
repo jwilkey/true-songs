@@ -34,7 +34,7 @@ export default {
   },
   mounted () {
     const self = this
-    this.setTitlebarRightItems({'Home': () => { self.$router.push('/') }})
+    this.setTitlebarRightItems([{template: 'Home', action: () => { self.$router.push('/') }}])
   }
 }
 </script>
