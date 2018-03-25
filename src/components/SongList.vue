@@ -158,7 +158,7 @@ export default {
     }
   }
   .songs {
-    padding-right: 0px;
+    padding-right: 5px;
     padding-left: 5px;
   }
 }

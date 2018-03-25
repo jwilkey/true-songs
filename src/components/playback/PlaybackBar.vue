@@ -134,6 +134,7 @@ export default {
 <style lang="less" scoped>
 .controls-wrapper {
   transition: max-height 0.5s;
+  overflow: hidden;
   // position: fixed;
   // bottom: 0;
   // left: 0;

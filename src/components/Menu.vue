@@ -1,5 +1,5 @@
 <template>
-  <div class="menu flex-column small-pad relative">
+  <div class="menu flex-column relative">
     <div class="substance">
       <profile class="marginb"></profile>
       <display-options class="marginb"></display-options>

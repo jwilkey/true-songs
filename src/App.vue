@@ -3,11 +3,11 @@
     <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig}">
       <titlebar :title="titlebarTitle" :leftItems="titlebarLeftItems" :rightItems="titlebarRightItems"></titlebar>
 
-      <div class="flex-one flex-row hfull">
+      <div class="flex-one scrolly flex-row hfull">
         <div class="flex-one">
           <router-view class="router"/>
         </div>
-        <div v-if="revealRightView" class="right-view z2 marginl slide-from-right" :class="{blur: isLoading || alertConfig}">
+        <div v-if="revealRightView" class="right-view z2 slide-from-right" :class="{blur: isLoading || alertConfig}">
           <div class="theme-mid shadow vfull">
             <div class="right-view-close pad nopad-bottom">
               <button class="muted alt hfull" @click="hideRightView"><span class="muted-more">CLOSE</span></button>
@@ -18,6 +18,7 @@
       </div>
 
       <playback-bar ref="playback"></playback-bar>
+
       <div class="background z-1 theme-back"></div>
     </div>
 
@@ -85,6 +86,7 @@ html, body, #app {
   width: 300px;
   min-width: 220px;
   max-width: 90%;
+  padding-left: 10px;
   & > .theme-mid {
     border-top-left-radius: 8px;
   }
