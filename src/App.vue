@@ -7,7 +7,7 @@
         <div class="flex-one">
           <router-view class="router"/>
         </div>
-        <div v-if="revealRightView" class="right-view z2 slide-from-right" :class="{blur: isLoading || alertConfig}">
+        <div v-if="revealRightView" class="right-view z3 slide-from-right" :class="{blur: isLoading || alertConfig}">
           <div class="theme-mid shadow vfull">
             <div class="right-view-close pad nopad-bottom">
               <button class="muted alt hfull" @click="hideRightView"><span class="muted-more">CLOSE</span></button>
@@ -62,9 +62,6 @@ export default {
     if (this.$route.query.platform) {
       this.setPlatform(this.$route.query.platform)
     }
-    if (true) {
-      this.showRightView(Menu)
-    }
   }
 }
 </script>
@@ -94,9 +91,6 @@ html, body, #app {
   & > .theme-mid {
     border-top-left-radius: 8px;
   }
-  .right-view-close {
-    display: none;
-  }
 }
 @media screen and (max-width: 700px) {
   .right-view {
@@ -104,9 +98,6 @@ html, body, #app {
     top: 0;
     right: 0;
     bottom: 0;
-    .right-view-close {
-      display: block;
-    }
   }
 }
 .background {
