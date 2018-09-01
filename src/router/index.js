@@ -23,10 +23,10 @@ var router = new Router({
       component: SongList,
       beforeEnter: (to, from, next) => {
         server.authState()
-        .then(response => {
-          store.dispatch('setUser', response)
-        })
-        .catch(() => {})
+          .then(response => {
+            store.dispatch('setUser', response)
+          })
+          .catch(() => {})
         next()
       }
     },

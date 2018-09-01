@@ -322,7 +322,7 @@ export default {
     .dz-image {
       height: 20px;
       width: 20px;
-      background-image: url('../../static/images/meter.png');
+      background-image: url('../assets/images/meter.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;

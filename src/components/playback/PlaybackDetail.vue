@@ -17,20 +17,20 @@
     </div>
 
     <vue-slider ref="slider"
-      v-model="position"
+      v-model="barPosition"
       v-bind="sliderOptions"
       v-on:callback="sliderCallback"
       class="progress"></vue-slider>
 
     <div class="flex-row align-center pad">
-      <a @click="delegate.rewindAudio" class="tracking"><img src="../../../static/images/track-minus-10.png" /></a>
+      <a @click="delegate.rewindAudio" class="tracking"><img src="@/assets/images/track-minus-10.png" /></a>
       <div class="flex-one flex-row align-center flex-center">
         <div @click="previousSong"><i class="fas fa-backward"></i></div>
         <div v-if="delegate.isPlaying" @click="delegate.pause" class="main-btn pause muted-border"></div>
         <div v-if="!delegate.isPlaying" @click="delegate.play" class="main-btn play muted-border"></div>
         <div @click="nextSong"><i class="fas fa-forward"></i></div>
       </div>
-      <a @click="delegate.forwardAudio" class="tracking"><img src="../../../static/images/track-plus-10.png" /></a>
+      <a @click="delegate.forwardAudio" class="tracking"><img src="@/assets/images/track-plus-10.png" /></a>
     </div>
 
     <div class="muted text-center pad">{{timeLabel}}</div>
@@ -81,7 +81,7 @@ export default {
     showReadExternally () {
       return ['niv', 'nkjv'].includes(this.song.bible_version.versionCode.toLowerCase())
     },
-    position () {
+    barPosition () {
       return this.progress
     }
   },
@@ -139,7 +139,7 @@ export default {
 .detail-toggle {
   margin: 15px;
   margin-top: 0px;
-  background-image: url('../../../static/images/collapse.svg');
+  background-image: url('../../assets/images/collapse.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50px;
@@ -163,13 +163,13 @@ export default {
   }
 }
 .play {
-  background-image: url("../../../static/images/play.svg");
+  background-image: url("../../assets/images/play.svg");
   background-size: 27px;
   background-repeat: no-repeat;
   background-position: center;
 }
 .pause {
-  background-image: url("../../../static/images/pause.svg");
+  background-image: url("../../assets/images/pause.svg");
   background-size: 27px;
   background-repeat: no-repeat;
   background-position: center;

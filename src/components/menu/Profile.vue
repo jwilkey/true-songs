@@ -4,14 +4,14 @@
       <img :src="user.image" class="circle shadow marginr" /> <span class="font-large">{{user.name}}</span>
     </div>
 
-    <div v-if="!user" @click="login" class="pad mid-bottom pointer">
+    <div v-if="!user" @click="login" class="pad hi-bottom pointer">
       <span class="fa-layers fa-fw marginr">
         <i class="fas fa-circle" data-fa-transform="grow-3"></i>
         <i class="fa-inverse fas fa-sign-in-alt alt" data-fa-transform="shrink-3"></i>
       </span>
       Sign in
     </div>
-    <div @click="addSong" class="pad mid-bottom pointer">
+    <div @click="addSong" class="pad hi-bottom pointer">
       <span class="fa-layers fa-fw marginr">
         <i class="fas fa-circle" data-fa-transform="grow-3"></i>
         <i class="fa-inverse fas fa-plus alt" data-fa-transform="shrink-3"></i>

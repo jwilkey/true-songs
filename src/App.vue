@@ -35,6 +35,7 @@ import Titlebar from '@/components/Titlebar'
 import PlaybackBar from '@/components/playback/PlaybackBar'
 import Loading from '@/components/modals/Loading'
 import Alert from '@/components/modals/Alert'
+import Menu from '@/components/Menu'
 
 export default {
   name: 'app',
@@ -61,12 +62,15 @@ export default {
     if (this.$route.query.platform) {
       this.setPlatform(this.$route.query.platform)
     }
+    if (true) {
+      this.showRightView(Menu)
+    }
   }
 }
 </script>
 
 <style lang="less">
-@import '../static/less/common';
+@import './assets/less/common';
 
 html, body, #app {
   height: 100%;
@@ -118,7 +122,7 @@ html, body, #app {
     bottom: 0;
     left: 0;
     right: 0;
-    background-image: url('../static/images/curves.jpg');
+    background-image: url('./assets/images/curves.jpg');
     background-position: center;
     background-size: cover;
     filter: grayscale(1);

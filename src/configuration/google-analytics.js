@@ -5,6 +5,6 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', process.env.GOOGLE_ANALYTICS_ID, 'auto');
+ga('create', process.env.VUE_APP_GOOGLE_ANALYTICS_ID, 'auto');
 ga('set', 'appName', 'TrueWords');
 ga('set', 'appVersion', '0.5');

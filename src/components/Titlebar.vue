@@ -1,7 +1,7 @@
 <template>
   <div class="titlebar z1 theme-back-text flex-row align-center pad font-large">
     <div v-if="!showLeftItems" @click="$router.push('/')" class="logo-box callout marginr shadow flex-column flex-center">
-      <img class="logo" src="../../static/images/wavebar_padded.png" />
+      <img class="logo" src="@/assets/images/wavebar_padded.png" />
     </div>
     <button v-for="item in leftItems" @click.prevent="item.action" v-html="item.template" class="titlebar-action left theme-back-text"></button>
 

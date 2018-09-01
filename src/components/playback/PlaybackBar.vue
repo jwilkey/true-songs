@@ -3,8 +3,8 @@
     <div v-if="!showDetailView" class="theme-mid">
       <div class="progress back-green" :style="{width: `${progress * 100}%`}"></div>
       <div class="flex-row align-center controls">
-        <div v-if="isPlaying" @click="pause"><img src="../../../static/images/pause.svg" /></div>
-        <div v-if="!isPlaying" @click="play"><img src="../../../static/images/play.svg" /></div>
+        <div v-if="isPlaying" @click="pause"><img src="@/assets/images/pause.svg" /></div>
+        <div v-if="!isPlaying" @click="play"><img src="@/assets/images/play.svg" /></div>
         <div v-if="currentSong" @click="toggleDetailView" class="flex-one">
           <p>{{readablePassage}} <span class="version callout alt font-small">{{currentSong.bible_version.versionCode}}</span></p>
           <p class="muted font-small">{{currentSong.artist}}</p>

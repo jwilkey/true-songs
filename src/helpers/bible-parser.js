@@ -1,6 +1,6 @@
 import parser from 'bible-passage-reference-parser/js/en_bcv_parser'
 var osisNames = require('./osis_names.json')
-var bcv = new parser.bcv_parser()  // eslint-disable-line new-cap
+var bcv = new parser.bcv_parser() // eslint-disable-line new-cap
 bcv.options.book_alone_strategy = 'first_chapter'
 bcv.options.book_sequence_strategy = 'include'
 

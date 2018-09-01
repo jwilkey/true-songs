@@ -43,8 +43,8 @@ export const actions = {
       s.bible_version = JSON.parse(s.bible_version)
       s.labels = s.labels ? JSON.parse(s.labels) : []
       s.search = `|${s.passage}|${s.bible_version.versionCode}|${s.artist}|${s.labels.join('|')}`
-      .toLowerCase()
-      .replace(' ', '')
+        .toLowerCase()
+        .replace(' ', '')
     })
     commit('SET_ALL_SONGS', songs)
   },
@@ -55,8 +55,8 @@ export const actions = {
     song.bible_version = JSON.parse(song.bible_version)
     song.labels = song.labels ? JSON.parse(song.labels) : []
     song.search = `|${song.passage}|${song.bible_version.versionCode}|${song.artist}|${song.labels.join('|')}`
-    .toLowerCase()
-    .replace(' ', '')
+      .toLowerCase()
+      .replace(' ', '')
     commit('UPDATE_SONG', song)
     return song
   },

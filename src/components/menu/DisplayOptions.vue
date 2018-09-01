@@ -2,13 +2,13 @@
   <div class="display-options pad">
     <div class="sort-options margint">
       <p class="muted marginb">SORT SONGS BY</p>
-      <div @click="sortBy('passage')" class="mid-bottom pointer">
+      <div @click="sortBy('passage')" class="hi-bottom pointer">
         <span v-if="isSortPassage"><i class="fas fa-check muted" data-fa-transform="shrink-2"></i></span> Bible passage
       </div>
-      <div @click="sortBy('artist')" class="mid-bottom pointer">
+      <div @click="sortBy('artist')" class="hi-bottom pointer">
         <span v-if="isSortArtist"><i class="fas fa-check muted" data-fa-transform="shrink-2"></i></span> Artist
       </div>
-      <div @click="sortBy('upload')" class="mid-bottom pointer">
+      <div @click="sortBy('upload')" class="hi-bottom pointer">
         <span v-if="isSortUpload"><i class="fas fa-check muted" data-fa-transform="shrink-2"></i></span> Upload date
       </div>
     </div>
@@ -52,6 +52,7 @@ export default {
   .sort-options {
     & > div {
       margin-bottom: 15px;
+      padding-bottom: 5px;
     }
   }
 }

@@ -21,9 +21,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import bibleParser from '../helpers/bible-parser'
-import playbackMixin from '../mixins/playback-mixin'
+import bibleParser from '@/helpers/bible-parser'
+import playbackMixin from '@/mixins/playback-mixin'
 import SongDetail from './SongDetail'
+import bookNames from '@/bible/book-names'
 
 export default {
   name: 'SongItem',
@@ -38,7 +39,7 @@ export default {
       return bibleParser.normalize(this.song.passage)
     },
     bookLabel () {
-      return this.readablePassage.replace(/\s/g, '').substring(0, 3)
+      return bookNames[this.song.book].short
     },
     featuredArtistLabel () {
       return this.song.featuredArtists ? ` (feat. ${this.song.featuredArtists})` : ''
@@ -111,7 +112,7 @@ export default {
       left: 0;
       height: 100%;
       width: 200%;
-      background-image: url('../../static/images/waves.png');
+      background-image: url('../assets/images/waves.png');
       background-size: contain;
       opacity: 0.1;
       transform-style: flat;
