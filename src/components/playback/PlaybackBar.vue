@@ -75,6 +75,7 @@ export default {
     },
     playCurrentSong () {
       this.audio.src = ''
+      this.audio.title = `${this.readablePassage} - ${this.currentSong.artist}`
       this.audio.play()
 
       this.isLoadingSong(true)
