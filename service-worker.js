@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.829a970781266cfbe1f056108c769ed9.js"
+  "/precache-manifest.c943bf40de5d5b337c84f4770890a631.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "true-songs"});
