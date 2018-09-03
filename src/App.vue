@@ -4,17 +4,20 @@
       <titlebar :title="titlebarTitle" :leftItems="titlebarLeftItems" :rightItems="titlebarRightItems"></titlebar>
 
       <div class="flex-one scrolly flex-row hfull">
+
         <div class="flex-one">
           <router-view class="router"/>
         </div>
+
         <div v-if="revealRightView" class="right-view z3 slide-from-right" :class="{blur: isLoading || alertConfig}">
-          <div class="theme-mid shadow vfull">
+          <div class="theme-mid shadow vfull flex-column">
             <div class="right-view-close pad nopad-bottom">
               <button class="muted alt hfull" @click="hideRightView"><span class="muted-more">CLOSE</span></button>
             </div>
-            <div :is="rightView" v-bind="rightViewProps" class="vfull"></div>
+            <div :is="rightView" v-bind="rightViewProps" class="flex-one"></div>
           </div>
         </div>
+        
       </div>
 
       <playback-bar ref="playback"></playback-bar>
@@ -24,7 +27,6 @@
 
     <loading v-if="isLoading"></loading>
     <alert v-if="alertConfig" :content="alertConfig.content" :actions="alertConfig.actions"></alert>
-
   </div>
 </template>
 
