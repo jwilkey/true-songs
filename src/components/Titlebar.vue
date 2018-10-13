@@ -34,9 +34,6 @@ export default {
     border-radius: 15px;
     padding: 3px;
     transform: scale(1.3);
-    img {
-      filter: invert();
-    }
   }
   .logo {
     height: 22px;

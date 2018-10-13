@@ -1,5 +1,5 @@
 <template>
-  <div class="add-song pad vfull flex-column">
+  <div class="add-song vfull flex-column">
     <transition name="fade">
       <div v-if="showInput" class="super-input z5 flex-column pad nopad-top">
         <artist-picker v-if="field === 'artist'" class="flex-one substance" :input="input" :on-select="artistSelected"></artist-picker>
@@ -8,24 +8,23 @@
       </div>
     </transition>
 
-    <div class="distance flex-one small-pad scrolly" :class="{apply: showInput}">
-      <div class="theme-mid pad marginb shadow bullet">
+    <div class="distance flex-one pad scrolly" :class="{apply: showInput}">
+      <div class="theme-mid flex-row align-center pad marginb shadow bullet">
+        <div class="user-info">
+          <img :src="user.image" class="circle shadow" />
+        </div>
         <h3>Publish songs</h3>
-    </div>
-
-      <div class="file-container theme-mid rounded marginb">
-        <vue-dropzone  ref="dropzone" id="song-file"
-        :options="dropzoneOptions"
-        v-on:vdropzone-file-added="fileChanged"
-        :class="{'has-file': songUploads.length}"
-        class="theme-mid pad text-center shadow-inset callout alt rounded"></vue-dropzone>
       </div>
 
-	  <div class="text-center pad">
+      <div class="file-container theme-mid rounded marginb">
+        <vue-dropzone ref="dropzone" id="song-file" :options="dropzoneOptions" v-on:vdropzone-file-added="fileChanged" :class="{'has-file': songUploads.length}" class="theme-mid pad text-center shadow-inset callout alt rounded"></vue-dropzone>
+      </div>
+
+      <div class="text-center pad">
         <p class="theme-back-text margint">Please confirm that your uploads conform to our <a @click="showGuidelines">guidelines</a>.</p>
       </div>
 
-      <form v-for="(upload, i) in songUploads">
+      <form v-for="(upload, i) in songUploads" :key="i">
         <div class="theme-mid pad shadow marginb rounded">
           <div class="marginb small-pad rounded flex-row align-center" :class="uploadHeaderClass(upload)">
             <p class="flex-one">{{upload.file.name}}</p>
@@ -34,6 +33,8 @@
 
           <div v-if="!upload.isUploaded" class="row-large">
             <div>
+              <p v-if="upload.errorMessage" class="red text-center"><i class="fas fa-exclamation-circle"></i> {{upload.errorMessage}}</p>
+
               <p class="subtitle small-pad">REQUIRED</p>
               <div class="conditional-row align-center marginb">
                 <div class="flex-row align-center">
@@ -65,11 +66,7 @@
               <div class="conditional-row">
                 <div class="flex-column marginb">
                   <div class="flex-row align-center">
-                    <input
-                    @keydown.prevent.comma="labelsChanged(upload)"
-                    @keydown.prevent.semicolon="labelsChanged(upload)"
-                    @keydown.prevent.enter="labelsChanged(upload)"
-                    v-model="upload.labelInput" class="input simple" placeholder="labels" />
+                    <input @keydown.prevent.comma="labelsChanged(upload)" @keydown.prevent.semicolon="labelsChanged(upload)" @keydown.prevent.enter="labelsChanged(upload)" v-model="upload.labelInput" class="input simple" placeholder="labels" />
                     <div v-if="manyUploads && upload.labels.length" @click="setAllLabels(upload.labels)" class="marginl">
                       <i class="fas fa-copy green"></i>
                     </div>
@@ -84,7 +81,7 @@
                 <div class="flex-row align-center">
                   <datepicker format="MMM.dd.yyyy" v-model="upload.releaseDate" input-class="input simple" placeholder="release date"></datepicker>
                 </div>
-                 <div>
+                <div>
                   <div class="flex-row align-center">
                     <input v-model="upload.featuredArtists" class="input simple" placeholder="featured artists" />
                     <div v-if="manyUploads && upload.featuredArtists" @click="setAllFeaturedArtists(upload.featuredArtists)" class="marginl">
@@ -92,22 +89,24 @@
                     </div>
                   </div>
                 </div>
-               </div>
+              </div>
             </div>
           </div>
-
-          <p v-if="upload.errorMessage" class="red text-center"><i class="fas fa-exclamation-circle"></i> {{upload.errorMessage}}</p>
         </div>
       </form>
 
       <div v-if="songUploads.length" class="text-center pad">
-        <button @click="uploadSongs" :disabled="publishDisabled" class="marginb float-btn">Publish Song{{manyUploads ? 's' : ''}}</button>
         <p class="theme-back-text margint">By publishing songs you agree to the service <a @click="showTerms">terms</a>.</p>
       </div>
     </div>
 
-    <div class="text-center user-info margint theme-back-text flex-row align-center flex-center distance" :class="{apply: showInput}">
-      <img :src="user.image" class="circle shadow" /> <span>{{user.name}}</span>
+    <div class="pad nopad-top margint theme-back-text flex-column distance" :class="{apply: showInput}">
+      <p v-if="error" class="text-right red marginb">{{ error }}</p>
+      <div class="flex-row">
+        <button class="clear" @click="cancelAddSong">Cancel</button>
+        <div class="flex-one"></div>
+        <button @click="uploadSongs" :disabled="publishDisabled">Publish</button>
+      </div>
     </div>
   </div>
 </template>
@@ -148,6 +147,7 @@ export default {
       field: undefined,
       input: undefined,
       editingUpload: undefined,
+      error: undefined,
       dropzoneOptions: {
         url: 'https://truewordsapp.com',
         thumbnailWidth: 150,
@@ -168,13 +168,13 @@ export default {
   },
   components: { ArtistPicker, VersionPicker, PassagePicker, vueDropzone: vue2Dropzone, Datepicker },
   methods: {
-    ...mapActions(['setTitlebarRightItems']),
+    ...mapActions(['setTitlebarRightItems', 'setFilter']),
     uploadHeaderClass (upload) {
       return upload.isUploaded
-      ? ['back-green']
-      : upload.isUploading
-      ? ['callout', 'pulse']
-      : ['callout']
+        ? ['back-green']
+        : upload.isUploading
+          ? ['callout', 'pulse']
+          : ['callout']
     },
     normalizedPassage (passage) {
       return bibleParser.normalize(passage)
@@ -254,8 +254,10 @@ export default {
     uploadSongs () {
       var upload = this.songUploads.find(su => !su.isUploaded && !su.isUploading && this.validate(su))
       if (!upload) {
+        this.error = 'Invalid song info'
         return
       }
+      this.error = undefined
 
       var data = new FormData()
       data.append('artist', upload.artist)
@@ -271,22 +273,30 @@ export default {
       const self = this
       this.$set(upload, 'isUploading', true)
       server.createSong(data, upload.artist)
-      .then(response => {
-        self.$set(upload, 'isUploading', false)
-        upload.isUploaded = true
-        upload.errorMessage = undefined
-        self.uploadSongs()
-      })
-      .catch(err => {
-        upload.isUploading = false
-        upload.errorMessage = `Error uploading song: ${err}`
-      })
+        .then(response => {
+          self.$set(upload, 'isUploading', false)
+          upload.isUploaded = true
+          upload.errorMessage = undefined
+          self.uploadSongs()
+          this.checkForCompletion()
+        })
+        .catch(err => {
+          upload.isUploading = false
+          upload.errorMessage = `Error uploading song: ${err}`
+        })
+    },
+    checkForCompletion () {
+      const notUplaoded = this.songUploads.find(su => !su.isUploaded)
+      if (notUplaoded === undefined) {
+        this.setFilter({ key: 'user', value: this.user.id })
+        this.$router.push('/')
+      }
     },
     showTerms () {
-      this.alert(Terms, {close: this.dismissAlert})
+      this.alert(Terms, { close: this.dismissAlert })
     },
     showGuidelines () {
-      this.alert(Guidelines, {close: this.dismissAlert})
+      this.alert(Guidelines, { close: this.dismissAlert })
     },
     cancelAddSong () {
       this.$router.replace('/')
@@ -298,7 +308,7 @@ export default {
     }
   },
   mounted () {
-    this.setTitlebarRightItems([{template: 'DONE', action: this.cancelAddSong}])
+    this.setTitlebarRightItems([])
   }
 }
 </script>
@@ -312,7 +322,8 @@ export default {
   margin: 8px;
 }
 #song-file {
-  .dz-success-mark, .dz-error-mark {
+  .dz-success-mark,
+  .dz-error-mark {
     display: none;
   }
   &.has-file {
@@ -322,7 +333,7 @@ export default {
     .dz-image {
       height: 20px;
       width: 20px;
-      background-image: url('../assets/images/meter.png');
+      background-image: url("../assets/images/meter.png");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
