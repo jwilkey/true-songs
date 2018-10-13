@@ -40,7 +40,8 @@ export default {
     if (found) {
       return Promise.resolve(found.verse)
     } else {
-      return axios.get(`${baseUrl}/bible/text/${song.bible_version.id}?osis=${song.passage}`)
+      const url = `${baseUrl}/bible/text/${song.bible_version.id}?osis=${song.passage}`
+      return axios.get(url)
         .then(response => {
           cacheVerse(key, response.data)
           return response.data

@@ -40,6 +40,7 @@ export default {
   }
   .logo {
     height: 22px;
+    filter: invert(1);
   }
   .titlebar-action {
     padding: 6px 10px 5px 10px;

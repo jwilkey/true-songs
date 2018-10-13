@@ -3,7 +3,7 @@
     <div class="main-content z1 flex-column vfull" :class="{blur: isLoading || alertConfig}">
       <titlebar :title="titlebarTitle" :leftItems="titlebarLeftItems" :rightItems="titlebarRightItems"></titlebar>
 
-      <div class="flex-one scrolly flex-row hfull">
+      <div class="relative flex-one scrolly flex-row hfull">
 
         <div class="flex-one">
           <router-view class="router"/>
@@ -96,7 +96,7 @@ html, body, #app {
 }
 @media screen and (max-width: 700px) {
   .right-view {
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;

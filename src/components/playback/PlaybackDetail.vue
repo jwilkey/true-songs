@@ -17,7 +17,7 @@
     </div>
 
     <vue-slider ref="slider"
-      v-model="barPosition"
+      v-model="progress"
       v-bind="sliderOptions"
       v-on:callback="sliderCallback"
       class="progress"></vue-slider>
@@ -80,9 +80,6 @@ export default {
     },
     showReadExternally () {
       return ['niv', 'nkjv'].includes(this.song.bible_version.versionCode.toLowerCase())
-    },
-    barPosition () {
-      return this.progress
     }
   },
   components: { VueSlider },
@@ -125,6 +122,7 @@ export default {
     })
     .catch(e => {
       self.isLoadingText = false
+      self.bibleText = 'Unable to load passage text'
     })
   }
 }
@@ -132,7 +130,6 @@ export default {
 
 <style lang="less" scoped>
 .playback-detail {
-  height: 80vh;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
